@@ -1,0 +1,157 @@
+/*
+ * Mantou Earth - Live your wallpaper with live earth
+ * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def gitTag = 'git tag'.execute([], project.rootDir).text.trim().split("\n").last()
+def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "ooo.oxo.apps.earth"
+
+        minSdkVersion 16
+
+        targetSdkVersion 23
+
+        versionCode 20000 + gitCommits
+        versionName gitTag
+
+        manifestPlaceholders = [APP_NAME: '@string/app_name']
+
+        // Versioning
+        buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+        println "Building ${gitTag} (rev. ${gitCommits} on ${gitSha})"
+
+        // FIR
+        buildConfigField "boolean", "FIR_ENABLED", "!DEBUG && ${project.hasProperty('FIR_API_TOKEN')}"
+        buildConfigField "String", "FIR_API_TOKEN",
+                project.hasProperty('FIR_API_TOKEN') ? "\"${FIR_API_TOKEN}\"" : "null"
+
+        buildConfigField "boolean", "FIR_OTA_ENABLED", "FIR_ENABLED"
+
+        buildConfigField "String", "SERVER_URL", (
+                project.hasProperty('SERVER_URL')
+                        ? "\"${SERVER_URL}\""
+                        : "\"http://himawari8-dl.nict.go.jp/himawari8/img/D531106/1d/550/%s_0_0.png\""
+        )
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    if (project.hasProperty('STOREFILE')) {
+        signingConfigs {
+            release {
+                storeFile file(STOREFILE)
+                storePassword STOREPASS
+                keyAlias KEYALIAS
+                keyPassword KEYPASS
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            manifestPlaceholders = [APP_NAME: '@string/app_name_debug']
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            if (project.hasProperty('STOREFILE')) {
+                println "Using release keystore ${signingConfigs.release.storeFile}"
+                signingConfig signingConfigs.release
+            } else {
+                println "Using default key"
+            }
+        }
+    }
+
+    productFlavors {
+        github {
+            manifestPlaceholders = [UMENG_CHANNEL: "GitHub"]
+        }
+
+        fir {
+            manifestPlaceholders = [UMENG_CHANNEL: "FIR"]
+        }
+
+        google {
+            manifestPlaceholders = [UMENG_CHANNEL: "Google"]
+            buildConfigField "boolean", "FIR_OTA_ENABLED", "false"
+        }
+
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL: "Wandoujia"]
+        }
+
+        coolapk {
+            manifestPlaceholders = [UMENG_CHANNEL: "CookApk"]
+        }
+
+        baidu {
+            manifestPlaceholders = [UMENG_CHANNEL: "Baidu"]
+            buildConfigField "boolean", "FIR_OTA_ENABLED", "false"
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
+                output.outputFile = file("${output.outputFile.parent}/earth" +
+                        "-${variant.buildType.name.toLowerCase()}" +
+                        "-${variant.versionName}" +
+                        "-${variant.flavorName.toLowerCase()}" +
+                        ".apk")
+            }
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:design:23.1.1'
+
+    compile 'com.squareup.okhttp:okhttp:2.6.0'
+
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+
+    compile 'com.github.oxoooo:data-binding-support:1.1.0'
+
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'im.fir:sdk:latest.integration@aar'
+}

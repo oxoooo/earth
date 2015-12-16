@@ -1,0 +1,45 @@
+<!--
+  ~ Mantou Earth - Live your wallpaper with live earth
+  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">Mantou Earth</string>
+    <string name="app_name_debug" translatable="false">Earth (debug)</string>
+
+    <string name="author">XiNGRZ</string>
+    <string name="description">Live your wallpaper with live earth</string>
+
+    <string name="settings">Adjust your earth</string>
+    <string name="interval">Update period: %d minutes</string>
+    <string name="traffic_estimated">Traffic estimated: %d MB/month</string>
+    <string name="wifi_only">Update via Wi-Fi only</string>
+
+    <string name="update_available">New version %s is available</string>
+    <string name="update_confirm">Download Now</string>
+    <string name="update_cancel">Cancel</string>
+
+    <string name="about">About</string>
+    <string name="version" formatted="false">Version %s (%s)</string>
+    <string name="images_from">Satellite images from</string>
+    <string name="inspired_by">Inspired by</string>
+    <string name="follow_us_on_wechat">Follow us on Wechat</string>
+    <string name="follow_us_on_wechat_hint">Scan this code or search "馒头社" with Wechat</string>
+    <string name="fork_me_on_github">Fork me on GitHub</string>
+    <string name="libraries_used">Libraries used</string>
+
+</resources>

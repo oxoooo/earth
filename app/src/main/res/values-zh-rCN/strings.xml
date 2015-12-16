@@ -1,0 +1,44 @@
+<!--
+  ~ Mantou Earth - Live your wallpaper with live earth
+  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">馒头地球</string>
+
+    <string name="author">XiNGRZ</string>
+    <string name="description">实时的壁纸，实时的地球</string>
+
+    <string name="settings">调整您的地球</string>
+    <string name="interval">更新间隔: %d 分钟</string>
+    <string name="traffic_estimated">预计流量: %d MB/月</string>
+    <string name="wifi_only">只在 Wi-Fi 连接时更新</string>
+
+    <string name="update_available">有新版本 %s 了</string>
+    <string name="update_confirm">现在下载</string>
+    <string name="update_cancel">取消</string>
+
+    <string name="about">关于</string>
+    <string name="version" formatted="false">版本 %s (%s)</string>
+    <string name="images_from">卫星影像来自</string>
+    <string name="inspired_by">灵感来自</string>
+    <string name="follow_us_on_wechat">关注我们的微信公众号</string>
+    <string name="follow_us_on_wechat_hint">用微信扫描该二维码或搜索「馒头社」</string>
+    <string name="fork_me_on_github">访问项目在 GitHub 上的源代码</string>
+    <string name="libraries_used">本项目用到了下列开源库</string>
+
+</resources>
