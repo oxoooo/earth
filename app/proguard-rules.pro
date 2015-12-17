@@ -6,5 +6,8 @@
 # okhttp
 -dontwarn okio.**
 
+# support library
+-keep class android.support.v7.widget.LinearLayoutManager { *; }
+
 # data binding
 -keep class ooo.oxo.apps.earth.databinding.** { *; }
