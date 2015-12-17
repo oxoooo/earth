@@ -29,6 +29,8 @@
     <string name="traffic_estimated">預計流量: %d MB/月</string>
     <string name="wifi_only">只在 Wi-Fi 連接時更新</string>
 
+    <string name="live_wallpaper_unsupported">很抱歉，您的手機似乎並不支持動態壁紙…</string>
+
     <string name="update_available">新版本 %s 現已可用</string>
     <string name="update_confirm">立即下載</string>
     <string name="update_cancel">取消</string>

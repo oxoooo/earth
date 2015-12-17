@@ -30,6 +30,10 @@
     <string name="traffic_estimated">Traffic estimated: %d MB/month</string>
     <string name="wifi_only">Update via Wi-Fi only</string>
 
+    <string name="live_wallpaper_unsupported">
+        Seems Live Wallpaper feature wasn\'t supported by your phone…
+    </string>
+
     <string name="update_available">New version %s is available</string>
     <string name="update_confirm">Download Now</string>
     <string name="update_cancel">Cancel</string>

@@ -28,6 +28,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.umeng.analytics.MobclickAgent;
+
 import ooo.oxo.apps.earth.databinding.AboutActivityBinding;
 import ooo.oxo.apps.earth.databinding.AboutHeaderBinding;
 import ooo.oxo.apps.earth.databinding.AboutLibraryItemBinding;
@@ -49,6 +51,18 @@ public class AboutActivity extends AppCompatActivity {
         libraries.put("bumptech / glide", "https://github.com/bumptech/glide");
 
         binding.libraries.setAdapter(new LibrariesAdapter());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     private void open(String url) {

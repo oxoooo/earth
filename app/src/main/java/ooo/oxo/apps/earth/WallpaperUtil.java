@@ -20,9 +20,11 @@ package ooo.oxo.apps.earth;
 
 import android.app.WallpaperInfo;
 import android.app.WallpaperManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class WallpaperUtil {
 
@@ -32,7 +34,12 @@ public class WallpaperUtil {
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
                 new ComponentName(context, EarthWallpaperService.class));
 
-        context.startActivity(intent);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            // TODO: a better solution
+            Toast.makeText(context, R.string.live_wallpaper_unsupported, Toast.LENGTH_SHORT);
+        }
     }
 
     public static boolean isCurrent(Context context) {
