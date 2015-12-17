@@ -25,6 +25,7 @@
 
     <string name="settings">调整您的地球</string>
     <string name="interval">更新间隔: %d 分钟</string>
+    <string name="resolution">清晰度: %dp</string>
     <string name="traffic_estimated">预计流量: %d MB/月</string>
     <string name="wifi_only">只在 Wi-Fi 连接时更新</string>
 

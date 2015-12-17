@@ -32,15 +32,19 @@ public class MainViewModel extends BaseObservable {
 
     private long interval;
 
+    private int resolution;
+
     private boolean wifiOnly;
 
     public MainViewModel(EarthSharedState sharedState) {
         setInterval(sharedState.getInterval());
+        setResolution(sharedState.getResolution());
         setWifiOnly(sharedState.getWifiOnly());
     }
 
     public void saveTo(EarthSharedState sharedState) {
         sharedState.setInterval(getInterval());
+        sharedState.setResolution(getResolution());
         sharedState.setWifiOnly(isWifiOnly());
     }
 
@@ -84,8 +88,43 @@ public class MainViewModel extends BaseObservable {
     }
 
     @Bindable
+    public int getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(int resolution) {
+        this.resolution = resolution;
+        notifyPropertyChanged(ooo.oxo.apps.earth.BR.resolution);
+        notifyPropertyChanged(ooo.oxo.apps.earth.BR.resolutionProgressValue);
+        notifyPropertyChanged(ooo.oxo.apps.earth.BR.traffic);
+    }
+
+    @Bindable
+    public int getResolutionProgressValue() {
+        return ResolutionUtil.findBestResolutionIndex(resolution);
+    }
+
+    public void setResolutionProgressValue(int progress) {
+        setResolution(ResolutionUtil.RESOLUTIONS[progress]);
+    }
+
+    @Bindable
+    public int getResolutionProgressMax() {
+        return ResolutionUtil.RESOLUTIONS.length - 1;
+    }
+
+    @Bindable
+    public SeekBarBindingAdapter.OnProgressChanged getResolutionProgressWatcher() {
+        return (v, progress, fromUser) -> setResolutionProgressValue(progress);
+    }
+
+    @Bindable
     public int getTraffic() {
-        return (int) (TimeUnit.DAYS.toMillis(1) * 30 / interval * ASSUME_SIZE_KB / 1024);
+        return (int) (ResolutionUtil.RESOLUTION_DAILY_TRAFFICS_KB
+                [ResolutionUtil.findBestResolutionIndex(resolution)]
+                * ((float) TimeUnit.HOURS.toMillis(1) / (float) interval)
+                * 30
+                / 1024);
     }
 
     @Bindable

@@ -25,6 +25,7 @@ import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -65,7 +66,8 @@ public class EarthFetchService extends IntentService {
         }
 
         try {
-            if (sharedState.setLastEarth(fetcher.fetch().getAbsolutePath())) {
+            File fetched = fetcher.fetch(sharedState.getResolution());
+            if (sharedState.setLastEarth(fetched.getAbsolutePath())) {
                 bm.sendBroadcast(new Intent(EarthIntents.ACTION_NEW_EARTH_READY));
             }
         } catch (Exception e) {
@@ -74,6 +76,7 @@ public class EarthFetchService extends IntentService {
 
         HashMap<String, String> event = new HashMap<>();
         event.put("interval", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(sharedState.getInterval())));
+        event.put("resolution", String.valueOf(sharedState.getResolution()));
         event.put("wifi_only", String.valueOf(sharedState.getWifiOnly()));
         MobclickAgent.onEvent(this, "fetch", event);
     }

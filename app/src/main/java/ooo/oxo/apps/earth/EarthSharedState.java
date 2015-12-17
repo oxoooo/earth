@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,10 +30,12 @@ public class EarthSharedState {
 
     private static EarthSharedState instance;
 
+    private final Context context;
     private final SharedPreferences preferences;
 
     private EarthSharedState(Context context) {
-        preferences = context.getSharedPreferences("earth", Context.MODE_PRIVATE);
+        this.context = context;
+        this.preferences = context.getSharedPreferences("earth", Context.MODE_PRIVATE);
     }
 
     public static EarthSharedState getInstance(Context context) {
@@ -58,6 +61,27 @@ public class EarthSharedState {
 
     public boolean setInterval(long interval) {
         return preferences.edit().putLong("interval", interval).commit();
+    }
+
+    public int getResolution() {
+        //noinspection PointlessBooleanExpression
+        if (!BuildConfig.USE_OXO_SERVER) {
+            return 550;
+        }
+
+        int resolution = preferences.getInt("resolution", 0);
+
+        if (resolution == 0) {
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            resolution = ResolutionUtil.findBestResolution(metrics);
+            setResolution(resolution);
+        }
+
+        return resolution;
+    }
+
+    public boolean setResolution(int resolution) {
+        return preferences.edit().putInt("resolution", resolution).commit();
     }
 
     public boolean getWifiOnly() {

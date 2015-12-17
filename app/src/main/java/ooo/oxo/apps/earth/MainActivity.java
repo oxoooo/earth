@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         MainViewModel vm = new MainViewModel(sharedState);
 
         binding.setVm(vm);
+        binding.setAccelerated(BuildConfig.USE_OXO_SERVER);
 
         binding.done.setOnClickListener(v -> {
             vm.saveTo(sharedState);

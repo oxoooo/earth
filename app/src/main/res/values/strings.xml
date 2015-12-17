@@ -26,6 +26,7 @@
 
     <string name="settings">Adjust your earth</string>
     <string name="interval">Update period: %d minutes</string>
+    <string name="resolution">Resolution: %dp</string>
     <string name="traffic_estimated">Traffic estimated: %d MB/month</string>
     <string name="wifi_only">Update via Wi-Fi only</string>
 

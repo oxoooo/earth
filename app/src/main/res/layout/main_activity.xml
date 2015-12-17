@@ -19,13 +19,19 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ooo.oxo.apps.earth.MainActivity">
+    tools:context=".MainActivity">
 
     <data>
 
         <variable
             name="vm"
             type="ooo.oxo.apps.earth.MainViewModel" />
+
+        <variable
+            name="accelerated"
+            type="boolean" />
+
+        <import type="android.view.View" />
 
     </data>
 
@@ -53,6 +59,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 app:title="@string/settings" />
 
             <TextView
@@ -84,7 +91,7 @@
                 android:progress="@{vm.intervalProgressValue}" />
 
             <TextView
-                android:id="@+id/traffic_label"
+                android:id="@+id/resolution_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/interval"
@@ -93,9 +100,39 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
+                android:text="@{@string/resolution(vm.resolution)}"
+                tools:text="@string/resolution" />
+
+            <!--suppress AndroidUnknownAttribute -->
+            <SeekBar
+                android:id="@+id/resolution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/resolution_label"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:enabled="@{accelerated}"
+                android:max="@{vm.resolutionProgressMax}"
+                android:onProgressChanged="@{vm.resolutionProgressWatcher}"
+                android:progress="@{vm.resolutionProgressValue}" />
+
+            <TextView
+                android:id="@+id/traffic_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/resolution"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_toLeftOf="@+id/done"
                 android:layout_toStartOf="@+id/done"
                 android:text="@{@string/traffic_estimated(vm.traffic)}"
+                android:visibility="@{accelerated ? View.VISIBLE : View.GONE}"
                 tools:text="@string/traffic_estimated" />
 
             <!--suppress AndroidUnknownAttribute -->

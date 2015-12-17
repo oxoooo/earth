@@ -51,7 +51,7 @@ public class EarthFetcher {
         this.rm = Glide.with(context);
     }
 
-    public File fetch() throws ExecutionException, InterruptedException {
+    public File fetch(int resolution) throws ExecutionException, InterruptedException {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) - 40);
         calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) / 10 * 10);
@@ -62,12 +62,21 @@ public class EarthFetcher {
 
         String path = dateFormat.format(new Date(calendar.getTimeInMillis()));
 
-        Log.d(TAG, "fetching " + path);
+        //noinspection ConstantConditions
+        Log.d(TAG, "fetching " + path + (BuildConfig.USE_OXO_SERVER ? " accelerated" : ""));
 
-        request = rm.load(String.format(BuildConfig.SERVER_URL, path))
+        request = rm.load(getUrl(path, resolution))
                 .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
 
         return request.get();
+    }
+
+    private String getUrl(String path, int resolution) {
+        if (BuildConfig.USE_OXO_SERVER) {
+            return String.format(BuildConfig.SERVER_OXO, path, resolution);
+        } else {
+            return String.format(BuildConfig.SERVER_NICT, path);
+        }
     }
 
     public void clean() {
