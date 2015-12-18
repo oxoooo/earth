@@ -38,7 +38,7 @@ public class WallpaperUtil {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
             // TODO: a better solution
-            Toast.makeText(context, R.string.live_wallpaper_unsupported, Toast.LENGTH_SHORT);
+            Toast.makeText(context, R.string.live_wallpaper_unsupported, Toast.LENGTH_SHORT).show();
         }
     }
 
