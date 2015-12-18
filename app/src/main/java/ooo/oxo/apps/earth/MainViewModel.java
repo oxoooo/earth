@@ -21,6 +21,7 @@ package ooo.oxo.apps.earth;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.adapters.SeekBarBindingAdapter;
+import android.os.Bundle;
 import android.widget.CompoundButton;
 
 import java.util.concurrent.TimeUnit;
@@ -46,6 +47,18 @@ public class MainViewModel extends BaseObservable {
         sharedState.setInterval(getInterval());
         sharedState.setResolution(getResolution());
         sharedState.setWifiOnly(isWifiOnly());
+    }
+
+    public void saveState(Bundle state) {
+        state.putLong("vm_interval", getInterval());
+        state.putInt("vm_resolution", getResolution());
+        state.putBoolean("vm_wifi_only", isWifiOnly());
+    }
+
+    public void restoreState(Bundle state) {
+        setInterval(state.getLong("vm_interval", getInterval()));
+        setResolution(state.getInt("vm_resolution", getResolution()));
+        setWifiOnly(state.getBoolean("vm_wifi_only", isWifiOnly()));
     }
 
     public long getInterval() {

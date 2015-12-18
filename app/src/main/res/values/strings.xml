@@ -43,7 +43,7 @@
     <string name="images_from">Satellite images from</string>
     <string name="inspired_by">Inspired by</string>
     <string name="follow_us_on_wechat">Follow us on Wechat</string>
-    <string name="follow_us_on_wechat_hint">Scan this code or search "馒头社" with Wechat</string>
+    <string name="follow_us_on_wechat_hint">Scan this code or search \"馒头社\" with Wechat</string>
     <string name="fork_me_on_github">Fork me on GitHub</string>
     <string name="libraries_used">Libraries used</string>
 

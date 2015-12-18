@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.umeng.analytics.MobclickAgent;
 
 import ooo.oxo.apps.earth.databinding.MainActivityBinding;
@@ -36,17 +37,19 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    private MainViewModel vm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EarthSharedState sharedState = EarthSharedState.getInstance(this);
 
         MainActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
 
         setSupportActionBar(binding.toolbar);
 
-        EarthSharedState sharedState = EarthSharedState.getInstance(this);
-
-        MainViewModel vm = new MainViewModel(sharedState);
+        vm = new MainViewModel(sharedState);
 
         binding.setVm(vm);
         binding.setAccelerated(BuildConfig.USE_OXO_SERVER);
@@ -72,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
         String lastEarth = sharedState.getLastEarth();
 
         if (!TextUtils.isEmpty(lastEarth)) {
-            Glide.with(this).load(lastEarth).into(binding.earth);
+            Glide.with(this).load(lastEarth)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .into(binding.earth);
         }
 
         UpdateUtil.checkForUpdateAndPrompt(this);
@@ -88,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        vm.saveState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        vm.restoreState(savedInstanceState);
     }
 
     @Override
