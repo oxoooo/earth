@@ -51,7 +51,7 @@ android {
         buildConfigField "boolean", "FIR_OTA_ENABLED", "FIR_ENABLED"
 
         buildConfigField "String", "SERVER_OXO", project.hasProperty('SERVER_OXO') ? "\"${SERVER_OXO}\"" : "null"
-        buildConfigField "String", "SERVER_NICT", "\"http://himawari8-dl.nict.go.jp/himawari8/img/D531106/1d/550/%s_0_0.png\""
+        buildConfigField "String", "SERVER_NICT", "\"\""
 
         buildConfigField "boolean", "USE_OXO_SERVER", "${project.hasProperty('SERVER_OXO')}"
     }
