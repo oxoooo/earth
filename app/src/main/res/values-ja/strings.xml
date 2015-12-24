@@ -1,0 +1,47 @@
+<!--
+  ~ Mantou Earth - Live your wallpaper with live earth
+  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">Mantou 地球</string>
+
+    <string name="author">XiNGRZ</string>
+    <string name="description">リアルタイムの壁紙、リアルタイムの地球</string>
+
+    <string name="settings">あなたの地球を調整する</string>
+    <string name="interval">更新間隔: %d 分</string>
+    <string name="resolution">解像度: %dp</string>
+    <string name="traffic_estimated">データ見通し: %d MB/月</string>
+    <string name="wifi_only">アップデートは Wi-Fi のみ</string>
+
+    <string name="live_wallpaper_unsupported">この携帯はライブ壁紙ができません…</string>
+
+    <string name="update_available">新しいバージョン %s があります</string>
+    <string name="update_confirm">ダウンロード</string>
+    <string name="update_cancel">キャンセル</string>
+
+    <string name="about">情報</string>
+    <string name="version" formatted="false">バージョン %s (%s)</string>
+    <string name="images_from">衛星画像の出所</string>
+    <string name="inspired_by">霊感の始め</string>
+    <string name="follow_us_on_wechat">公式アカウントをフォローします</string>
+    <string name="follow_us_on_wechat_hint">Wechat で QR コードのスキャンまたは「馒头社」を検索します</string>
+    <string name="fork_me_on_github">GitHub にあるリソースコードをフォークしました</string>
+    <string name="libraries_used">以下のライブラリーを利用しました</string>
+
+</resources>
