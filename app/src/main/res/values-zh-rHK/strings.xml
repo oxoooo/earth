@@ -21,7 +21,7 @@
     <string name="app_name">饅頭地球</string>
 
     <string name="author">XiNGRZ</string>
-    <string name="description">動態的桌布，動態的地球</string>
+    <string name="description">即時的桌布，即時的地球</string>
 
     <string name="settings">調整您的地球</string>
     <string name="interval">更新間隔: %d 分鐘</string>
@@ -29,7 +29,7 @@
     <string name="traffic_estimated">預計流量: %d MB/月</string>
     <string name="wifi_only">只在 Wi-Fi 連接時更新</string>
 
-    <string name="live_wallpaper_unsupported">很抱歉，您的手機似乎並不支持動態桌布…</string>
+    <string name="live_wallpaper_unsupported">很抱歉，您的手機似乎並不支持即時桌布…</string>
 
     <string name="update_available">新版本 %s 現已可用</string>
     <string name="update_confirm">立即下載</string>
