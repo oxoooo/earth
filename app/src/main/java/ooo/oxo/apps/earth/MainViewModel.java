@@ -26,6 +26,8 @@ import android.widget.CompoundButton;
 
 import java.util.concurrent.TimeUnit;
 
+import ooo.oxo.apps.earth.dao.Settings;
+
 @SuppressWarnings("unused")
 public class MainViewModel extends BaseObservable {
 
@@ -37,16 +39,16 @@ public class MainViewModel extends BaseObservable {
 
     private boolean wifiOnly;
 
-    public MainViewModel(EarthSharedState sharedState) {
-        setInterval(sharedState.getInterval());
-        setResolution(sharedState.getResolution());
-        setWifiOnly(sharedState.getWifiOnly());
+    public MainViewModel(Settings settings) {
+        setInterval(settings.interval);
+        setResolution(settings.resolution);
+        setWifiOnly(settings.wifiOnly);
     }
 
-    public void saveTo(EarthSharedState sharedState) {
-        sharedState.setInterval(getInterval());
-        sharedState.setResolution(getResolution());
-        sharedState.setWifiOnly(isWifiOnly());
+    public void saveTo(Settings settings) {
+        settings.interval = getInterval();
+        settings.resolution = getResolution();
+        settings.wifiOnly = isWifiOnly();
     }
 
     public void saveState(Bundle state) {

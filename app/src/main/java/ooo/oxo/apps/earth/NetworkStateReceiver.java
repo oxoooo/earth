@@ -21,7 +21,11 @@ package ooo.oxo.apps.earth;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.Log;
+
+import ooo.oxo.apps.earth.dao.Settings;
+import ooo.oxo.apps.earth.provider.SettingsContract;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
 
@@ -29,10 +33,26 @@ public class NetworkStateReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (EarthSharedState.getInstance(context).getWifiOnly()) {
+        Cursor cursor = context.getContentResolver().query(SettingsContract.CONTENT_URI, null, null, null, null);
+
+        if (cursor == null) {
+            Log.e(TAG, "no settings, impossible");
+            return;
+        }
+
+        Settings settings = Settings.fromCursor(cursor);
+
+        cursor.close();
+
+        if (settings == null) {
+            Log.e(TAG, "null settings, impossible");
+            return;
+        }
+
+        if (settings.wifiOnly) {
             if (NetworkStateUtil.isWifiConnected(context)) {
                 Log.d(TAG, "network state changed: Wi-Fi on, scheduling fetch...");
-                EarthAlarmUtil.schedule(context);
+                EarthAlarmUtil.schedule(context, settings.interval);
             } else {
                 Log.d(TAG, "network state changed: Wi-Fi off, stop fetching");
                 EarthAlarmUtil.stop(context);

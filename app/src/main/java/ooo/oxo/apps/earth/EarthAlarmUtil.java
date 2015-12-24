@@ -31,9 +31,7 @@ public class EarthAlarmUtil {
 
     private static final String TAG = "EarthAlarmUtil";
 
-    public static void schedule(Context context) {
-        long interval = EarthSharedState.getInstance(context).getInterval();
-
+    public static void schedule(Context context, long interval) {
         Log.d(TAG, "schedule fetching service repeating every "
                 + TimeUnit.MILLISECONDS.toMinutes(interval) + " minutes");
 
@@ -48,9 +46,9 @@ public class EarthAlarmUtil {
         am.cancel(makePendingIntent(context));
     }
 
-    public static void reschedule(Context context) {
+    public static void reschedule(Context context, long interval) {
         stop(context);
-        schedule(context);
+        schedule(context, interval);
     }
 
     private static PendingIntent makePendingIntent(Context context) {

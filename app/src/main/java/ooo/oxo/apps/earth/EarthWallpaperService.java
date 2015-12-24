@@ -18,36 +18,28 @@
 
 package ooo.oxo.apps.earth;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.service.wallpaper.WallpaperService;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import java.io.FileNotFoundException;
+
+import ooo.oxo.apps.earth.dao.Settings;
+import ooo.oxo.apps.earth.provider.EarthsContract;
+import ooo.oxo.apps.earth.provider.SettingsContract;
+
 public class EarthWallpaperService extends WallpaperService {
-
-    private EarthSharedState sharedState;
-
-    private LocalBroadcastManager bm;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        sharedState = EarthSharedState.getInstance(this);
-        bm = LocalBroadcastManager.getInstance(this);
-
-        if (!sharedState.getWifiOnly() || NetworkStateUtil.isWifiConnected(this)) {
-            EarthAlarmUtil.schedule(this);
-        }
     }
 
     @Override
@@ -65,7 +57,13 @@ public class EarthWallpaperService extends WallpaperService {
 
         private int padding;
 
-        private BroadcastReceiver receiver;
+        private final ContentObserver observer = new ContentObserver(null) {
+            @Override
+            public void onChange(boolean selfChange) {
+                Log.d(TAG, "new earth ready, drawing...");
+                draw();
+            }
+        };
 
         public EarthWallpaperEngine() {
             region = new Rect();
@@ -74,15 +72,31 @@ public class EarthWallpaperService extends WallpaperService {
             paint.setFilterBitmap(true);
 
             padding = getResources().getDimensionPixelOffset(R.dimen.default_padding);
+        }
 
-            receiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    if (isVisible()) {
-                        draw();
-                    }
-                }
-            };
+        @Override
+        public void onCreate(SurfaceHolder surfaceHolder) {
+            scheduleIfNeeded();
+        }
+
+        private void scheduleIfNeeded() {
+            Cursor cursor = getContentResolver().query(SettingsContract.CONTENT_URI, null, null, null, null);
+
+            if (cursor == null) {
+                return;
+            }
+
+            Settings settings = Settings.fromCursor(cursor);
+
+            if (settings == null) {
+                return;
+            }
+
+            cursor.close();
+
+            if (!settings.wifiOnly || NetworkStateUtil.isWifiConnected(EarthWallpaperService.this)) {
+                EarthAlarmUtil.schedule(EarthWallpaperService.this, settings.interval);
+            }
         }
 
         @Override
@@ -95,10 +109,9 @@ public class EarthWallpaperService extends WallpaperService {
         public void onVisibilityChanged(boolean visible) {
             if (visible) {
                 draw();
-                bm.registerReceiver(receiver, new IntentFilter(
-                        EarthIntents.ACTION_NEW_EARTH_READY));
+                getContentResolver().registerContentObserver(EarthsContract.LATEST_CONTENT_URI, false, observer);
             } else {
-                bm.unregisterReceiver(receiver);
+                getContentResolver().unregisterContentObserver(observer);
             }
         }
 
@@ -106,6 +119,11 @@ public class EarthWallpaperService extends WallpaperService {
             Bitmap earth = loadEarth();
 
             Canvas canvas = getSurfaceHolder().lockCanvas();
+
+            if (canvas == null) {
+                Log.e(TAG, "canvas not ready, why?");
+                return;
+            }
 
             region.set(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -123,21 +141,16 @@ public class EarthWallpaperService extends WallpaperService {
         }
 
         private Bitmap loadEarth() {
-            String lastEarth = sharedState.getLastEarth();
-
-            if (lastEarth == null) {
-                Log.d(TAG, "earth not ready, fallback to preview");
+            try {
+                return loadLatestEarth();
+            } catch (FileNotFoundException e) {
+                Log.d(TAG, "earth not ready, fallback to preview", e);
                 return loadPreview();
             }
+        }
 
-            Bitmap earth = BitmapFactory.decodeFile(lastEarth);
-
-            if (earth == null) {
-                Log.e(TAG, "failed to decode fetched earth, fallback to preview");
-                return loadPreview();
-            }
-
-            return earth;
+        private Bitmap loadLatestEarth() throws FileNotFoundException {
+            return BitmapFactory.decodeStream(getContentResolver().openInputStream(EarthsContract.LATEST_CONTENT_URI));
         }
 
         private Bitmap loadPreview() {

@@ -67,12 +67,15 @@
 
         </activity>
 
-        <service android:name=".EarthFetchService" />
+        <service
+            android:name=".EarthFetchService"
+            android:process=":fetcher" />
 
         <service
             android:name=".EarthWallpaperService"
             android:label="${APP_NAME}"
-            android:permission="android.permission.BIND_WALLPAPER">
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:process=":wallpaper">
 
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
@@ -93,6 +96,16 @@
         </receiver>
 
         <activity android:name=".AboutActivity" />
+
+        <provider
+            android:name=".provider.SettingsProvider"
+            android:authorities="${applicationId}.settings"
+            android:exported="false" />
+
+        <provider
+            android:name=".provider.EarthsProvider"
+            android:authorities="${applicationId}.earths"
+            android:exported="false" />
 
     </application>
 

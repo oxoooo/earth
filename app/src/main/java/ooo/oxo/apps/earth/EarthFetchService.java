@@ -19,8 +19,10 @@
 package ooo.oxo.apps.earth;
 
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
+import android.database.Cursor;
+import android.os.PowerManager;
 import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
@@ -29,15 +31,17 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import ooo.oxo.apps.earth.dao.Settings;
+import ooo.oxo.apps.earth.provider.EarthsContract;
+import ooo.oxo.apps.earth.provider.SettingsContract;
+
 public class EarthFetchService extends IntentService {
 
     private static final String TAG = "EarthFetchService";
 
     private EarthFetcher fetcher;
 
-    private EarthSharedState sharedState;
-
-    private LocalBroadcastManager bm;
+    private PowerManager powerManager;
 
     public EarthFetchService() {
         super("Earth");
@@ -47,13 +51,26 @@ public class EarthFetchService extends IntentService {
     public void onCreate() {
         super.onCreate();
         fetcher = new EarthFetcher(this);
-        sharedState = EarthSharedState.getInstance(this);
-        bm = LocalBroadcastManager.getInstance(this);
+        powerManager = (PowerManager) getSystemService(POWER_SERVICE);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (sharedState.getWifiOnly() && !NetworkStateUtil.isWifiConnected(this)) {
+        Cursor cursor = getContentResolver().query(SettingsContract.CONTENT_URI, null, null, null, null);
+
+        if (cursor == null) {
+            throw new IllegalStateException("no settings, impossible");
+        }
+
+        Settings settings = Settings.fromCursor(cursor);
+
+        cursor.close();
+
+        if (settings == null) {
+            throw new IllegalStateException("null settings, impossible");
+        }
+
+        if (settings.wifiOnly && !NetworkStateUtil.isWifiConnected(this)) {
             Log.d(TAG, "stop fetching since Wi-Fi is not enabled");
             EarthAlarmUtil.stop(this);
             return;
@@ -65,20 +82,53 @@ public class EarthFetchService extends IntentService {
             return;
         }
 
+        File fetched = null;
+
         try {
-            File fetched = fetcher.fetch(sharedState.getResolution());
-            if (sharedState.setLastEarth(fetched.getAbsolutePath())) {
-                bm.sendBroadcast(new Intent(EarthIntents.ACTION_NEW_EARTH_READY));
-            }
+            fetched = fetcher.fetch(settings.resolution);
+
+            ContentValues values = new ContentValues();
+            values.put(EarthsContract.Columns.FILE, fetched.getAbsolutePath());
+            values.put(EarthsContract.Columns.FETCHED_AT, System.currentTimeMillis());
+
+            getContentResolver().insert(EarthsContract.CONTENT_URI, values);
+
+            sendOnTraffic(settings, fetched);
+
+            Log.d(TAG, "done fetching earth");
         } catch (Exception e) {
-            Log.e(TAG, "Failed fetching earth", e);
+            Log.e(TAG, "failed fetching earth", e);
         }
 
+        sendOnFetch(settings, fetched != null);
+    }
+
+    private void sendOnFetch(Settings settings, boolean success) {
         HashMap<String, String> event = new HashMap<>();
-        event.put("interval", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(sharedState.getInterval())));
-        event.put("resolution", String.valueOf(sharedState.getResolution()));
-        event.put("wifi_only", String.valueOf(sharedState.getWifiOnly()));
+
+        event.put("interval", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(settings.interval)));
+        event.put("resolution", String.valueOf(settings.resolution));
+        event.put("wifi_only", String.valueOf(settings.wifiOnly));
+
+        //noinspection deprecation
+        event.put("screen_on", String.valueOf(powerManager.isScreenOn()));
+
+        event.put("success", String.valueOf(success));
+
         MobclickAgent.onEvent(this, "fetch", event);
+    }
+
+    private void sendOnTraffic(Settings settings, File fetched) {
+        HashMap<String, String> event = new HashMap<>();
+
+        event.put("interval", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(settings.interval)));
+        event.put("resolution", String.valueOf(settings.resolution));
+        event.put("wifi_only", String.valueOf(settings.wifiOnly));
+
+        //noinspection deprecation
+        event.put("screen_on", String.valueOf(powerManager.isScreenOn()));
+
+        MobclickAgent.onEventValue(this, "traffic", event, (int) fetched.length());
     }
 
 }

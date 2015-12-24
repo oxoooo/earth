@@ -19,10 +19,10 @@
 package ooo.oxo.apps.earth;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,11 +31,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
+import ooo.oxo.apps.earth.dao.Settings;
 import ooo.oxo.apps.earth.databinding.MainActivityBinding;
+import ooo.oxo.apps.earth.provider.EarthsContract;
+import ooo.oxo.apps.earth.provider.SettingsContract;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+
+    private MainActivityBinding binding;
 
     private MainViewModel vm;
 
@@ -43,44 +51,67 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EarthSharedState sharedState = EarthSharedState.getInstance(this);
-
-        MainActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
+        binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
 
         setSupportActionBar(binding.toolbar);
 
-        vm = new MainViewModel(sharedState);
+        Cursor cursor = getContentResolver().query(SettingsContract.CONTENT_URI, null, null, null, null);
+
+        if (cursor == null) {
+            throw new IllegalStateException();
+        }
+
+        Settings settings = Settings.fromCursor(cursor);
+
+        cursor.close();
+
+        if (settings == null) {
+            throw new IllegalStateException();
+        }
+
+        vm = new MainViewModel(settings);
 
         binding.setVm(vm);
         binding.setAccelerated(BuildConfig.USE_OXO_SERVER);
 
-        binding.done.setOnClickListener(v -> {
-            vm.saveTo(sharedState);
+        binding.done.setOnClickListener(v -> save());
 
-            if (WallpaperUtil.isCurrent(this)) {
-                Log.d(TAG, "already set, just refresh everything");
-                EarthAlarmUtil.reschedule(this);
-            } else if (Intent.ACTION_MAIN.equals(getIntent().getAction())) {
-                Log.d(TAG, "from launcher, prompt to change wallpaper");
-                WallpaperUtil.changeLiveWallPaper(this);
-            } else {
-                Log.d(TAG, "may be from settings, just refresh");
-                EarthAlarmUtil.reschedule(this);
-                setResult(RESULT_OK);
-            }
-
-            supportFinishAfterTransition();
-        });
-
-        String lastEarth = sharedState.getLastEarth();
-
-        if (!TextUtils.isEmpty(lastEarth)) {
-            Glide.with(this).load(lastEarth)
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .into(binding.earth);
-        }
+        loadEarth();
 
         UpdateUtil.checkForUpdateAndPrompt(this);
+    }
+
+    private void save() {
+        Settings settings = new Settings();
+        vm.saveTo(settings);
+
+        getContentResolver().update(SettingsContract.CONTENT_URI, settings.toContentValues(), null, null);
+
+        if (WallpaperUtil.isCurrent(this)) {
+            Log.d(TAG, "already set, just refresh everything");
+            EarthAlarmUtil.reschedule(this, vm.getInterval());
+        } else if (Intent.ACTION_MAIN.equals(getIntent().getAction())) {
+            Log.d(TAG, "from launcher, prompt to change wallpaper");
+            WallpaperUtil.changeLiveWallPaper(this);
+        } else {
+            Log.d(TAG, "may be from settings, just refresh");
+            EarthAlarmUtil.reschedule(this, vm.getInterval());
+            setResult(RESULT_OK);
+        }
+
+        sendOnSet();
+
+        supportFinishAfterTransition();
+    }
+
+    private void sendOnSet() {
+        HashMap<String, String> event = new HashMap<>();
+
+        event.put("interval", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(vm.getInterval())));
+        event.put("resolution", String.valueOf(vm.getResolution()));
+        event.put("wifi_only", String.valueOf(vm.isWifiOnly()));
+
+        MobclickAgent.onEvent(this, "set", event);
     }
 
     @Override
@@ -93,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    private void loadEarth() {
+        Glide.with(this).load(EarthsContract.LATEST_CONTENT_URI)
+                .error(R.drawable.preview)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .into(binding.earth);
     }
 
     @Override

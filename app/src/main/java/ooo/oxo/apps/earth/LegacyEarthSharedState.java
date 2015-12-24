@@ -20,30 +20,21 @@ package ooo.oxo.apps.earth;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 
 import java.util.concurrent.TimeUnit;
 
-public class EarthSharedState {
+public class LegacyEarthSharedState {
 
-    private static EarthSharedState instance;
+    private static final String TAG = "LegacyEarthSharedState";
 
     private final Context context;
     private final SharedPreferences preferences;
 
-    private EarthSharedState(Context context) {
+    public LegacyEarthSharedState(Context context) {
         this.context = context;
         this.preferences = context.getSharedPreferences("earth", Context.MODE_PRIVATE);
-    }
-
-    public static EarthSharedState getInstance(Context context) {
-        if (instance == null) {
-            instance = new EarthSharedState(context);
-        }
-
-        return instance;
     }
 
     @Nullable
@@ -51,16 +42,8 @@ public class EarthSharedState {
         return preferences.getString("last_earth", null);
     }
 
-    public boolean setLastEarth(@NonNull String earth) {
-        return preferences.edit().putString("last_earth", earth).commit();
-    }
-
     public long getInterval() {
         return preferences.getLong("interval", TimeUnit.MINUTES.toMillis(10));
-    }
-
-    public boolean setInterval(long interval) {
-        return preferences.edit().putLong("interval", interval).commit();
     }
 
     public int getResolution() {
@@ -74,22 +57,13 @@ public class EarthSharedState {
         if (resolution == 0) {
             DisplayMetrics metrics = context.getResources().getDisplayMetrics();
             resolution = ResolutionUtil.findBestResolution(metrics);
-            setResolution(resolution);
         }
 
         return resolution;
     }
 
-    public boolean setResolution(int resolution) {
-        return preferences.edit().putInt("resolution", resolution).commit();
-    }
-
     public boolean getWifiOnly() {
         return preferences.getBoolean("wifi_only", true);
-    }
-
-    public boolean setWifiOnly(boolean wifiOnly) {
-        return preferences.edit().putBoolean("wifi_only", wifiOnly).commit();
     }
 
 }

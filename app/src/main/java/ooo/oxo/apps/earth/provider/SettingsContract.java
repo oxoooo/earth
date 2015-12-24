@@ -16,11 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ooo.oxo.apps.earth;
+package ooo.oxo.apps.earth.provider;
 
-public class EarthIntents {
+import android.content.ContentResolver;
+import android.net.Uri;
 
-    public static final String ACTION_NEW_EARTH_READY
-            = "ooo.oxo.apps.earth.NEW_EARTH_READY";
+import ooo.oxo.apps.earth.BuildConfig;
+
+public class SettingsContract {
+
+    public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".settings";
+
+    public static final Uri CONTENT_URI = new Uri.Builder()
+            .scheme(ContentResolver.SCHEME_CONTENT)
+            .authority(AUTHORITY)
+            .path("settings")
+            .build();
+
+    static final String TABLE = "settings";
+
+    public static class Columns {
+        public static final String INTERVAL = "interval";
+        public static final String RESOLUTION = "resolution";
+        public static final String WIFI_ONLY = "wifi_only";
+    }
 
 }
