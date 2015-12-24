@@ -55,7 +55,9 @@ public class EarthAlarmUtil {
 
     private static PendingIntent makePendingIntent(Context context) {
         return PendingIntent.getService(
-                context, 0, new Intent(context, EarthFetchService.class), 0);
+                context, 0,
+                new Intent(context, EarthFetchService.class).putExtra("debug", BuildConfig.DEBUG),
+                0);
     }
 
 }
