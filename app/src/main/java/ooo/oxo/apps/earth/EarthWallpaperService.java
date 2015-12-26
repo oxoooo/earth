@@ -26,6 +26,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.service.wallpaper.WallpaperService;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -116,7 +117,17 @@ public class EarthWallpaperService extends WallpaperService {
         }
 
         private void draw() {
-            Bitmap earth = loadEarth();
+            Bitmap earth = loadLatestEarth();
+
+            if (earth == null) {
+                Log.d(TAG, "earth not ready, fallback to preview");
+                earth = loadPreview();
+            }
+
+            if (earth == null) {
+                Log.e(TAG, "earth preview not ready, impossible!");
+                return;
+            }
 
             Canvas canvas = getSurfaceHolder().lockCanvas();
 
@@ -140,19 +151,16 @@ public class EarthWallpaperService extends WallpaperService {
             getSurfaceHolder().unlockCanvasAndPost(canvas);
         }
 
-        private Bitmap loadEarth() {
+        @Nullable
+        private Bitmap loadLatestEarth() {
             try {
-                return loadLatestEarth();
+                return BitmapFactory.decodeStream(getContentResolver().openInputStream(EarthsContract.LATEST_CONTENT_URI));
             } catch (FileNotFoundException e) {
-                Log.d(TAG, "earth not ready, fallback to preview", e);
-                return loadPreview();
+                return null;
             }
         }
 
-        private Bitmap loadLatestEarth() throws FileNotFoundException {
-            return BitmapFactory.decodeStream(getContentResolver().openInputStream(EarthsContract.LATEST_CONTENT_URI));
-        }
-
+        @Nullable
         private Bitmap loadPreview() {
             return BitmapFactory.decodeResource(getResources(), R.drawable.preview);
         }
