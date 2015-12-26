@@ -37,7 +37,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
-import ooo.oxo.apps.earth.BuildConfig;
 import ooo.oxo.apps.earth.LegacyEarthSharedState;
 import ooo.oxo.apps.earth.dao.Earth;
 
@@ -66,10 +65,10 @@ public class EarthsProvider extends ContentProvider {
     public String getType(@NonNull Uri uri) {
         switch (matcher.match(uri)) {
             case 1:
-                return "vnd.android.cursor.dir/vnd." + BuildConfig.APPLICATION_ID + ".earths";
+                return EarthsContract.CONTENT_TYPE_DIR;
             case 2:
             case 3:
-                return "vnd.android.cursor.item/vnd." + BuildConfig.APPLICATION_ID + ".earths";
+                return EarthsContract.CONTENT_TYPE_ITEM;
             default:
                 return null;
         }

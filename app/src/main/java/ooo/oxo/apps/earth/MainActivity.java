@@ -28,7 +28,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.umeng.analytics.MobclickAgent;
 
@@ -38,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 import ooo.oxo.apps.earth.dao.Settings;
 import ooo.oxo.apps.earth.databinding.MainActivityBinding;
 import ooo.oxo.apps.earth.provider.EarthsContract;
+import ooo.oxo.apps.earth.provider.EarthsSignature;
 import ooo.oxo.apps.earth.provider.SettingsContract;
 
 public class MainActivity extends AppCompatActivity {
@@ -129,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadEarth() {
         Glide.with(this).load(EarthsContract.LATEST_CONTENT_URI)
+                .signature(new EarthsSignature(getContentResolver(), EarthsContract.LATEST_CONTENT_URI))
                 .error(R.drawable.preview)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(binding.earth);
     }

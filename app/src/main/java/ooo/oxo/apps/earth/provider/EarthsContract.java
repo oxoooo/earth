@@ -36,6 +36,12 @@ public class EarthsContract {
 
     public static final Uri LATEST_CONTENT_URI = Uri.withAppendedPath(CONTENT_URI, "latest");
 
+    public static final String CONTENT_TYPE_DIR
+            = "vnd.android.cursor.dir/vnd." + BuildConfig.APPLICATION_ID + ".earths";
+
+    public static final String CONTENT_TYPE_ITEM
+            = "vnd.android.cursor.item/vnd." + BuildConfig.APPLICATION_ID + ".earths";
+
     static final String TABLE = "earths";
 
     public static class Columns implements BaseColumns {
