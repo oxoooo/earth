@@ -21,6 +21,7 @@ package ooo.oxo.apps.earth.dao;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import java.util.Date;
 
@@ -41,6 +42,10 @@ public class Earth {
         Earth earth = new Earth();
         earth.file = cursor.getString(cursor.getColumnIndexOrThrow(EarthsContract.Columns.FILE));
         earth.fetchedAt = new Date(cursor.getLong(cursor.getColumnIndexOrThrow(EarthsContract.Columns.FETCHED_AT)));
+
+        if (TextUtils.isEmpty(earth.file)) {
+            return null;
+        }
 
         return earth;
     }

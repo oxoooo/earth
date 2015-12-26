@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -236,12 +237,14 @@ public class EarthsProvider extends ContentProvider {
 
             LegacyEarthSharedState state = new LegacyEarthSharedState(getContext());
 
-            ContentValues values = new ContentValues();
+            if (!TextUtils.isEmpty(state.getLastEarth())) {
+                ContentValues values = new ContentValues();
 
-            values.put(EarthsContract.Columns.FILE, state.getLastEarth());
-            values.put(EarthsContract.Columns.FETCHED_AT, System.currentTimeMillis());
+                values.put(EarthsContract.Columns.FILE, state.getLastEarth());
+                values.put(EarthsContract.Columns.FETCHED_AT, System.currentTimeMillis());
 
-            db.insertOrThrow(EarthsContract.TABLE, null, values);
+                db.insertOrThrow(EarthsContract.TABLE, null, values);
+            }
         }
 
         @Override
