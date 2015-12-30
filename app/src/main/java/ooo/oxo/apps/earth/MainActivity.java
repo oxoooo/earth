@@ -19,6 +19,7 @@
 package ooo.oxo.apps.earth;
 
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.umeng.analytics.MobclickAgent;
 
@@ -37,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 import ooo.oxo.apps.earth.dao.Settings;
 import ooo.oxo.apps.earth.databinding.MainActivityBinding;
 import ooo.oxo.apps.earth.provider.EarthsContract;
-import ooo.oxo.apps.earth.provider.EarthsSignature;
 import ooo.oxo.apps.earth.provider.SettingsContract;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityBinding binding;
 
     private MainViewModel vm;
+
+    private ContentObserver observer = new ContentObserver(null) {
+        @Override
+        public void onChange(boolean selfChange) {
+            runOnUiThread(() -> loadEarth());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,18 +127,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        getContentResolver().registerContentObserver(EarthsContract.LATEST_CONTENT_URI, false, observer);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+        getContentResolver().unregisterContentObserver(observer);
     }
 
     private void loadEarth() {
-        Glide.with(this).load(EarthsContract.LATEST_CONTENT_URI)
-                .signature(new EarthsSignature(getContentResolver(), EarthsContract.LATEST_CONTENT_URI))
+        Glide.with(this).load(EarthsContract.LATEST_CONTENT_URI
+                .buildUpon()
+                .appendQueryParameter("t", String.valueOf(System.currentTimeMillis()))
+                .build())
                 .error(R.drawable.preview)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(binding.earth);
     }
