@@ -116,6 +116,13 @@ public class EarthWallpaperService extends WallpaperService {
             }
         }
 
+        @Override
+        public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            if (isVisible()) {
+                draw();
+            }
+        }
+
         private void draw() {
             Bitmap earth = loadLatestEarth();
 
@@ -149,6 +156,8 @@ public class EarthWallpaperService extends WallpaperService {
             canvas.drawBitmap(earth, null, region, paint);
 
             getSurfaceHolder().unlockCanvasAndPost(canvas);
+
+            earth.recycle();
         }
 
         @Nullable
