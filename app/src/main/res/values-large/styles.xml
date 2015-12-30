@@ -16,10 +16,10 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:fontFamily">sans-serif</item>
+    <style name="AboutTheme" parent="AboutThemeBase" tools:ignore="PrivateResource">
+        <item name="android:homeAsUpIndicator">@drawable/abc_ic_clear_mtrl_alpha</item>
     </style>
 
 </resources>

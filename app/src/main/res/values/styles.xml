@@ -16,7 +16,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
@@ -28,14 +28,29 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="toolbarStyle">@style/TransparentToolbar</item>
         <item name="android:windowBackground">@android:color/black</item>
     </style>
 
     <style name="SettingsTheme" parent="SettingsThemeBase" />
 
+    <style name="AboutThemeBase" parent="Theme.AppCompat.Light.DialogWhenLarge" tools:ignore="PrivateResource">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="toolbarStyle">@style/DarkToolbar</item>
+        <item name="android:homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
+    </style>
+
+    <style name="AboutTheme" parent="AboutThemeBase" />
+
     <style name="DarkToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
     </style>
 
     <style name="TransparentToolbar" parent="DarkToolbar">
@@ -44,6 +59,8 @@
 
     <style name="DarkToolbarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title" />
+    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
 
 </resources>

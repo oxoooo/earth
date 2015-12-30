@@ -95,7 +95,9 @@
 
         </receiver>
 
-        <activity android:name=".AboutActivity" />
+        <activity
+            android:name=".AboutActivity"
+            android:theme="@style/AboutTheme" />
 
         <provider
             android:name=".provider.SettingsProvider"
