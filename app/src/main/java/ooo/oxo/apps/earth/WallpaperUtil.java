@@ -34,6 +34,8 @@ public class WallpaperUtil {
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
                 new ComponentName(context, EarthWallpaperService.class));
 
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
