@@ -28,6 +28,7 @@
     <string name="resolution">解析度: %dp</string>
     <string name="traffic_estimated">預計流量: %d MB/月</string>
     <string name="wifi_only">只在 Wi-Fi 連接時更新</string>
+    <string name="save">按下按鈕完成設定</string>
 
     <string name="live_wallpaper_unsupported">很抱歉，您的手機似乎並不支持動態桌布…</string>
 

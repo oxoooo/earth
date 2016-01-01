@@ -16,12 +16,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/main_activity">
 
-    <dimen name="default_padding">16dp</dimen>
+    <ImageView
+        android:id="@+id/earth"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/default_padding"
+        android:src="@drawable/preview"
+        tools:ignore="ContentDescription" />
 
-    <dimen name="settings_done_hint_offset">8dp</dimen>
-    <dimen name="settings_reveal_offset">44dp</dimen>
-    <dimen name="settings_panel_offset">32dp</dimen>
-
-</resources>
+</layout>

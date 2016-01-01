@@ -35,132 +35,46 @@
 
     </data>
 
-    <FrameLayout
+    <ooo.oxo.apps.earth.widget.WindowInsetsFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:paddingRight="48dp"
+        tools:paddingTop="24dp">
 
-        <ImageView
+        <include
             android:id="@+id/earth"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/default_padding"
-            android:src="@drawable/preview"
-            tools:ignore="ContentDescription" />
+            layout="@layout/main_layout_earth" />
 
-        <RelativeLayout
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/main_layout_toolbar" />
+
+        <FrameLayout
+            android:id="@+id/settings"
             android:layout_width="360dp"
             android:layout_height="match_parent"
-            android:layout_gravity="end|bottom"
+            android:layout_gravity="end"
             android:background="#90000000"
             android:fitsSystemWindows="true"
             android:orientation="vertical"
-            tools:paddingRight="64dp">
+            android:visibility="invisible"
+            tools:visibility="visible">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:title="@string/settings" />
+            <include
+                layout="@layout/main_layout_settings"
+                app:accelerated="@{accelerated}"
+                app:vm="@{vm}" />
 
-            <TextView
-                android:id="@+id/interval_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbar"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginStart="16dp"
-                android:text="@{@string/interval(vm.intervalMinutes)}"
-                tools:text="@string/interval" />
+        </FrameLayout>
 
-            <!--suppress AndroidUnknownAttribute -->
-            <SeekBar
-                android:id="@+id/interval"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/interval_label"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginStart="16dp"
-                android:max="@{vm.intervalProgressMax}"
-                android:onProgressChanged="@{vm.intervalProgressWatcher}"
-                android:progress="@{vm.intervalProgressValue}" />
+        <include
+            android:id="@+id/action"
+            layout="@layout/main_layout_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp" />
 
-            <TextView
-                android:id="@+id/resolution_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/interval"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginStart="16dp"
-                android:text="@{@string/resolution(vm.resolution)}"
-                tools:text="@string/resolution" />
-
-            <!--suppress AndroidUnknownAttribute -->
-            <SeekBar
-                android:id="@+id/resolution"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/resolution_label"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginStart="16dp"
-                android:enabled="@{accelerated}"
-                android:max="@{vm.resolutionProgressMax}"
-                android:onProgressChanged="@{vm.resolutionProgressWatcher}"
-                android:progress="@{vm.resolutionProgressValue}" />
-
-            <TextView
-                android:id="@+id/traffic_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/resolution"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_toLeftOf="@+id/done"
-                android:layout_toStartOf="@+id/done"
-                android:text="@{@string/traffic_estimated(vm.traffic)}"
-                android:visibility="@{accelerated ? View.VISIBLE : View.GONE}"
-                tools:text="@string/traffic_estimated" />
-
-            <!--suppress AndroidUnknownAttribute -->
-            <CheckBox
-                android:id="@+id/wifi_only"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/traffic_label"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_toLeftOf="@+id/done"
-                android:layout_toStartOf="@+id/done"
-                android:checked="@{vm.wifiOnly}"
-                android:onCheckedChangeListener="@{vm.wifiOnlyWatcher}"
-                android:text="@string/wifi_only" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_done_white_24dp" />
-
-        </RelativeLayout>
-
-    </FrameLayout>
+    </ooo.oxo.apps.earth.widget.WindowInsetsFrameLayout>
 
 </layout>

@@ -18,15 +18,19 @@
 
 package ooo.oxo.apps.earth;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewAnimationUtils;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainActivityBinding binding;
 
-    private MainViewModel vm;
+    private MainViewModel vm = new MainViewModel();
 
     private ContentObserver observer = new ContentObserver(null) {
         @Override
@@ -61,9 +65,32 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
 
-        setSupportActionBar(binding.toolbar);
+        setTitle(null);
+        setSupportActionBar(binding.toolbar.toolbar);
 
-        Cursor cursor = getContentResolver().query(SettingsContract.CONTENT_URI, null, null, null, null);
+        binding.setVm(vm);
+        binding.setAccelerated(BuildConfig.USE_OXO_SERVER);
+
+        binding.action.done.setOnClickListener(v -> saveSettings());
+
+        loadSettings();
+
+        loadEarth();
+
+        UpdateUtil.checkForUpdateAndPrompt(this);
+    }
+
+    private boolean isCurrentWallpaper() {
+        return WallpaperUtil.isCurrent(this);
+    }
+
+    private boolean isFromSettings() {
+        return !Intent.ACTION_MAIN.equals(getIntent().getAction());
+    }
+
+    private void loadSettings() {
+        Cursor cursor = getContentResolver().query(
+                SettingsContract.CONTENT_URI, null, null, null, null);
 
         if (cursor == null) {
             throw new IllegalStateException();
@@ -77,47 +104,218 @@ public class MainActivity extends AppCompatActivity {
             throw new IllegalStateException();
         }
 
-        vm = new MainViewModel(settings);
+        vm.loadFrom(settings);
 
-        binding.setVm(vm);
-        binding.setAccelerated(BuildConfig.USE_OXO_SERVER);
-
-        binding.done.setOnClickListener(v -> save());
-
-        loadEarth();
-
-        UpdateUtil.checkForUpdateAndPrompt(this);
+        if (isFromSettings() || !isCurrentWallpaper()) {
+            showSettings();
+        }
     }
 
-    private void save() {
+    private void saveSettings() {
         Settings settings = new Settings();
+
         vm.saveTo(settings);
 
-        getContentResolver().update(SettingsContract.CONTENT_URI, settings.toContentValues(), null, null);
+        getContentResolver().update(SettingsContract.CONTENT_URI,
+                settings.toContentValues(), null, null);
 
-        if (WallpaperUtil.isCurrent(this)) {
-            Log.d(TAG, "already set, just refresh everything");
-            EarthAlarmUtil.reschedule(this, vm.getInterval());
-        } else if (Intent.ACTION_MAIN.equals(getIntent().getAction())) {
-            Log.d(TAG, "from launcher, prompt to change wallpaper");
-            WallpaperUtil.changeLiveWallPaper(this);
+        EarthAlarmUtil.reschedule(this, settings.interval);
+
+        sendOnSet(settings);
+
+        if (isFromSettings()) {
+            if (isCurrentWallpaper()) {
+                setResult(RESULT_OK);
+                supportFinishAfterTransition();
+            } else {
+                setResult(RESULT_OK);
+                supportFinishAfterTransition();
+                WallpaperUtil.changeLiveWallPaper(this);
+            }
         } else {
-            Log.d(TAG, "may be from settings, just refresh");
-            EarthAlarmUtil.reschedule(this, vm.getInterval());
-            setResult(RESULT_OK);
+            if (isCurrentWallpaper()) {
+                animateOutSettings();
+            } else {
+                setResult(RESULT_OK);
+                supportFinishAfterTransition();
+                WallpaperUtil.changeLiveWallPaper(this);
+            }
         }
-
-        sendOnSet();
-
-        supportFinishAfterTransition();
     }
 
-    private void sendOnSet() {
+    private void showSettings() {
+        binding.toolbar.getRoot().setVisibility(View.INVISIBLE);
+        binding.settings.setVisibility(View.VISIBLE);
+        binding.action.done.setVisibility(View.VISIBLE);
+        binding.action.doneHint.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSettings() {
+        binding.settings.setVisibility(View.INVISIBLE);
+        binding.action.done.setVisibility(View.INVISIBLE);
+        binding.action.doneHint.setVisibility(View.INVISIBLE);
+        binding.toolbar.getRoot().setVisibility(View.VISIBLE);
+    }
+
+    private boolean isSettingsShown() {
+        return binding.settings.getVisibility() == View.VISIBLE;
+    }
+
+    private void animateInSettings() {
+        binding.toolbar.getRoot().animate()
+                .alpha(0f)
+                .setDuration(300L)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        binding.toolbar.getRoot().setVisibility(View.INVISIBLE);
+                        binding.toolbar.getRoot().setAlpha(1f);
+                    }
+                })
+                .start();
+
+        binding.action.done.show();
+
+        float doneOffset = getResources().getDimension(R.dimen.settings_done_hint_offset);
+
+        binding.action.doneHint.setAlpha(0f);
+        binding.action.doneHint.setTranslationX(doneOffset);
+        binding.action.doneHint.setVisibility(View.VISIBLE);
+        binding.action.doneHint.animate()
+                .alpha(1f)
+                .translationX(0f)
+                .setDuration(300L)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        binding.action.doneHint.setAlpha(1f);
+                        binding.action.doneHint.setTranslationX(0f);
+                    }
+                })
+                .start();
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            int width = binding.settings.getWidth();
+            int height = binding.settings.getHeight();
+
+            int revealOffset = getResources().getDimensionPixelOffset(R.dimen.settings_reveal_offset);
+
+            Animator animator = ViewAnimationUtils.createCircularReveal(
+                    binding.settings,
+                    width - revealOffset, height - revealOffset,
+                    0, Math.max(width, height));
+
+            binding.settings.setVisibility(View.VISIBLE);
+
+            animator.setDuration(300L);
+
+            animator.start();
+        } else {
+            float panelOffset = getResources().getDimension(R.dimen.settings_panel_offset);
+            binding.settings.setAlpha(0f);
+            binding.settings.setTranslationY(panelOffset);
+            binding.settings.setVisibility(View.VISIBLE);
+            binding.settings.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(300L)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            binding.settings.setAlpha(1f);
+                            binding.settings.setTranslationY(0f);
+                        }
+                    })
+                    .start();
+        }
+    }
+
+    private void animateOutSettings() {
+        binding.toolbar.getRoot().setAlpha(0f);
+        binding.toolbar.getRoot().setVisibility(View.VISIBLE);
+        binding.toolbar.getRoot().animate()
+                .alpha(1f)
+                .setDuration(300L)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        binding.toolbar.getRoot().setAlpha(1f);
+                    }
+                })
+                .start();
+
+        binding.action.done.hide();
+
+        float doneOffset = getResources().getDimension(R.dimen.settings_done_hint_offset);
+
+        binding.action.doneHint.animate()
+                .alpha(0f)
+                .translationX(doneOffset)
+                .setDuration(300L)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        binding.action.doneHint.setVisibility(View.INVISIBLE);
+                        binding.action.doneHint.setAlpha(1f);
+                        binding.action.doneHint.setTranslationX(0);
+                    }
+                })
+                .start();
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            int width = binding.settings.getWidth();
+            int height = binding.settings.getHeight();
+
+            int revealOffset = getResources().getDimensionPixelOffset(R.dimen.settings_reveal_offset);
+
+            Animator animator = ViewAnimationUtils.createCircularReveal(
+                    binding.settings,
+                    width - revealOffset, height - revealOffset,
+                    Math.max(width, height), 0);
+
+            animator.setDuration(300L);
+
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    binding.settings.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            animator.start();
+        } else {
+            float panelOffset = getResources().getDimension(R.dimen.settings_panel_offset);
+            binding.settings.animate()
+                    .alpha(0f)
+                    .translationY(panelOffset)
+                    .setDuration(300L)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            binding.settings.setVisibility(View.INVISIBLE);
+                            binding.settings.setAlpha(1f);
+                            binding.settings.setTranslationY(0);
+                        }
+                    })
+                    .start();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isSettingsShown()) {
+            animateOutSettings();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void sendOnSet(Settings settings) {
         HashMap<String, String> event = new HashMap<>();
 
-        event.put("interval", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(vm.getInterval())));
-        event.put("resolution", String.valueOf(vm.getResolution()));
-        event.put("wifi_only", String.valueOf(vm.isWifiOnly()));
+        event.put("interval", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(settings.interval)));
+        event.put("resolution", String.valueOf(settings.resolution));
+        event.put("wifi_only", String.valueOf(settings.wifiOnly));
 
         MobclickAgent.onEvent(this, "set", event);
     }
@@ -126,7 +324,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        getContentResolver().registerContentObserver(EarthsContract.LATEST_CONTENT_URI, false, observer);
+        getContentResolver().registerContentObserver(
+                EarthsContract.LATEST_CONTENT_URI, false, observer);
     }
 
     @Override
@@ -143,19 +342,23 @@ public class MainActivity extends AppCompatActivity {
                 .build())
                 .error(R.drawable.preview)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(binding.earth);
+                .into(binding.earth.earth);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         vm.saveState(outState);
+        outState.putBoolean("settings_shown", isSettingsShown());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         vm.restoreState(savedInstanceState);
+        if (savedInstanceState.getBoolean("settings_shown", false)) {
+            showSettings();
+        }
     }
 
     @Override
@@ -169,6 +372,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.about:
                 startActivity(new Intent(this, AboutActivity.class));
+                return true;
+            case R.id.settings:
+                animateInSettings();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

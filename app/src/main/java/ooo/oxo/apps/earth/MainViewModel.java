@@ -39,7 +39,10 @@ public class MainViewModel extends BaseObservable {
 
     private boolean wifiOnly;
 
-    public MainViewModel(Settings settings) {
+    public MainViewModel() {
+    }
+
+    public void loadFrom(Settings settings) {
         setInterval(settings.interval);
         setResolution(settings.resolution);
         setWifiOnly(settings.wifiOnly);

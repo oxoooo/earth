@@ -29,6 +29,7 @@
     <string name="resolution">Resolution: %dp</string>
     <string name="traffic_estimated">Traffic estimated: %d MB/month</string>
     <string name="wifi_only">Update via Wi-Fi only</string>
+    <string name="save">Press the button to save settings</string>
 
     <string name="live_wallpaper_unsupported">
         Seems Live Wallpaper feature wasn\'t supported by your phone…

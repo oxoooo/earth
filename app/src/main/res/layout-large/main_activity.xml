@@ -62,9 +62,8 @@
 
             <include
                 layout="@layout/main_layout_settings"
-                android:layout_width="match_parent"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="56dp"
                 app:accelerated="@{accelerated}"
                 app:vm="@{vm}" />
 
@@ -73,9 +72,9 @@
         <include
             android:id="@+id/action"
             layout="@layout/main_layout_action"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="bottom|end"
             android:layout_margin="8dp" />
 
     </ooo.oxo.apps.earth.widget.WindowInsetsFrameLayout>
