@@ -122,11 +122,6 @@ android {
         coolapk {
             manifestPlaceholders = [UMENG_CHANNEL: "CookApk"]
         }
-
-        baidu {
-            manifestPlaceholders = [UMENG_CHANNEL: "Baidu"]
-            buildConfigField "boolean", "FIR_OTA_ENABLED", "false"
-        }
     }
 
     applicationVariants.all { variant ->
