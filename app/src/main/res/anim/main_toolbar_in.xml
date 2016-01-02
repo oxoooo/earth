@@ -16,8 +16,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<alpha xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="300"
-    android:fromAlpha="0"
-    android:interpolator="@android:anim/decelerate_interpolator"
-    android:toAlpha="1" />
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/decelerate_interpolator">
+
+    <alpha
+        android:duration="1000"
+        android:fromAlpha="0"
+        android:toAlpha="1" />
+
+    <translate
+        android:duration="300"
+        android:fromYDelta="-2%p"
+        android:toYDelta="0%p" />
+
+</set>

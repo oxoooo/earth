@@ -17,15 +17,16 @@
   -->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="300"
-    android:interpolator="@android:anim/accelerate_interpolator">
+    android:interpolator="@android:anim/decelerate_interpolator">
 
     <alpha
-        android:fromAlpha="1"
-        android:toAlpha="0" />
+        android:duration="1000"
+        android:fromAlpha="0"
+        android:toAlpha="1" />
 
     <translate
-        android:fromXDelta="0%p"
-        android:toXDelta="10%p" />
+        android:duration="300"
+        android:fromXDelta="-2%p"
+        android:toXDelta="0%p" />
 
 </set>

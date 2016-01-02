@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     private void animateInSettings() {
         InOutAnimationUtils.animateOut(binding.toolbar.getRoot(), R.anim.main_toolbar_out);
 
-        binding.action.done.show();
+        binding.action.done.postDelayed(() -> binding.action.done.show(), 300L);
 
         InOutAnimationUtils.animateIn(binding.action.doneHint, R.anim.main_action_hint_in);
         InOutAnimationUtils.animateIn(binding.settings, R.anim.main_settings_in);
