@@ -18,11 +18,7 @@
 
 <resources>
 
-    <dimen name="default_padding">16dp</dimen>
-
-    <dimen name="settings_reveal_offset">44dp</dimen>
-
-    <dimen name="fab_margin_h">6dp</dimen>
-    <dimen name="fab_margin_v">0dp</dimen>
+    <dimen name="fab_margin_h">16dp</dimen>
+    <dimen name="fab_margin_v">16dp</dimen>
 
 </resources>

@@ -75,8 +75,7 @@
             layout="@layout/main_layout_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="8dp" />
+            android:layout_gravity="bottom" />
 
     </ooo.oxo.apps.earth.widget.WindowInsetsFrameLayout>
 

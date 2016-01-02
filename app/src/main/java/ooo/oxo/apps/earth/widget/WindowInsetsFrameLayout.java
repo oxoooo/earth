@@ -18,13 +18,17 @@
 
 package ooo.oxo.apps.earth.widget;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.FrameLayout;
 
 public class WindowInsetsFrameLayout extends FrameLayout {
@@ -41,53 +45,105 @@ public class WindowInsetsFrameLayout extends FrameLayout {
 
     public WindowInsetsFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
 
-        ViewCompat.setOnApplyWindowInsetsListener(this, (v, insets) -> {
-            if (!insets.hasSystemWindowInsets()) {
-                return insets;
+    @Override
+    @SuppressWarnings("deprecation")
+    protected boolean fitSystemWindows(Rect insets) {
+        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
+            return applySystemWindowInsets19(insets);
+        }
+
+        return super.fitSystemWindows(insets);
+    }
+
+    @Override
+    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
+        if (Build.VERSION.SDK_INT >= 21 && insets.hasSystemWindowInsets()) {
+            if (applySystemWindowInsets21(insets)) {
+                return insets.consumeSystemWindowInsets();
+            }
+        }
+
+        return insets;
+    }
+
+    @TargetApi(19)
+    private boolean applySystemWindowInsets19(Rect insets) {
+        boolean consumed = false;
+
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+
+            if (!child.getFitsSystemWindows()) {
+                continue;
             }
 
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
-                if (ViewCompat.getFitsSystemWindows(child)) {
-                    Rect rect = new Rect(
-                            insets.getSystemWindowInsetLeft(),
-                            insets.getSystemWindowInsetTop(),
-                            insets.getSystemWindowInsetRight(),
-                            insets.getSystemWindowInsetBottom());
+            Rect childInsets = new Rect(insets);
 
-                    LayoutParams lp = (LayoutParams) child.getLayoutParams();
+            computeInsetsWithGravity(child, childInsets);
 
-                    int gravity = GravityCompat.getAbsoluteGravity(
-                            lp.gravity, ViewCompat.getLayoutDirection(child));
+            child.setPadding(childInsets.left, childInsets.top, childInsets.right, childInsets.bottom);
 
-                    if (lp.width != LayoutParams.MATCH_PARENT) {
-                        if ((gravity & Gravity.LEFT) != Gravity.LEFT) {
-                            rect.left = 0;
-                        }
+            consumed = true;
+        }
 
-                        if ((gravity & Gravity.RIGHT) != Gravity.RIGHT) {
-                            rect.right = 0;
-                        }
-                    }
+        return consumed;
+    }
 
-                    if (lp.height != LayoutParams.MATCH_PARENT) {
-                        if ((gravity & Gravity.TOP) != Gravity.TOP) {
-                            rect.top = 0;
-                        }
+    @TargetApi(21)
+    private boolean applySystemWindowInsets21(WindowInsets insets) {
+        boolean consumed = false;
 
-                        if ((gravity & Gravity.BOTTOM) != Gravity.BOTTOM) {
-                            rect.bottom = 0;
-                        }
-                    }
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
 
-                    ViewCompat.dispatchApplyWindowInsets(
-                            child, insets.replaceSystemWindowInsets(rect));
-                }
+            if (!child.getFitsSystemWindows()) {
+                continue;
             }
 
-            return insets.consumeSystemWindowInsets();
-        });
+            Rect childInsets = new Rect(
+                    insets.getSystemWindowInsetLeft(),
+                    insets.getSystemWindowInsetTop(),
+                    insets.getSystemWindowInsetRight(),
+                    insets.getSystemWindowInsetBottom());
+
+            computeInsetsWithGravity(child, childInsets);
+
+            child.dispatchApplyWindowInsets(insets.replaceSystemWindowInsets(childInsets));
+
+            consumed = true;
+        }
+
+        return consumed;
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private void computeInsetsWithGravity(View view, Rect insets) {
+        LayoutParams lp = (LayoutParams) view.getLayoutParams();
+
+        int gravity = GravityCompat.getAbsoluteGravity(
+                lp.gravity, ViewCompat.getLayoutDirection(view));
+
+        if (lp.width != LayoutParams.MATCH_PARENT) {
+            if ((gravity & Gravity.LEFT) != Gravity.LEFT) {
+                insets.left = 0;
+            }
+
+            if ((gravity & Gravity.RIGHT) != Gravity.RIGHT) {
+                insets.right = 0;
+            }
+        }
+
+        if (lp.height != LayoutParams.MATCH_PARENT) {
+            if ((gravity & Gravity.TOP) != Gravity.TOP) {
+                insets.top = 0;
+            }
+
+            if ((gravity & Gravity.BOTTOM) != Gravity.BOTTOM) {
+                insets.bottom = 0;
+            }
+        }
     }
 
 }

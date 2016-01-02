@@ -60,10 +60,18 @@
             android:visibility="invisible"
             tools:visibility="visible">
 
-            <include
-                layout="@layout/main_layout_settings"
-                app:accelerated="@{accelerated}"
-                app:vm="@{vm}" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="56dp"
+                tools:ignore="UselessParent">
+
+                <include
+                    layout="@layout/main_layout_settings"
+                    app:accelerated="@{accelerated}"
+                    app:vm="@{vm}" />
+
+            </ScrollView>
 
         </FrameLayout>
 
@@ -72,8 +80,7 @@
             layout="@layout/main_layout_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="8dp" />
+            android:layout_gravity="bottom|end" />
 
     </ooo.oxo.apps.earth.widget.WindowInsetsFrameLayout>
 
