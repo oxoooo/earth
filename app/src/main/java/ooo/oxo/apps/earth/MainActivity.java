@@ -43,6 +43,7 @@ import ooo.oxo.apps.earth.dao.Settings;
 import ooo.oxo.apps.earth.databinding.MainActivityBinding;
 import ooo.oxo.apps.earth.provider.EarthsContract;
 import ooo.oxo.apps.earth.provider.SettingsContract;
+import ooo.oxo.apps.earth.view.InOutAnimationUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -162,37 +163,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void animateInSettings() {
-        binding.toolbar.getRoot().animate()
-                .alpha(0f)
-                .setDuration(300L)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        binding.toolbar.getRoot().setVisibility(View.INVISIBLE);
-                        binding.toolbar.getRoot().setAlpha(1f);
-                    }
-                })
-                .start();
+        InOutAnimationUtils.animateOut(binding.toolbar.getRoot(), R.anim.main_toolbar_out);
 
         binding.action.done.show();
 
-        float doneOffset = getResources().getDimension(R.dimen.settings_done_hint_offset);
-
-        binding.action.doneHint.setAlpha(0f);
-        binding.action.doneHint.setTranslationX(doneOffset);
-        binding.action.doneHint.setVisibility(View.VISIBLE);
-        binding.action.doneHint.animate()
-                .alpha(1f)
-                .translationX(0f)
-                .setDuration(300L)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        binding.action.doneHint.setAlpha(1f);
-                        binding.action.doneHint.setTranslationX(0f);
-                    }
-                })
-                .start();
+        InOutAnimationUtils.animateIn(binding.action.doneHint, R.anim.main_action_hint_in);
+        InOutAnimationUtils.animateIn(binding.settings, R.anim.main_settings_in);
 
         if (Build.VERSION.SDK_INT >= 21) {
             int width = binding.settings.getWidth();
@@ -210,57 +186,16 @@ public class MainActivity extends AppCompatActivity {
             animator.setDuration(300L);
 
             animator.start();
-        } else {
-            float panelOffset = getResources().getDimension(R.dimen.settings_panel_offset);
-            binding.settings.setAlpha(0f);
-            binding.settings.setTranslationY(panelOffset);
-            binding.settings.setVisibility(View.VISIBLE);
-            binding.settings.animate()
-                    .alpha(1f)
-                    .translationY(0f)
-                    .setDuration(300L)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            binding.settings.setAlpha(1f);
-                            binding.settings.setTranslationY(0f);
-                        }
-                    })
-                    .start();
         }
     }
 
     private void animateOutSettings() {
-        binding.toolbar.getRoot().setAlpha(0f);
-        binding.toolbar.getRoot().setVisibility(View.VISIBLE);
-        binding.toolbar.getRoot().animate()
-                .alpha(1f)
-                .setDuration(300L)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        binding.toolbar.getRoot().setAlpha(1f);
-                    }
-                })
-                .start();
+        InOutAnimationUtils.animateIn(binding.toolbar.getRoot(), R.anim.main_toolbar_in);
 
         binding.action.done.hide();
 
-        float doneOffset = getResources().getDimension(R.dimen.settings_done_hint_offset);
-
-        binding.action.doneHint.animate()
-                .alpha(0f)
-                .translationX(doneOffset)
-                .setDuration(300L)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        binding.action.doneHint.setVisibility(View.INVISIBLE);
-                        binding.action.doneHint.setAlpha(1f);
-                        binding.action.doneHint.setTranslationX(0);
-                    }
-                })
-                .start();
+        InOutAnimationUtils.animateOut(binding.action.doneHint, R.anim.main_action_hint_out);
+        InOutAnimationUtils.animateOut(binding.settings, R.anim.main_settings_out);
 
         if (Build.VERSION.SDK_INT >= 21) {
             int width = binding.settings.getWidth();
@@ -283,21 +218,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
             animator.start();
-        } else {
-            float panelOffset = getResources().getDimension(R.dimen.settings_panel_offset);
-            binding.settings.animate()
-                    .alpha(0f)
-                    .translationY(panelOffset)
-                    .setDuration(300L)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            binding.settings.setVisibility(View.INVISIBLE);
-                            binding.settings.setAlpha(1f);
-                            binding.settings.setTranslationY(0);
-                        }
-                    })
-                    .start();
         }
     }
 
