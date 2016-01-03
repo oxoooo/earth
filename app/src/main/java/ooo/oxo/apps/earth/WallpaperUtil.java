@@ -51,4 +51,9 @@ public class WallpaperUtil {
                 .equals(wi.getComponent());
     }
 
+    public static boolean isSupported(Context context) {
+        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        return intent.resolveActivity(context.getPackageManager()) != null;
+    }
+
 }

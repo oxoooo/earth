@@ -81,14 +81,6 @@ public class MainActivity extends AppCompatActivity {
         UpdateUtil.checkForUpdateAndPrompt(this);
     }
 
-    private boolean isCurrentWallpaper() {
-        return WallpaperUtil.isCurrent(this);
-    }
-
-    private boolean isFromSettings() {
-        return !Intent.ACTION_MAIN.equals(getIntent().getAction());
-    }
-
     private void loadSettings() {
         Cursor cursor = getContentResolver().query(
                 SettingsContract.CONTENT_URI, null, null, null, null);
@@ -107,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         vm.loadFrom(settings);
 
-        if (isFromSettings() || !isCurrentWallpaper()) {
+        if (isFromSettings() || shouldPromptToChangeWallpaper()) {
             showSettings();
         }
     }
@@ -133,14 +125,12 @@ public class MainActivity extends AppCompatActivity {
                 supportFinishAfterTransition();
                 WallpaperUtil.changeLiveWallPaper(this);
             }
+        } else if (shouldPromptToChangeWallpaper()) {
+            setResult(RESULT_OK);
+            supportFinishAfterTransition();
+            WallpaperUtil.changeLiveWallPaper(this);
         } else {
-            if (isCurrentWallpaper()) {
-                animateOutSettings();
-            } else {
-                setResult(RESULT_OK);
-                supportFinishAfterTransition();
-                WallpaperUtil.changeLiveWallPaper(this);
-            }
+            animateOutSettings();
         }
     }
 
@@ -223,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (isSettingsShown()) {
+        if (isSettingsShown() && !(isFromSettings() || shouldPromptToChangeWallpaper())) {
             animateOutSettings();
         } else {
             super.onBackPressed();
@@ -299,6 +289,22 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean isCurrentWallpaper() {
+        return WallpaperUtil.isCurrent(this);
+    }
+
+    private boolean isWallpaperSupported() {
+        return WallpaperUtil.isSupported(this);
+    }
+
+    private boolean shouldPromptToChangeWallpaper() {
+        return isWallpaperSupported() && !isCurrentWallpaper();
+    }
+
+    private boolean isFromSettings() {
+        return !Intent.ACTION_MAIN.equals(getIntent().getAction());
     }
 
 }
