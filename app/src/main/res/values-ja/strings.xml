@@ -28,6 +28,7 @@
     <string name="resolution">解像度: %dp</string>
     <string name="traffic_estimated">データ見通し: %d MB/月</string>
     <string name="wifi_only">アップデートは Wi-Fi のみ</string>
+    <string name="save">設定を保存する</string>
 
     <string name="live_wallpaper_unsupported">この携帯はライブ壁紙ができません…</string>
 
