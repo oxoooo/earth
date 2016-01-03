@@ -76,7 +76,7 @@ public class EarthFetchService extends IntentService {
             return;
         }
 
-        if (!WallpaperUtil.isCurrent(this)) {
+        if (WallpaperUtil.isSupported(this) && !WallpaperUtil.isCurrent(this)) {
             Log.d(TAG, "stop fetching since it is not the current wallpaper");
             EarthAlarmUtil.stop(this);
             return;

@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -109,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
         if (isFromSettings() || shouldPromptToChangeWallpaper()) {
             showSettings();
         }
+
+        if (!isWallpaperSupported()) {
+            EarthAlarmUtil.schedule(this, settings.interval);
+        }
     }
 
     private void saveSettings() {
@@ -137,6 +142,10 @@ public class MainActivity extends AppCompatActivity {
             supportFinishAfterTransition();
             WallpaperUtil.changeLiveWallPaper(this);
         } else {
+            if (!isWallpaperSupported()) {
+                Toast.makeText(this, R.string.live_wallpaper_unsupported, Toast.LENGTH_SHORT).show();
+            }
+
             animateOutSettings();
         }
     }
@@ -240,7 +249,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         MobclickAgent.onResume(this);
+
         getContentResolver().registerContentObserver(
                 EarthsContract.LATEST_CONTENT_URI, false, observer);
     }
@@ -248,10 +259,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
         MobclickAgent.onPause(this);
+
         getContentResolver().unregisterContentObserver(observer);
+
         if (ImmersiveUtil.isEntered(this)) {
             exitImmersive();
+        }
+
+        if (!isWallpaperSupported()) {
+            EarthAlarmUtil.stop(this);
         }
     }
 

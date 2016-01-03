@@ -24,7 +24,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 public class WallpaperUtil {
 
@@ -38,9 +37,7 @@ public class WallpaperUtil {
 
         try {
             context.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            // TODO: a better solution
-            Toast.makeText(context, R.string.live_wallpaper_unsupported, Toast.LENGTH_SHORT).show();
+        } catch (ActivityNotFoundException ignored) {
         }
     }
 
