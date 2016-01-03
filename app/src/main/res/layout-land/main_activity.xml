@@ -37,9 +37,7 @@
 
     <ooo.oxo.apps.earth.widget.WindowInsetsFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:paddingRight="48dp"
-        tools:paddingTop="24dp">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/earth"
