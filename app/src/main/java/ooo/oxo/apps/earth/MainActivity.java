@@ -46,6 +46,7 @@ import ooo.oxo.apps.earth.provider.EarthsContract;
 import ooo.oxo.apps.earth.provider.SettingsContract;
 import ooo.oxo.apps.earth.view.InOutAnimationUtils;
 import ooo.oxo.apps.earth.widget.ImmersiveUtil;
+import ooo.oxo.apps.earth.widget.SystemUiVisibilityUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            SystemUiVisibilityUtil.addFlags(getWindow().getDecorView(),
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
 

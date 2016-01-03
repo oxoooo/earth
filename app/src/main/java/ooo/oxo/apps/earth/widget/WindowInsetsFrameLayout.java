@@ -36,11 +36,11 @@ public class WindowInsetsFrameLayout extends FrameLayout {
     private static final String TAG = "WindowInsetsFrameLayout";
 
     public WindowInsetsFrameLayout(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public WindowInsetsFrameLayout(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     public WindowInsetsFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {

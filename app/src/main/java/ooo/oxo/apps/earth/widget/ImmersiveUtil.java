@@ -83,15 +83,15 @@ public class ImmersiveUtil {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
 
         public static void enter(View decor) {
-            decor.setSystemUiVisibility(decor.getSystemUiVisibility() | FLAG_IMMERSIVE);
+            SystemUiVisibilityUtil.addFlags(decor, FLAG_IMMERSIVE);
         }
 
         public static void exit(View decor) {
-            decor.setSystemUiVisibility(decor.getSystemUiVisibility() & (~FLAG_IMMERSIVE));
+            SystemUiVisibilityUtil.clearFlags(decor, FLAG_IMMERSIVE);
         }
 
         public static boolean isEntered(View decor) {
-            return (decor.getSystemUiVisibility() & FLAG_IMMERSIVE) == FLAG_IMMERSIVE;
+            return SystemUiVisibilityUtil.hasFlags(decor, FLAG_IMMERSIVE);
         }
 
     }
