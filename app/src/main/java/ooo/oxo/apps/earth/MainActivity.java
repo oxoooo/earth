@@ -44,6 +44,7 @@ import ooo.oxo.apps.earth.databinding.MainActivityBinding;
 import ooo.oxo.apps.earth.provider.EarthsContract;
 import ooo.oxo.apps.earth.provider.SettingsContract;
 import ooo.oxo.apps.earth.view.InOutAnimationUtils;
+import ooo.oxo.apps.earth.widget.ImmersiveUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
         binding.setAccelerated(BuildConfig.USE_OXO_SERVER);
 
         binding.action.done.setOnClickListener(v -> saveSettings());
+
+        binding.earth.getRoot().setOnClickListener(v -> {
+            if (!isSettingsShown()) {
+                toggleImmersive();
+            }
+        });
 
         loadSettings();
 
@@ -243,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         MobclickAgent.onPause(this);
         getContentResolver().unregisterContentObserver(observer);
+        exitImmersive();
     }
 
     private void loadEarth() {
@@ -269,6 +277,24 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState.getBoolean("settings_shown", false)) {
             showSettings();
         }
+    }
+
+    private void toggleImmersive() {
+        if (ImmersiveUtil.isEntered(this)) {
+            exitImmersive();
+        } else {
+            enterImmersive();
+        }
+    }
+
+    private void enterImmersive() {
+        ImmersiveUtil.enter(this);
+        InOutAnimationUtils.animateOut(binding.toolbar.getRoot(), R.anim.main_toolbar_fade_out);
+    }
+
+    private void exitImmersive() {
+        ImmersiveUtil.exit(this);
+        InOutAnimationUtils.animateIn(binding.toolbar.getRoot(), R.anim.main_toolbar_fade_in);
     }
 
     @Override
