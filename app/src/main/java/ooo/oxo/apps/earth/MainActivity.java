@@ -250,7 +250,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         MobclickAgent.onPause(this);
         getContentResolver().unregisterContentObserver(observer);
-        exitImmersive();
+        if (ImmersiveUtil.isEntered(this)) {
+            exitImmersive();
+        }
     }
 
     private void loadEarth() {
