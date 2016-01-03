@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.earth.getRoot().setOnClickListener(v -> {
             if (!isSettingsShown()) {
-                toggleImmersive();
+                toggleImmersiveMode();
             }
         });
 
@@ -262,6 +262,10 @@ public class MainActivity extends AppCompatActivity {
 
         getContentResolver().registerContentObserver(
                 EarthsContract.LATEST_CONTENT_URI, false, observer);
+
+        if (!isSettingsShown() && !ImmersiveUtil.isEntered(this)) {
+            setImmersiveMode(false);
+        }
     }
 
     @Override
@@ -271,10 +275,6 @@ public class MainActivity extends AppCompatActivity {
         MobclickAgent.onPause(this);
 
         getContentResolver().unregisterContentObserver(observer);
-
-        if (ImmersiveUtil.isEntered(this)) {
-            exitImmersive();
-        }
 
         if (!isWallpaperSupported()) {
             EarthAlarmUtil.stop(this);
@@ -294,35 +294,54 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
         vm.saveState(outState);
+
         outState.putBoolean("settings_shown", isSettingsShown());
+        outState.putBoolean("in_immersive", ImmersiveUtil.isEntered(this));
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
         vm.restoreState(savedInstanceState);
+
         if (savedInstanceState.getBoolean("settings_shown", false)) {
             showSettings();
         }
-    }
 
-    private void toggleImmersive() {
-        if (ImmersiveUtil.isEntered(this)) {
-            exitImmersive();
-        } else {
-            enterImmersive();
+        if (savedInstanceState.getBoolean("in_immersive", false)) {
+            setImmersiveMode(true);
         }
     }
 
-    private void enterImmersive() {
+    private void toggleImmersiveMode() {
+        if (ImmersiveUtil.isEntered(this)) {
+            exitImmersiveMode();
+        } else {
+            enterImmersiveMode();
+        }
+    }
+
+    private void enterImmersiveMode() {
         ImmersiveUtil.enter(this);
         InOutAnimationUtils.animateOut(binding.toolbar.getRoot(), R.anim.main_toolbar_fade_out);
     }
 
-    private void exitImmersive() {
+    private void exitImmersiveMode() {
         ImmersiveUtil.exit(this);
         InOutAnimationUtils.animateIn(binding.toolbar.getRoot(), R.anim.main_toolbar_fade_in);
+    }
+
+    private void setImmersiveMode(boolean entered) {
+        if (entered) {
+            ImmersiveUtil.enter(this);
+            binding.toolbar.getRoot().setVisibility(View.INVISIBLE);
+        } else {
+            ImmersiveUtil.exit(this);
+            binding.toolbar.getRoot().setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
