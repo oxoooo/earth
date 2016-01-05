@@ -19,7 +19,6 @@
 package ooo.oxo.apps.earth;
 
 import android.app.IntentService;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.PowerManager;
@@ -31,6 +30,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import ooo.oxo.apps.earth.dao.Earth;
 import ooo.oxo.apps.earth.dao.Settings;
 import ooo.oxo.apps.earth.provider.EarthsContract;
 import ooo.oxo.apps.earth.provider.SettingsContract;
@@ -87,11 +87,8 @@ public class EarthFetchService extends IntentService {
         try {
             fetched = fetcher.fetch(settings.resolution);
 
-            ContentValues values = new ContentValues();
-            values.put(EarthsContract.Columns.FILE, fetched.getAbsolutePath());
-            values.put(EarthsContract.Columns.FETCHED_AT, System.currentTimeMillis());
-
-            getContentResolver().insert(EarthsContract.CONTENT_URI, values);
+            Earth earth = new Earth(fetched.getAbsolutePath());
+            getContentResolver().insert(EarthsContract.CONTENT_URI, earth.toContentValues());
 
             sendOnTraffic(settings, fetched);
 

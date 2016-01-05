@@ -25,12 +25,12 @@ def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], projec
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "ooo.oxo.apps.earth"
 
-        minSdkVersion 16
+        minSdkVersion 21
 
         targetSdkVersion 23
 
@@ -38,35 +38,18 @@ android {
         versionName gitTag
 
         manifestPlaceholders = [APP_NAME: '@string/app_name']
-
-        // Versioning
-        buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
-        println "Building ${gitTag} (rev. ${gitCommits} on ${gitSha})"
-
-        // FIR
-        buildConfigField "boolean", "FIR_ENABLED", "!DEBUG && ${project.hasProperty('FIR_API_TOKEN')}"
-        buildConfigField "String", "FIR_API_TOKEN",
-                project.hasProperty('FIR_API_TOKEN') ? "\"${FIR_API_TOKEN}\"" : "null"
-
-        buildConfigField "boolean", "FIR_OTA_ENABLED", "FIR_ENABLED"
-
-        buildConfigField "String", "SERVER_OXO", project.hasProperty('SERVER_OXO') ? "\"${SERVER_OXO}\"" : "null"
-        buildConfigField "String", "SERVER_NICT", "\"\""
-
-        buildConfigField "boolean", "USE_OXO_SERVER", "${project.hasProperty('SERVER_OXO')}"
     }
 
-    dataBinding {
-        enabled = true
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    packagingOptions {
-        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
     if (project.hasProperty('STOREFILE')) {
@@ -100,56 +83,11 @@ android {
             }
         }
     }
-
-    productFlavors {
-        github {
-            manifestPlaceholders = [UMENG_CHANNEL: "GitHub"]
-        }
-
-        fir {
-            manifestPlaceholders = [UMENG_CHANNEL: "FIR"]
-        }
-
-        google {
-            manifestPlaceholders = [UMENG_CHANNEL: "Google"]
-            buildConfigField "boolean", "FIR_OTA_ENABLED", "false"
-        }
-
-        wandoujia {
-            manifestPlaceholders = [UMENG_CHANNEL: "Wandoujia"]
-        }
-
-        coolapk {
-            manifestPlaceholders = [UMENG_CHANNEL: "CookApk"]
-        }
-    }
-
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
-                output.outputFile = file("${output.outputFile.parent}/earth" +
-                        "-${variant.buildType.name.toLowerCase()}" +
-                        "-${variant.versionName}" +
-                        "-${variant.flavorName.toLowerCase()}" +
-                        ".apk")
-            }
-        }
-    }
 }
 
 dependencies {
-    wearApp project(':wear')
+    compile 'com.google.android.support:wearable:1.3.0'
+    compile 'com.google.android.gms:play-services-wearable:8.1.0'
 
-    compile 'com.google.android.gms:play-services-wearable:8.4.0'
-
-    compile 'com.android.support:design:23.1.1'
-
-    compile 'com.squareup.okhttp:okhttp:2.6.0'
-
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-
-    compile 'com.github.oxoooo:data-binding-support:1.1.0'
-
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'im.fir:sdk:latest.integration@aar'
+    compile 'commons-io:commons-io:2.4'
 }

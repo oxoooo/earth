@@ -38,7 +38,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
-import ooo.oxo.apps.earth.LegacyEarthSharedState;
 import ooo.oxo.apps.earth.dao.Earth;
 
 public class EarthsProvider extends ContentProvider {
@@ -264,17 +263,6 @@ public class EarthsProvider extends ContentProvider {
                     ", " + EarthsContract.Columns.FILE + " TEXT" +
                     ", " + EarthsContract.Columns.FETCHED_AT + " INTEGER" +
                     ")");
-
-            LegacyEarthSharedState state = new LegacyEarthSharedState(getContext());
-
-            if (!TextUtils.isEmpty(state.getLastEarth())) {
-                ContentValues values = new ContentValues();
-
-                values.put(EarthsContract.Columns.FILE, state.getLastEarth());
-                values.put(EarthsContract.Columns.FETCHED_AT, System.currentTimeMillis());
-
-                db.insertOrThrow(EarthsContract.TABLE, null, values);
-            }
         }
 
         @Override

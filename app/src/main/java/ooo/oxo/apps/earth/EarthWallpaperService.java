@@ -18,6 +18,7 @@
 
 package ooo.oxo.apps.earth;
 
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -41,6 +42,9 @@ public class EarthWallpaperService extends WallpaperService {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // TODO: 应该把它丢到自启动, 前提是把抓取进程独立出来即使没有壁纸也能跑
+        startService(new Intent(this, WatchSyncService.class));
     }
 
     @Override
@@ -81,7 +85,8 @@ public class EarthWallpaperService extends WallpaperService {
         }
 
         private void scheduleIfNeeded() {
-            Cursor cursor = getContentResolver().query(SettingsContract.CONTENT_URI, null, null, null, null);
+            Cursor cursor = getContentResolver().query(SettingsContract.CONTENT_URI,
+                    null, null, null, null);
 
             if (cursor == null) {
                 return;
@@ -110,7 +115,8 @@ public class EarthWallpaperService extends WallpaperService {
         public void onVisibilityChanged(boolean visible) {
             if (visible) {
                 draw();
-                getContentResolver().registerContentObserver(EarthsContract.LATEST_CONTENT_URI, false, observer);
+                getContentResolver().registerContentObserver(
+                        EarthsContract.LATEST_CONTENT_URI, false, observer);
             } else {
                 getContentResolver().unregisterContentObserver(observer);
             }
@@ -163,7 +169,8 @@ public class EarthWallpaperService extends WallpaperService {
         @Nullable
         private Bitmap loadLatestEarth() {
             try {
-                return BitmapFactory.decodeStream(getContentResolver().openInputStream(EarthsContract.LATEST_CONTENT_URI));
+                return BitmapFactory.decodeStream(getContentResolver()
+                        .openInputStream(EarthsContract.LATEST_CONTENT_URI));
             } catch (FileNotFoundException e) {
                 return null;
             }
