@@ -25,10 +25,10 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.WindowInsetsCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowInsets;
 import android.widget.FrameLayout;
 
 public class WindowInsetsFrameLayout extends FrameLayout {
@@ -36,15 +36,17 @@ public class WindowInsetsFrameLayout extends FrameLayout {
     private static final String TAG = "WindowInsetsFrameLayout";
 
     public WindowInsetsFrameLayout(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public WindowInsetsFrameLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public WindowInsetsFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        ViewCompat.setOnApplyWindowInsetsListener(this, (v, insets) ->
+                applySystemWindowInsets21(insets) ? insets.consumeSystemWindowInsets() : insets);
     }
 
     @Override
@@ -55,17 +57,6 @@ public class WindowInsetsFrameLayout extends FrameLayout {
         }
 
         return super.fitSystemWindows(insets);
-    }
-
-    @Override
-    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
-        if (Build.VERSION.SDK_INT >= 21 && insets.hasSystemWindowInsets()) {
-            if (applySystemWindowInsets21(insets)) {
-                return insets.consumeSystemWindowInsets();
-            }
-        }
-
-        return insets;
     }
 
     @TargetApi(19)
@@ -92,7 +83,7 @@ public class WindowInsetsFrameLayout extends FrameLayout {
     }
 
     @TargetApi(21)
-    private boolean applySystemWindowInsets21(WindowInsets insets) {
+    private boolean applySystemWindowInsets21(WindowInsetsCompat insets) {
         boolean consumed = false;
 
         for (int i = 0; i < getChildCount(); i++) {
@@ -110,7 +101,7 @@ public class WindowInsetsFrameLayout extends FrameLayout {
 
             computeInsetsWithGravity(child, childInsets);
 
-            child.dispatchApplyWindowInsets(insets.replaceSystemWindowInsets(childInsets));
+            ViewCompat.dispatchApplyWindowInsets(child, insets.replaceSystemWindowInsets(childInsets));
 
             consumed = true;
         }
