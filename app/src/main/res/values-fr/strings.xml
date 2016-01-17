@@ -1,0 +1,48 @@
+<!--
+  ~ Mantou Earth - Live your wallpaper with live earth
+  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">Mantou Earth</string>
+
+    <string name="author">XiNGRZ</string>
+    <string name="description">Animez votre fond d\'écran avec la Terre en temps réel</string>
+
+    <string name="settings">Paramètres</string>
+    <string name="interval">Intervalle d\'actualisation : %d min</string>
+    <string name="resolution">Résolution : %dp</string>
+    <string name="traffic_estimated">Trafic estimé : %d MO/mois</string>
+    <string name="wifi_only">Actualiser via Wi-Fi uniquement</string>
+    <string name="save">Appuyez sur le bouton pour sauvegarder les paramètres</string>
+
+    <string name="live_wallpaper_unsupported">Cette fontionnalité ne semble pas être disponible sur votre appareil…</string>
+
+    <string name="update_available">Une nouvelle version %s est disponible</string>
+    <string name="update_confirm">Télécharger maintenant</string>
+    <string name="update_cancel">Annuler</string>
+
+    <string name="about">À propos</string>
+    <string name="version" formatted="false">Version %s (%s)</string>
+    <string name="images_from">Images satellite de</string>
+    <string name="inspired_by">Inspiré par</string>
+    <string name="follow_us_on_wechat">Suivez-nous sur WeChat</string>
+    <string name="follow_us_on_wechat_hint">Scannez ce code ou recherchez \"馒头社\" avec Wechat</string>
+    <string name="fork_me_on_github">Fork sur GitHub</string>
+    <string name="libraries_used">Bibliothèques utilisées</string>
+
+</resources>
