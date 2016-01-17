@@ -1,0 +1,70 @@
+<!--
+  ~ Mantou Earth - Live your wallpaper with live earth
+  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">Mantou Earth</string>
+
+    <string name="author">XiNGRZ</string>
+    <string name="description">Animez votre fond d\'écran avec la Terre en temps réel</string>
+
+    <string name="settings">Paramètres</string>
+    <string name="interval">Intervalle d\'actualisation : %d min</string>
+    <string name="resolution">Résolution : %dp</string>
+    <string name="traffic_estimated">Consommation estimée : %d Mo/mois</string>
+    <string name="wifi_only">Actualiser via Wi-Fi uniquement</string>
+    <string name="save">Appuyez sur le bouton pour enregistrer les paramètres</string>
+    
+    <string name="auto_sync_disabled">Synchronisation automatique désactivée</string>
+    <string name="auto_sync_disabled_text">
+        Mantou Earth requiert l\'activation de la synchronisation automatique sur votre appareil, afin
+        d\'actualiser les images en arrière-plan avec une consommation de la batterie très faible.
+    </string>
+    <string name="auto_sync_enable">Activer</string>
+    <string name="auto_sync_ignore">Ignorer</string>
+
+    <string name="free_account">Compte gratuit</string>    
+
+    <string name="live_wallpaper_unsupported">
+        La fontionnalité Fond d\'écran animé semble ne pas être supportée par votre appareil…
+    </string>
+
+    <string name="update_available">Nouvelle version %s disponible</string>
+    <string name="update_confirm">Télécharger maintenant</string>
+    <string name="update_cancel">Annuler</string>
+
+    <string name="about">À propos</string>
+    <string name="version" formatted="false">Version %s (%s)</string>
+    <string name="fork_me_on_github">Fork sur GitHub</string>
+    <string name="sponsor">Commanditaire</string>
+    <string name="sponsor_text"><![CDATA[
+        <p>Merci à &quot;<a href="http://dwfei.com">Daiwofei</a>&quot; de nous donner l\'opportunité
+        de conserver cette application gratuite.</p>
+    ]]></string>
+    <string name="contact_us">Contact</string>
+    <string name="contact_us_text"><![CDATA[
+        <p>Restez en contact avec nous en suivant notre compte &quot;<a href="copy:馒头社">馒头社</a>&quot;
+        sur Wechat.</p>
+    ]]></string>
+    <string name="images_from">Images satellite de</string>
+    <string name="inspired_by">Inspiré par</string>    
+    <string name="libraries_used">Bibliothèques utilisées</string>
+    
+    <string name="about_copied">\"%s\" copié dans votre presse-papiers</string>    
+
+</resources>
