@@ -24,15 +24,15 @@ def gitTag = 'git tag'.execute([], project.rootDir).text.trim().split("\n").last
 def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 24
+    buildToolsVersion '24'
 
     defaultConfig {
         applicationId "ooo.oxo.apps.earth"
 
         minSdkVersion 16
 
-        targetSdkVersion 23
+        targetSdkVersion 24
 
         versionCode 20000 + gitCommits
         versionName gitTag
@@ -154,7 +154,7 @@ dependencies {
     //noinspection GradleDependency
     compile 'com.google.android.gms:play-services-wearable:7.8.87'
 
-    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:design:24.0.0'
 
     compile 'com.squareup.okhttp:okhttp:2.7.5'
 

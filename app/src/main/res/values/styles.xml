@@ -16,7 +16,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
@@ -32,14 +32,14 @@
 
     <style name="SettingsTheme" parent="SettingsThemeBase" />
 
-    <style name="AboutThemeBase" parent="Theme.AppCompat.Light.DialogWhenLarge" tools:ignore="PrivateResource">
+    <style name="AboutThemeBase" parent="Theme.AppCompat.Light.DialogWhenLarge">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="toolbarStyle">@style/DarkToolbar</item>
-        <item name="android:homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_white_24dp</item>
     </style>
 
     <style name="AboutTheme" parent="AboutThemeBase" />

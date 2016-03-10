@@ -66,7 +66,6 @@
 
         <activity
             android:name=".MainActivity"
-            android:excludeFromRecents="true"
             android:label="${APP_NAME}"
             android:launchMode="singleInstance"
             android:theme="@style/SettingsTheme">
