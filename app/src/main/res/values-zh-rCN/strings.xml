@@ -38,11 +38,15 @@
 
     <string name="about">关于</string>
     <string name="version" formatted="false">版本 %s (%s)</string>
+    <string name="fork_me_on_github">访问项目在 GitHub 上的源代码</string>
+    <string name="support_us">支持我们</string>
+    <string name="support_us_text"><![CDATA[
+        <p>了解更多最新消息请关注我们的微信公众号「<a href="copy:馒头社">馒头社</a>」</p>
+    ]]></string>
     <string name="images_from">卫星影像来自</string>
     <string name="inspired_by">灵感来自</string>
-    <string name="follow_us_on_wechat">关注我们的微信公众号</string>
-    <string name="follow_us_on_wechat_hint">用微信扫描该二维码或搜索「馒头社」</string>
-    <string name="fork_me_on_github">访问项目在 GitHub 上的源代码</string>
     <string name="libraries_used">本项目用到了下列开源库</string>
+
+    <string name="about_copied">\"%s\" is copied to your clipboard</string>
 
 </resources>
