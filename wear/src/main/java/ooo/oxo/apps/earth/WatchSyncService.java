@@ -77,7 +77,7 @@ public class WatchSyncService extends WearableListenerService {
         ConnectionResult connection = client.blockingConnect(10, TimeUnit.SECONDS);
 
         if (!connection.isSuccess()) {
-            Log.e(TAG, "failed to connect to GoogleApiClient: " + connection.getErrorMessage());
+            Log.e(TAG, "failed to connect to GoogleApiClient: " + connection.getErrorCode());
             return;
         }
 

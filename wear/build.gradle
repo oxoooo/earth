@@ -87,7 +87,9 @@ android {
 
 dependencies {
     compile 'com.google.android.support:wearable:1.3.0'
-    compile 'com.google.android.gms:play-services-wearable:8.1.0'
+
+    //noinspection GradleDependency
+    compile 'com.google.android.gms:play-services-wearable:7.8.87'
 
     compile 'commons-io:commons-io:2.4'
 }
