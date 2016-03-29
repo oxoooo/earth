@@ -19,7 +19,7 @@
 <resources>
 
     <string name="app_name">Mantou Earth</string>
-    <string name="app_name_debug" translatable="false">馒头地球 (debug)</string>
+    <string name="app_name_debug" translatable="false">地球 (debug)</string>
 
     <string name="author">XiNGRZ</string>
     <string name="description">Live your wallpaper with live earth</string>
