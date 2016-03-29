@@ -36,6 +36,8 @@ public class EarthApplication extends Application {
         if (BuildConfig.FIR_ENABLED) {
             FIR.init(this);
         }
+
+        EarthSharedState.init(this);
     }
 
 }

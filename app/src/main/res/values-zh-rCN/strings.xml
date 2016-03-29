@@ -30,6 +30,8 @@
     <string name="wifi_only">只在 Wi-Fi 连接时更新</string>
     <string name="save">按下按钮完成设置</string>
 
+    <string name="free_account">免费用户</string>
+
     <string name="live_wallpaper_unsupported">很抱歉，您的手机似乎并不支持动态壁纸…</string>
 
     <string name="update_available">有新版本 %s 了</string>

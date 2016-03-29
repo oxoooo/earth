@@ -119,16 +119,16 @@ public class MainViewModel extends BaseObservable {
 
     @Bindable
     public int getResolutionProgressValue() {
-        return ResolutionUtil.findBestResolutionIndex(resolution);
+        return Resolutions.findBestResolutionIndex(resolution);
     }
 
     public void setResolutionProgressValue(int progress) {
-        setResolution(ResolutionUtil.RESOLUTIONS[progress]);
+        setResolution(Resolutions.RESOLUTIONS[progress]);
     }
 
     @Bindable
     public int getResolutionProgressMax() {
-        return ResolutionUtil.RESOLUTIONS.length - 1;
+        return Resolutions.RESOLUTIONS.length - 1;
     }
 
     @Bindable
@@ -138,8 +138,8 @@ public class MainViewModel extends BaseObservable {
 
     @Bindable
     public int getTraffic() {
-        return (int) (ResolutionUtil.RESOLUTION_DAILY_TRAFFICS_KB
-                [ResolutionUtil.findBestResolutionIndex(resolution)]
+        return (int) (Resolutions.RESOLUTION_DAILY_TRAFFICS_KB
+                [Resolutions.findBestResolutionIndex(resolution)]
                 * ((float) TimeUnit.HOURS.toMillis(1) / (float) interval)
                 * 30
                 / 1024);

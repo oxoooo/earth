@@ -20,7 +20,6 @@ package ooo.oxo.apps.earth;
 
 import android.content.Intent;
 import android.database.ContentObserver;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -33,9 +32,7 @@ import android.view.SurfaceHolder;
 
 import java.io.FileNotFoundException;
 
-import ooo.oxo.apps.earth.dao.Settings;
 import ooo.oxo.apps.earth.provider.EarthsContract;
-import ooo.oxo.apps.earth.provider.SettingsContract;
 
 public class EarthWallpaperService extends WallpaperService {
 
@@ -77,32 +74,6 @@ public class EarthWallpaperService extends WallpaperService {
             paint.setFilterBitmap(true);
 
             padding = getResources().getDimensionPixelOffset(R.dimen.default_padding);
-        }
-
-        @Override
-        public void onCreate(SurfaceHolder surfaceHolder) {
-            scheduleIfNeeded();
-        }
-
-        private void scheduleIfNeeded() {
-            Cursor cursor = getContentResolver().query(SettingsContract.CONTENT_URI,
-                    null, null, null, null);
-
-            if (cursor == null) {
-                return;
-            }
-
-            Settings settings = Settings.fromCursor(cursor);
-
-            if (settings == null) {
-                return;
-            }
-
-            cursor.close();
-
-            if (!settings.wifiOnly || NetworkStateUtil.isWifiConnected(EarthWallpaperService.this)) {
-                EarthAlarmUtil.schedule(EarthWallpaperService.this, settings.interval);
-            }
         }
 
         @Override

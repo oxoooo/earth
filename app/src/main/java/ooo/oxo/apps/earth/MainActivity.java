@@ -119,9 +119,7 @@ public class MainActivity extends AppCompatActivity {
             showSettings();
         }
 
-        if (!isWallpaperSupported()) {
-            EarthAlarmUtil.schedule(this, settings.interval);
-        }
+        SyncScheduleUtil.ensure();
     }
 
     private void saveSettings() {
@@ -131,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
         getContentResolver().update(SettingsContract.CONTENT_URI,
                 settings.toContentValues(), null, null);
-
-        EarthAlarmUtil.reschedule(this, settings.interval);
 
         sendOnSet(settings);
 
@@ -275,10 +271,6 @@ public class MainActivity extends AppCompatActivity {
         MobclickAgent.onPause(this);
 
         getContentResolver().unregisterContentObserver(observer);
-
-        if (!isWallpaperSupported()) {
-            EarthAlarmUtil.stop(this);
-        }
     }
 
     private void loadEarth() {

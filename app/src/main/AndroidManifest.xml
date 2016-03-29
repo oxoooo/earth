@@ -17,6 +17,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ooo.oxo.apps.earth">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -24,6 +25,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -72,10 +79,6 @@
         </activity>
 
         <service
-            android:name=".EarthFetchService"
-            android:process=":fetcher" />
-
-        <service
             android:name=".EarthWallpaperService"
             android:label="${APP_NAME}"
             android:permission="android.permission.BIND_WALLPAPER"
@@ -91,14 +94,6 @@
 
         </service>
 
-        <receiver android:name=".NetworkStateReceiver">
-
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-
-        </receiver>
-
         <activity
             android:name=".AboutActivity"
             android:theme="@style/AboutTheme" />
@@ -111,7 +106,38 @@
         <provider
             android:name=".provider.EarthsProvider"
             android:authorities="${applicationId}.earths"
-            android:exported="false" />
+            android:exported="false"
+            android:syncable="true" />
+
+        <service
+            android:name=".account.StubAuthenticatorService"
+            tools:ignore="ExportedService">
+
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+
+        </service>
+
+        <service
+            android:name=".sync.EarthsSyncService"
+            android:exported="true"
+            android:process=":sync"
+            tools:ignore="ExportedService">
+
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sync_adapter" />
+
+        </service>
 
         <service
             android:name=".WatchStateService"

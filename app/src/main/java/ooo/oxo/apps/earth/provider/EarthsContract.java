@@ -36,6 +36,8 @@ public class EarthsContract {
 
     public static final Uri LATEST_CONTENT_URI = Uri.withAppendedPath(CONTENT_URI, "latest");
 
+    public static final Uri OUTDATED_CONTENT_URI = Uri.withAppendedPath(CONTENT_URI, "outdated");
+
     public static final String CONTENT_TYPE_DIR
             = "vnd.android.cursor.dir/vnd." + BuildConfig.APPLICATION_ID + ".earths";
 

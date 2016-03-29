@@ -39,6 +39,9 @@ android {
 
         manifestPlaceholders = [APP_NAME: '@string/app_name']
 
+        resValue "string", "account_type", "${applicationId}.account"
+        resValue "string", "earths_authority", "${applicationId}.earths"
+
         // Versioning
         buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
         println "Building ${gitTag} (rev. ${gitCommits} on ${gitSha})"
@@ -51,7 +54,7 @@ android {
         buildConfigField "boolean", "FIR_OTA_ENABLED", "FIR_ENABLED"
 
         buildConfigField "String", "SERVER_OXO", project.hasProperty('SERVER_OXO') ? "\"${SERVER_OXO}\"" : "null"
-        buildConfigField "String", "SERVER_NICT", "\"\""
+        buildConfigField "String", "SERVER_NICT", "\"%s\""
 
         buildConfigField "boolean", "USE_OXO_SERVER", "${project.hasProperty('SERVER_OXO')}"
     }
@@ -87,7 +90,11 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
+
             manifestPlaceholders = [APP_NAME: '@string/app_name_debug']
+
+            resValue "string", "account_type", "${defaultConfig.applicationId}.debug.account"
+            resValue "string", "earths_authority", "${defaultConfig.applicationId}.debug.earths"
         }
 
         release {

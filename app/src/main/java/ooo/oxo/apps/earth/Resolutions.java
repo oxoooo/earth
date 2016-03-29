@@ -20,7 +20,7 @@ package ooo.oxo.apps.earth;
 
 import android.util.DisplayMetrics;
 
-public class ResolutionUtil {
+public class Resolutions {
 
     public static final int[] RESOLUTIONS = new int[]{
             550, 720, 1080, 1440, 2200
@@ -33,9 +33,9 @@ public class ResolutionUtil {
     public static int findBestResolutionIndex(int size) {
         int closest = 0;
 
-        for (int i = 0; i < ResolutionUtil.RESOLUTIONS.length; i++) {
-            if (Math.abs(ResolutionUtil.RESOLUTIONS[i] - size) <
-                    Math.abs(ResolutionUtil.RESOLUTIONS[closest] - size)) {
+        for (int i = 0; i < Resolutions.RESOLUTIONS.length; i++) {
+            if (Math.abs(Resolutions.RESOLUTIONS[i] - size) <
+                    Math.abs(Resolutions.RESOLUTIONS[closest] - size)) {
                 closest = i;
             }
         }

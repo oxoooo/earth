@@ -73,9 +73,9 @@ public class EarthFetcher {
 
     private String getUrl(String path, int resolution) {
         if (BuildConfig.USE_OXO_SERVER) {
-            return String.format(BuildConfig.SERVER_OXO, path, resolution);
+            return String.format(Locale.US, BuildConfig.SERVER_OXO, path, resolution);
         } else {
-            return String.format(BuildConfig.SERVER_NICT, path);
+            return String.format(Locale.US, BuildConfig.SERVER_NICT, path);
         }
     }
 

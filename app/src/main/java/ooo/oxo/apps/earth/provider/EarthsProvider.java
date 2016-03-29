@@ -50,6 +50,7 @@ public class EarthsProvider extends ContentProvider {
     static {
         matcher.addURI(EarthsContract.AUTHORITY, "earths", 1);
         matcher.addURI(EarthsContract.AUTHORITY, "earths/latest", 2);
+        matcher.addURI(EarthsContract.AUTHORITY, "earths/outdated", 4);
         matcher.addURI(EarthsContract.AUTHORITY, "earths/#", 3);
     }
 
@@ -66,6 +67,7 @@ public class EarthsProvider extends ContentProvider {
     public String getType(@NonNull Uri uri) {
         switch (matcher.match(uri)) {
             case 1:
+            case 4:
                 return EarthsContract.CONTENT_TYPE_DIR;
             case 2:
             case 3:
@@ -77,8 +79,9 @@ public class EarthsProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+    public Cursor query(@NonNull Uri uri, String[] projection,
+                        String selection, String[] selectionArgs, String sortOrder) {
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
         switch (matcher.match(uri)) {
             case 1:
                 return queryEarths(db, uri, projection, selection, selectionArgs);
@@ -91,11 +94,13 @@ public class EarthsProvider extends ContentProvider {
         }
     }
 
-    private Cursor queryEarths(SQLiteDatabase db, @NonNull Uri uri, String[] projection, String selection, String[] selectionArgs) {
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+    private Cursor queryEarths(SQLiteDatabase db, @NonNull Uri uri, String[] projection,
+                               String selection, String[] selectionArgs) {
+        final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         builder.setTables(EarthsContract.TABLE);
 
-        Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null, EarthsContract.Columns.FETCHED_AT + " DESC", null);
+        final Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null,
+                EarthsContract.Columns.FETCHED_AT + " DESC", null);
 
         //noinspection ConstantConditions
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -104,10 +109,11 @@ public class EarthsProvider extends ContentProvider {
     }
 
     private Cursor queryEarthLatest(SQLiteDatabase db, @NonNull Uri uri, String[] projection) {
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         builder.setTables(EarthsContract.TABLE);
 
-        Cursor cursor = builder.query(db, projection, null, null, null, null, EarthsContract.Columns.FETCHED_AT + " DESC", "1");
+        final Cursor cursor = builder.query(db, projection, null, null, null, null,
+                EarthsContract.Columns.FETCHED_AT + " DESC", "1");
 
         //noinspection ConstantConditions
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -116,14 +122,13 @@ public class EarthsProvider extends ContentProvider {
     }
 
     private Cursor queryEarthItem(SQLiteDatabase db, @NonNull Uri uri, String[] projection) {
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         builder.setTables(EarthsContract.TABLE);
 
-        long id = ContentUris.parseId(uri);
+        final long id = ContentUris.parseId(uri);
 
-        Cursor cursor = builder.query(db, projection, EarthsContract.Columns._ID + " = ?", new String[]{
-                String.valueOf(id)
-        }, null, null, null);
+        final Cursor cursor = builder.query(db, projection, EarthsContract.Columns._ID + " = ?",
+                new String[]{String.valueOf(id)}, null, null, null);
 
         //noinspection ConstantConditions
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -138,65 +143,20 @@ public class EarthsProvider extends ContentProvider {
             throw new UnsupportedOperationException();
         }
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        long row;
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         try {
-            row = db.insertOrThrow(EarthsContract.TABLE, null, values);
+            final long row = db.insertOrThrow(EarthsContract.TABLE, null, values);
             Log.d(TAG, "inserted new earth " + row + " into " + uri);
+
+            //noinspection ConstantConditions
+            getContext().getContentResolver().notifyChange(uri, null, false);
+
+            return ContentUris.withAppendedId(uri, row);
         } catch (Exception e) {
             Log.e(TAG, "failed inserting new earth", e);
             return null;
         }
-
-        try {
-            int deleted = trim(db);
-            Log.d(TAG, "cleaned " + deleted + " outdated earths");
-        } catch (Exception e) {
-            Log.e(TAG, "failed cleaning outdated earths", e);
-        }
-
-        //noinspection ConstantConditions
-        getContext().getContentResolver().notifyChange(uri, null, false);
-
-        return ContentUris.withAppendedId(uri, row);
-    }
-
-    private int trim(SQLiteDatabase db) {
-        long window = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2);
-
-        String selection = EarthsContract.Columns.FETCHED_AT + " < ?";
-        String[] selectionArgs = new String[]{String.valueOf(window)};
-
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables(EarthsContract.TABLE);
-
-        Cursor cursor = builder.query(db, null, selection, selectionArgs, null, null, null, null);
-
-        if (cursor == null) {
-            return 0;
-        }
-
-        while (cursor.moveToNext()) {
-            Earth earth = Earth.fromCursor(cursor);
-
-            if (earth == null || TextUtils.isEmpty(earth.file)) {
-                continue;
-            }
-
-            File file = new File(earth.file);
-
-            if (file.delete()) {
-                Log.d(TAG, "cleaned outdated earth " + earth.file + " fetched at " + earth.fetchedAt);
-            } else {
-                Log.e(TAG, "failed cleaning outdated earth " + earth.file + " fetched at " + earth.fetchedAt);
-            }
-        }
-
-        cursor.close();
-
-        return db.delete(EarthsContract.TABLE, selection, selectionArgs);
     }
 
     @Override
@@ -207,29 +167,75 @@ public class EarthsProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        throw new UnsupportedOperationException();
+        if (matcher.match(uri) != 4) {
+            throw new UnsupportedOperationException();
+        }
+
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        final long window = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2);
+
+        selection = EarthsContract.Columns.FETCHED_AT + " < ?";
+        selectionArgs = new String[]{String.valueOf(window)};
+
+        final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(EarthsContract.TABLE);
+
+        final Cursor cursor = builder.query(db, null, selection, selectionArgs, null, null, null, null);
+
+        if (cursor == null) {
+            return 0;
+        }
+
+        while (cursor.moveToNext()) {
+            final Earth earth = Earth.fromCursor(cursor);
+
+            if (earth == null || TextUtils.isEmpty(earth.file)) {
+                continue;
+            }
+
+            final File file = new File(earth.file);
+
+            if (file.delete()) {
+                Log.d(TAG, "cleaned outdated earth " + earth.file +
+                        " fetched at " + earth.fetchedAt);
+            } else {
+                Log.e(TAG, "failed cleaning outdated earth " + earth.file +
+                        " fetched at " + earth.fetchedAt);
+            }
+        }
+
+        cursor.close();
+
+        final int deleted = db.delete(EarthsContract.TABLE, selection, selectionArgs);
+
+        //noinspection ConstantConditions
+        getContext().getContentResolver().notifyChange(uri, null, false);
+
+        return deleted;
     }
 
     @Nullable
     @Override
-    public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode) throws FileNotFoundException {
+    public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode)
+            throws FileNotFoundException {
         if (!"r".equals(mode)) {
             throw new UnsupportedOperationException();
         }
 
-        int type = matcher.match(uri);
+        final int type = matcher.match(uri);
 
         if (type != 2 && type != 3) {
             throw new UnsupportedOperationException();
         }
 
-        Cursor cursor = query(uri, null, null, null, null);
+        final Cursor cursor = query(uri, null, null, null, null);
 
         if (cursor == null) {
             throw new FileNotFoundException();
         }
 
-        Earth earth = Earth.fromCursor(cursor);
+        final Earth earth = Earth.fromCursor(cursor);
 
         cursor.close();
 
@@ -237,7 +243,7 @@ public class EarthsProvider extends ContentProvider {
             throw new FileNotFoundException();
         }
 
-        File file = new File(earth.file);
+        final File file = new File(earth.file);
 
         if (!file.isFile()) {
             throw new FileNotFoundException();
@@ -265,7 +271,7 @@ public class EarthsProvider extends ContentProvider {
                     ", " + EarthsContract.Columns.FETCHED_AT + " INTEGER" +
                     ")");
 
-            LegacyEarthSharedState state = new LegacyEarthSharedState(getContext());
+            final LegacyEarthSharedState state = new LegacyEarthSharedState(getContext());
 
             if (!TextUtils.isEmpty(state.getLastEarth())) {
                 ContentValues values = new ContentValues();

@@ -56,7 +56,7 @@ public class LegacyEarthSharedState {
 
         if (resolution == 0) {
             DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-            resolution = ResolutionUtil.findBestResolution(metrics);
+            resolution = Resolutions.findBestResolution(metrics);
         }
 
         return resolution;
