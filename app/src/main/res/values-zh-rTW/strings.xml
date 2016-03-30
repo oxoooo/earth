@@ -40,8 +40,6 @@
     <string name="version" formatted="false">版本 %s (%s)</string>
     <string name="images_from">衛星影像來自</string>
     <string name="inspired_by">靈感來自</string>
-    <string name="follow_us_on_wechat">關注我們的微信公眾號</string>
-    <string name="follow_us_on_wechat_hint">用微信掃描該二維碼或搜尋「馒头社」</string>
     <string name="fork_me_on_github">訪問本專案位於 GitHub 的源代碼</string>
     <string name="libraries_used">本專案使用了下列開源庫</string>
 

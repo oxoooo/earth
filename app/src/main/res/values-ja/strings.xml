@@ -40,8 +40,6 @@
     <string name="version" formatted="false">バージョン %s (%s)</string>
     <string name="images_from">衛星画像の出所</string>
     <string name="inspired_by">霊感の始め</string>
-    <string name="follow_us_on_wechat">公式アカウントをフォローします</string>
-    <string name="follow_us_on_wechat_hint">Wechat で QR コードのスキャンまたは「馒头社」を検索します</string>
     <string name="fork_me_on_github">GitHub にあるリソースコードをフォークしました</string>
     <string name="libraries_used">以下のライブラリーを利用しました</string>
 

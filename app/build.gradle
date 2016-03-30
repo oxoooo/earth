@@ -56,6 +56,10 @@ android {
         buildConfigField "boolean", "USE_OXO_SERVER", "${project.hasProperty('SERVER_OXO')}"
     }
 
+    lintOptions {
+        disable "MissingTranslation"
+    }
+
     dataBinding {
         enabled = true
     }
