@@ -36,6 +36,12 @@ public class Settings {
 
     public boolean wifiOnly;
 
+    public float offsetLong;
+
+    public float offsetShort;
+
+    public float scale;
+
     public boolean debug;
 
     public static Settings fromLegacySharedState(Context context) {
@@ -46,6 +52,9 @@ public class Settings {
         settings.interval = sharedState.getInterval();
         settings.resolution = sharedState.getResolution();
         settings.wifiOnly = sharedState.getWifiOnly();
+        settings.offsetLong = 0f;
+        settings.offsetShort = 0f;
+        settings.scale = 1f;
 
         return settings;
     }
@@ -60,6 +69,9 @@ public class Settings {
         settings.interval = cursor.getLong(cursor.getColumnIndexOrThrow(SettingsContract.Columns.INTERVAL));
         settings.resolution = cursor.getInt(cursor.getColumnIndexOrThrow(SettingsContract.Columns.RESOLUTION));
         settings.wifiOnly = cursor.getInt(cursor.getColumnIndexOrThrow(SettingsContract.Columns.WIFI_ONLY)) != 0;
+        settings.offsetLong = cursor.getFloat(cursor.getColumnIndexOrThrow(SettingsContract.Columns.OFFSET_L));
+        settings.offsetShort = cursor.getFloat(cursor.getColumnIndexOrThrow(SettingsContract.Columns.OFFSET_S));
+        settings.scale = cursor.getFloat(cursor.getColumnIndexOrThrow(SettingsContract.Columns.SCALE));
         settings.debug = cursor.getInt(cursor.getColumnIndexOrThrow(SettingsContract.Columns.DEBUG)) != 0;
 
         return settings;
@@ -70,6 +82,9 @@ public class Settings {
         values.put(SettingsContract.Columns.INTERVAL, interval);
         values.put(SettingsContract.Columns.RESOLUTION, resolution);
         values.put(SettingsContract.Columns.WIFI_ONLY, wifiOnly ? 1 : 0);
+        values.put(SettingsContract.Columns.OFFSET_L, offsetLong);
+        values.put(SettingsContract.Columns.OFFSET_S, offsetShort);
+        values.put(SettingsContract.Columns.SCALE, scale);
         values.put(SettingsContract.Columns.DEBUG, debug ? 1 : 0);
         return values;
     }

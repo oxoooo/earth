@@ -1,6 +1,6 @@
 <!--
   ~ Mantou Earth - Live your wallpaper with live earth
-  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~ Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,16 +17,36 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     tools:showIn="@layout/main_activity">
 
-    <ImageView
-        android:id="@+id/earth"
+    <data>
+
+        <variable
+            name="vm"
+            type="ooo.oxo.apps.earth.MainViewModel" />
+
+    </data>
+
+    <ooo.oxo.apps.earth.widget.ScalingLayout
+        android:id="@+id/scaling_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/default_padding"
-        android:src="@drawable/preview"
-        tools:ignore="ContentDescription" />
+        app:offsetLong="@{vm.offsetLong}"
+        app:offsetShort="@{vm.offsetShort}"
+        app:onScalingChangeListener="@{vm.scalingWatcher}"
+        app:scale="@{vm.scale}">
+
+        <ImageView
+            android:id="@+id/earth"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/default_padding"
+            android:src="@drawable/preview"
+            tools:ignore="ContentDescription" />
+
+    </ooo.oxo.apps.earth.widget.ScalingLayout>
 
 </layout>

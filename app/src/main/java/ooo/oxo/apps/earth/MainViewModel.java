@@ -29,6 +29,7 @@ import androidx.databinding.library.baseAdapters.BR;
 import java.util.concurrent.TimeUnit;
 
 import ooo.oxo.apps.earth.dao.Settings;
+import ooo.oxo.apps.earth.widget.ScalingLayout;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class MainViewModel extends BaseObservable {
@@ -41,6 +42,12 @@ public class MainViewModel extends BaseObservable {
 
     private boolean wifiOnly;
 
+    private float offsetLong;
+
+    private float offsetShort;
+
+    private float scale;
+
     private boolean debug;
 
     public MainViewModel() {
@@ -50,26 +57,38 @@ public class MainViewModel extends BaseObservable {
         setInterval(settings.interval);
         setResolution(settings.resolution);
         setWifiOnly(settings.wifiOnly);
-        debug = settings.debug;
+        setScaling(settings.offsetLong,
+                settings.offsetShort,
+                settings.scale);
+        setDebug(settings.debug);
     }
 
     public void saveTo(Settings settings) {
         settings.interval = getInterval();
         settings.resolution = getResolution();
         settings.wifiOnly = isWifiOnly();
-        settings.debug = debug;
+        settings.offsetLong = getOffsetLong();
+        settings.offsetShort = getOffsetShort();
+        settings.scale = getScale();
+        settings.debug = isDebug();
     }
 
     public void saveState(Bundle state) {
         state.putLong("vm_interval", getInterval());
         state.putInt("vm_resolution", getResolution());
         state.putBoolean("vm_wifi_only", isWifiOnly());
+        state.putFloat("vm_offset_l", getOffsetLong());
+        state.putFloat("vm_offset_s", getOffsetShort());
+        state.putFloat("vm_scale", getScale());
     }
 
     public void restoreState(Bundle state) {
         setInterval(state.getLong("vm_interval", getInterval()));
         setResolution(state.getInt("vm_resolution", getResolution()));
         setWifiOnly(state.getBoolean("vm_wifi_only", isWifiOnly()));
+        setScaling(state.getFloat("vm_offset_l", getOffsetLong()),
+                state.getFloat("vm_offset_s", getOffsetShort()),
+                state.getFloat("vm_scale", getScale()));
     }
 
     public long getInterval() {
@@ -161,6 +180,44 @@ public class MainViewModel extends BaseObservable {
         notifyPropertyChanged(BR.wifiOnly);
     }
 
+    @Bindable
+    public CompoundButton.OnCheckedChangeListener getWifiOnlyWatcher() {
+        return (v, checked) -> setWifiOnly(checked);
+    }
+
+    @Bindable
+    public float getOffsetLong() {
+        return offsetLong;
+    }
+
+    @Bindable
+    public float getOffsetShort() {
+        return offsetShort;
+    }
+
+    @Bindable
+    public float getScale() {
+        return scale;
+    }
+
+    public void setScaling(float offsetLong, float offsetShort, float scale) {
+        this.offsetLong = offsetLong;
+        this.offsetShort = offsetShort;
+        this.scale = scale;
+        notifyPropertyChanged(BR.offsetLong);
+        notifyPropertyChanged(BR.offsetShort);
+        notifyPropertyChanged(BR.scale);
+    }
+
+    @Bindable
+    public ScalingLayout.OnScalingChangeListener getScalingWatcher() {
+        return (v, offsetLong, offsetShort, scale) -> {
+            this.offsetLong = offsetLong;
+            this.offsetShort = offsetShort;
+            this.scale = scale;
+        };
+    }
+
     public boolean isDebug() {
         return debug;
     }
@@ -172,11 +229,6 @@ public class MainViewModel extends BaseObservable {
     public boolean toggleDebug() {
         this.debug = !this.debug;
         return this.debug;
-    }
-
-    @Bindable
-    public CompoundButton.OnCheckedChangeListener getWifiOnlyWatcher() {
-        return (v, checked) -> setWifiOnly(checked);
     }
 
 }

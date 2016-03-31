@@ -28,7 +28,11 @@
     <string name="resolution">清晰度: %dp</string>
     <string name="traffic_estimated">预计流量: %d MB/月</string>
     <string name="wifi_only">只在 Wi-Fi 连接时更新</string>
+    <string name="scale_and_move">缩放和移动…</string>
     <string name="save">按下按钮完成设置</string>
+
+    <string name="scaling_hint">移动或双指缩放地球</string>
+    <string name="scaling_set">设置缩放</string>
 
     <string name="data_saver_considered">流量节省程序已开启，图像将会已最低分辨率和最长间隔抓取。</string>
 

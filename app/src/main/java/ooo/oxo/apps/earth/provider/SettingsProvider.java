@@ -94,7 +94,7 @@ public class SettingsProvider extends ContentProvider {
         private static final String TAG = "SettingsDatabaseHelper";
 
         private static final String DATABASE_NAME = "settings.db";
-        private static final int DATABASE_VERSION = 2;
+        private static final int DATABASE_VERSION = 3;
 
         SettingsDatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -107,6 +107,9 @@ public class SettingsProvider extends ContentProvider {
                     ", " + SettingsContract.Columns.RESOLUTION + " INTEGER" +
                     ", " + SettingsContract.Columns.WIFI_ONLY + " INTEGER" +
                     ", " + SettingsContract.Columns.DEBUG + " INTEGER" +
+                    ", " + SettingsContract.Columns.OFFSET_L + " REAL" +
+                    ", " + SettingsContract.Columns.OFFSET_S + " REAL" +
+                    ", " + SettingsContract.Columns.SCALE + " REAL DEFAULT 1" +
                     ")");
 
             db.insertOrThrow(SettingsContract.TABLE, null,
@@ -116,9 +119,17 @@ public class SettingsProvider extends ContentProvider {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.d(TAG, "Upgrading from " + oldVersion + " to " + newVersion);
-            if (oldVersion == 1) {
+            if (oldVersion < 2) {
                 db.execSQL("ALTER TABLE " + SettingsContract.TABLE +
                         " ADD COLUMN " + SettingsContract.Columns.DEBUG + " INTEGER");
+            }
+            if (oldVersion < 3) {
+                db.execSQL("ALTER TABLE " + SettingsContract.TABLE +
+                        " ADD COLUMN " + SettingsContract.Columns.OFFSET_L + " REAL");
+                db.execSQL("ALTER TABLE " + SettingsContract.TABLE +
+                        " ADD COLUMN " + SettingsContract.Columns.OFFSET_S + " REAL");
+                db.execSQL("ALTER TABLE " + SettingsContract.TABLE +
+                        " ADD COLUMN " + SettingsContract.Columns.SCALE + " REAL DEFAULT 1");
             }
         }
 

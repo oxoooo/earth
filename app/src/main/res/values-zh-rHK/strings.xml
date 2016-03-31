@@ -1,6 +1,6 @@
 <!--
   ~ Mantou Earth - Live your wallpaper with live earth
-  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~ Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -28,7 +28,11 @@
     <string name="resolution">解析度: %dp</string>
     <string name="traffic_estimated">預計流量: %d MB/月</string>
     <string name="wifi_only">只在 Wi-Fi 連接時更新</string>
+    <string name="scale_and_move">縮放和移動…</string>
     <string name="save">按下按鈕完成設定</string>
+
+    <string name="scaling_hint">移動或雙指縮放地球</string>
+    <string name="scaling_set">設定縮放</string>
 
     <string name="data_saver_considered">流量節省程序已開啟，影像將會以最低解析度和最長間隔抓取。</string>
 

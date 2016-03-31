@@ -88,10 +88,13 @@ public class MainActivity extends AppCompatActivity {
         binding.setVm(vm);
         binding.setAccelerated(BuildConfig.USE_OXO_SERVER);
 
-        binding.action.done.setOnClickListener(v -> saveSettings());
+        binding.settingsPanel.editMode.setOnClickListener(v -> animateInEditMode());
+        binding.scaling.apply.setOnClickListener(v -> animateOutEditMode());
+
+        binding.action.done.setOnClickListener(v -> saveAndHideSettings());
         binding.action.done.setOnLongClickListener(v -> toggleDebug());
 
-        binding.earth.getRoot().setOnClickListener(v -> {
+        binding.earth.scalingLayout.setOnClickListener(v -> {
             if (!isSettingsShown()) {
                 toggleImmersiveMode();
             }
@@ -145,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
                 settings.toContentValues(), null, null);
 
         sendOnSet(settings);
+    }
+
+    private void saveAndHideSettings() {
+        saveSettings();
 
         if (isFromSettings()) {
             if (isCurrentWallpaper()) {
@@ -174,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, R.string.debug_mode_off, Toast.LENGTH_SHORT).show();
         }
-        saveSettings();
+        saveAndHideSettings();
         return true;
     }
 
@@ -256,9 +263,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void enterEditMode() {
+        binding.settings.setVisibility(View.GONE);
+        binding.action.action.setVisibility(View.GONE);
+        binding.scaling.apply.setVisibility(View.VISIBLE);
+        binding.scaling.hint.setVisibility(View.VISIBLE);
+        binding.earth.scalingLayout.enterEditMode();
+    }
+
+    @SuppressWarnings("unused")
+    private void exitEditMode() {
+        binding.earth.scalingLayout.exitEditMode();
+        binding.scaling.hint.setVisibility(View.GONE);
+        binding.scaling.apply.setVisibility(View.GONE);
+        binding.action.action.setVisibility(View.VISIBLE);
+        binding.settings.setVisibility(View.VISIBLE);
+    }
+
+    private boolean isEditMode() {
+        return binding.earth.scalingLayout.isEditMode();
+    }
+
+    private void animateInEditMode() {
+        InOutAnimationUtils.animateOut(binding.settings, R.anim.main_settings_out);
+        InOutAnimationUtils.animateOut(binding.action.action, R.anim.main_settings_out);
+        InOutAnimationUtils.animateIn(binding.scaling.apply, R.anim.main_scaling_in);
+        InOutAnimationUtils.animateIn(binding.scaling.hint, R.anim.main_toolbar_fade_in);
+        binding.earth.scalingLayout.enterEditMode();
+    }
+
+    private void animateOutEditMode() {
+        binding.earth.scalingLayout.exitEditMode();
+        InOutAnimationUtils.animateOut(binding.scaling.hint, R.anim.main_toolbar_fade_out);
+        InOutAnimationUtils.animateOut(binding.scaling.apply, R.anim.main_scaling_out);
+        InOutAnimationUtils.animateIn(binding.action.action, R.anim.main_settings_in);
+        InOutAnimationUtils.animateIn(binding.settings, R.anim.main_settings_in);
+    }
+
     @Override
     public void onBackPressed() {
-        if (isSettingsShown() && !(isFromSettings() || shouldPromptToChangeWallpaper())) {
+        if (isEditMode()) {
+            animateOutEditMode();
+        } else if (isSettingsShown() && !(isFromSettings() || shouldPromptToChangeWallpaper())) {
             animateOutSettings();
         } else {
             super.onBackPressed();
@@ -315,6 +361,7 @@ public class MainActivity extends AppCompatActivity {
         vm.saveState(outState);
 
         outState.putBoolean("settings_shown", isSettingsShown());
+        outState.putBoolean("in_edit_mode", isEditMode());
         outState.putBoolean("in_immersive", ImmersiveUtil.isEntered(this));
     }
 
@@ -326,6 +373,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState.getBoolean("settings_shown", false)) {
             showSettings();
+        }
+
+        if (savedInstanceState.getBoolean("in_edit_mode", false)) {
+            enterEditMode();
         }
 
         if (savedInstanceState.getBoolean("in_immersive", false)) {

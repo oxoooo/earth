@@ -26,6 +26,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.service.wallpaper.WallpaperService;
@@ -125,6 +126,7 @@ public class EarthWallpaperService extends WallpaperService {
 
         private void draw() {
             Bitmap earth = loadLatestEarth();
+            Settings settings = loadSettings();
 
             if (earth == null) {
                 Log.d(TAG, "earth not ready, fallback to preview");
@@ -151,11 +153,23 @@ public class EarthWallpaperService extends WallpaperService {
                 region.inset(0, (region.height() - region.width()) / 2);
             }
 
-            region.inset(padding, padding);
+            final float size = region.width() / 2;
+            final int outlinePadding = (int) (size - ((size - padding) * settings.scale));
+            region.inset(outlinePadding, outlinePadding);
 
+            final float offsetX, offsetY;
+            if (canvas.getWidth() > canvas.getHeight()) {
+                offsetX = settings.offsetLong;
+                offsetY = settings.offsetShort;
+            } else {
+                offsetX = settings.offsetShort;
+                offsetY = settings.offsetLong;
+            }
+            region.offset((int) offsetX, (int) offsetY);
+
+            canvas.drawColor(Color.BLACK);
             canvas.drawBitmap(earth, null, region, paint);
 
-            Settings settings = loadSettings();
             if (settings.debug) {
                 String fetchedAt = "never";
                 float imageSize = 0;

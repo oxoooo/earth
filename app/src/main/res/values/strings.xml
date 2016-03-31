@@ -29,7 +29,11 @@
     <string name="resolution">Resolution: %dp</string>
     <string name="traffic_estimated">Data usage est.: %d MB/month</string>
     <string name="wifi_only">Update via Wi-Fi only</string>
+    <string name="scale_and_move">Scale and move…</string>
     <string name="save">Press the button to save settings</string>
+
+    <string name="scaling_hint">Move or pinch the earth</string>
+    <string name="scaling_set">Set scaling</string>
 
     <string name="data_saver_considered">
         Images will be fetched in lowest resolution and longest period while Data Saver is enabled.

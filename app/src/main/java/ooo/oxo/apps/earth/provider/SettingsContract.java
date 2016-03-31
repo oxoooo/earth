@@ -41,6 +41,9 @@ public class SettingsContract {
         public static final String RESOLUTION = "resolution";
         public static final String WIFI_ONLY = "wifi_only";
         public static final String DEBUG = "debug";
+        public static final String OFFSET_L = "offset_l";
+        public static final String OFFSET_S = "offset_s";
+        public static final String SCALE = "scale";
     }
 
 }
