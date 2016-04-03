@@ -39,6 +39,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import ooo.oxo.apps.earth.EarthAppWidgetProvider;
 import ooo.oxo.apps.earth.EarthFetcher;
 import ooo.oxo.apps.earth.NetworkStateUtil;
 import ooo.oxo.apps.earth.dao.Earth;
@@ -130,6 +131,8 @@ public class EarthsSyncAdapter extends AbstractThreadedSyncAdapter {
             result.stats.numDeletes = cleaned;
 
             result.delayUntil = TimeUnit.MILLISECONDS.toSeconds(settings.interval);
+
+            EarthAppWidgetProvider.triggerUpdate(context);
 
             Log.d(TAG, "done fetching earth, with " + cleaned + " outdated cleaned");
         } catch (Exception e) {
