@@ -40,9 +40,19 @@
 
     <string name="about">關於</string>
     <string name="version" formatted="false">版本 %s (%s)</string>
+    <string name="fork_me_on_github">訪問本專案位於 GitHub 的源代碼</string>
+    <string name="sponsor">贊助商</string>
+    <string name="sponsor_text"><![CDATA[
+        感謝「<a href="http://dwfei.com">帶我飛</a>」的贊助，我們繼續免費了。
+    ]]></string>
+    <string name="contact_us">聯系我們</string>
+    <string name="contact_us_text"><![CDATA[
+        <p>要取得更多新鮮資訊，請關注我們的微信公眾號「<a href="copy:馒头社">馒头社</a>」。</p>
+    ]]></string>
     <string name="images_from">衛星影像來自</string>
     <string name="inspired_by">靈感來自</string>
-    <string name="fork_me_on_github">訪問本專案位於 GitHub 的源代碼</string>
     <string name="libraries_used">本專案使用了下列開源庫</string>
+
+    <string name="about_copied">「%s」已復制到剪貼簿</string>
 
 </resources>

@@ -44,8 +44,13 @@
     <string name="about">About</string>
     <string name="version" formatted="false">Version %s (%s)</string>
     <string name="fork_me_on_github">Fork me on GitHub</string>
-    <string name="support_us">Support us</string>
-    <string name="support_us_text"><![CDATA[
+    <string name="sponsor">Sponsor</string>
+    <string name="sponsor_text"><![CDATA[
+        <p>Thanks to &quot;<a href="http://dwfei.com">Daiwofei</a>&quot;, we got the opportunity
+        keep this app free.</p>
+    ]]></string>
+    <string name="contact_us">Contact us</string>
+    <string name="contact_us_text"><![CDATA[
         <p>Keep in touch with us by following our account &quot;<a href="copy:馒头社">馒头社</a>&quot;
         on Wechat.</p>
     ]]></string>
@@ -122,8 +127,10 @@
             <ul>
                 <li><a href="https://github.com/oxoooo/earth">oxoooo / earth</a></li>
             </ul>
-            <h2>{{support_us}}</h2>
-            <div class="card">{{support_us_text}}</div>
+            <h2>{{sponsor}}</h2>
+            <div class="card">{{sponsor_text}}</div>
+            <h2>{{contact_us}}</h2>
+            <div class="card">{{contact_us_text}}</div>
             <h2>{{images_from}}</h2>
             <ul>
                 <li><a href="http://himawari8.nict.go.jp">himawari8.nict.go.jp</a></li>

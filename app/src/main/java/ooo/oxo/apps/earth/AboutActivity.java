@@ -46,8 +46,10 @@ public class AboutActivity extends AppCompatActivity {
 
         final String template = getString(R.string.about_page)
                 .replace("{{fork_me_on_github}}", getString(R.string.fork_me_on_github))
-                .replace("{{support_us}}", getString(R.string.support_us))
-                .replace("{{support_us_text}}", getString(R.string.support_us_text))
+                .replace("{{sponsor}}", getString(R.string.sponsor))
+                .replace("{{sponsor_text}}", getString(R.string.sponsor_text))
+                .replace("{{contact_us}}", getString(R.string.contact_us))
+                .replace("{{contact_us_text}}", getString(R.string.contact_us_text))
                 .replace("{{images_from}}", getString(R.string.images_from))
                 .replace("{{inspired_by}}", getString(R.string.inspired_by))
                 .replace("{{libraries_used}}", getString(R.string.libraries_used));
