@@ -30,6 +30,13 @@
     <string name="wifi_only">只在 Wi-Fi 連接時更新</string>
     <string name="save">按下按鈕完成設定</string>
 
+    <string name="auto_sync_disabled">自動同步未啟用</string>
+    <string name="auto_sync_disabled_text">
+        饅頭地球需要開啟您手機的自動同步設定，它才能在後台更新圖像，同時保持極低的電池消耗
+    </string>
+    <string name="auto_sync_enable">現在開啟</string>
+    <string name="auto_sync_ignore">忽略</string>
+
     <string name="free_account">免費用戶</string>
 
     <string name="live_wallpaper_unsupported">很抱歉，您的手機似乎並不支持動態桌布…</string>

@@ -30,6 +30,13 @@
     <string name="wifi_only">只在 Wi-Fi 连接时更新</string>
     <string name="save">按下按钮完成设置</string>
 
+    <string name="auto_sync_disabled">自动同步未启用</string>
+    <string name="auto_sync_disabled_text">
+        馒头地球需要开启您手机的自动同步设置，它才能在后台更新图像的，同时保持极低的电量消耗
+    </string>
+    <string name="auto_sync_enable">现在开启</string>
+    <string name="auto_sync_ignore">忽略</string>
+
     <string name="free_account">免费用户</string>
 
     <string name="live_wallpaper_unsupported">很抱歉，您的手机似乎并不支持动态壁纸…</string>

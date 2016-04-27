@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import ooo.oxo.apps.earth.provider.EarthsContract;
 
-public class SyncScheduleUtil {
+public class SyncUtil {
 
     public static void ensure() {
         final Account account = EarthSharedState.getInstance().getAccount();

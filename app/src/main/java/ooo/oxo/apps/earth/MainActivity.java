@@ -20,12 +20,14 @@ package ooo.oxo.apps.earth;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -119,7 +121,11 @@ public class MainActivity extends AppCompatActivity {
             showSettings();
         }
 
-        SyncScheduleUtil.ensure();
+        SyncUtil.ensure();
+
+        if (!ContentResolver.getMasterSyncAutomatically()) {
+            promptToEnableAutoSync();
+        }
     }
 
     private void saveSettings() {
@@ -370,6 +376,17 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isFromSettings() {
         return !Intent.ACTION_MAIN.equals(getIntent().getAction());
+    }
+
+    private void promptToEnableAutoSync() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.auto_sync_disabled)
+                .setMessage(R.string.auto_sync_disabled_text)
+                .setPositiveButton(R.string.auto_sync_enable, (dialog, which) -> {
+                    ContentResolver.setMasterSyncAutomatically(true);
+                })
+                .setNegativeButton(R.string.auto_sync_ignore, null)
+                .show();
     }
 
 }

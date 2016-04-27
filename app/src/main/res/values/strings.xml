@@ -31,6 +31,14 @@
     <string name="wifi_only">Update via Wi-Fi only</string>
     <string name="save">Press the button to save settings</string>
 
+    <string name="auto_sync_disabled">Auto-sync is disabled</string>
+    <string name="auto_sync_disabled_text">
+        Mantou Earth requires your phone\'s Auto-sync setting to be enabled, so that it can update
+        images in the background with very little battery consumption.
+    </string>
+    <string name="auto_sync_enable">Enable it</string>
+    <string name="auto_sync_ignore">Ignore</string>
+
     <string name="free_account">Free account</string>
 
     <string name="live_wallpaper_unsupported">
