@@ -17,6 +17,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ooo.oxo.apps.earth">
 
     <uses-feature android:name="android.hardware.type.watch" />
@@ -71,7 +72,9 @@
             android:process=":wear_sync">
 
             <intent-filter>
-                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+                <action
+                    android:name="com.google.android.gms.wearable.BIND_LISTENER"
+                    tools:ignore="WearableBindListener" />
             </intent-filter>
 
         </service>
