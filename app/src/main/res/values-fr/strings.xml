@@ -26,23 +26,45 @@
     <string name="settings">Paramètres</string>
     <string name="interval">Intervalle d\'actualisation : %d min</string>
     <string name="resolution">Résolution : %dp</string>
-    <string name="traffic_estimated">Trafic estimé : %d MO/mois</string>
+    <string name="traffic_estimated">Consommation estimée : %d Mo/mois</string>
     <string name="wifi_only">Actualiser via Wi-Fi uniquement</string>
-    <string name="save">Appuyez sur le bouton pour sauvegarder les paramètres</string>
+    <string name="save">Appuyez sur le bouton pour enregistrer les paramètres</string>
+    
+    <string name="auto_sync_disabled">Synchronisation automatique désactivée</string>
+    <string name="auto_sync_disabled_text">
+        Mantou Earth requiert l\'activation de la synchronisation automatique sur votre appareil, afin
+        d\'actualiser les images en arrière-plan avec une consommation de la batterie très faible.
+    </string>
+    <string name="auto_sync_enable">Activer</string>
+    <string name="auto_sync_ignore">Ignorer</string>
 
-    <string name="live_wallpaper_unsupported">Cette fontionnalité ne semble pas être disponible sur votre appareil…</string>
+    <string name="free_account">Compte gratuit</string>    
 
-    <string name="update_available">Une nouvelle version %s est disponible</string>
+    <string name="live_wallpaper_unsupported">
+        La fontionnalité Fond d\'écran animé semble ne pas être supportée par votre appareil…
+    </string>
+
+    <string name="update_available">Nouvelle version %s disponible</string>
     <string name="update_confirm">Télécharger maintenant</string>
     <string name="update_cancel">Annuler</string>
 
     <string name="about">À propos</string>
     <string name="version" formatted="false">Version %s (%s)</string>
-    <string name="images_from">Images satellite de</string>
-    <string name="inspired_by">Inspiré par</string>
-    <string name="follow_us_on_wechat">Suivez-nous sur WeChat</string>
-    <string name="follow_us_on_wechat_hint">Scannez ce code ou recherchez \"馒头社\" avec Wechat</string>
     <string name="fork_me_on_github">Fork sur GitHub</string>
+    <string name="sponsor">Commanditaire</string>
+    <string name="sponsor_text"><![CDATA[
+        <p>Merci à &quot;<a href="http://dwfei.com">Daiwofei</a>&quot; de nous donner l\'opportunité
+        de conserver cette application gratuite.</p>
+    ]]></string>
+    <string name="contact_us">Contact</string>
+    <string name="contact_us_text"><![CDATA[
+        <p>Restez en contact avec nous en suivant notre compte &quot;<a href="copy:馒头社">馒头社</a>&quot;
+        sur Wechat.</p>
+    ]]></string>
+    <string name="images_from">Images satellite de</string>
+    <string name="inspired_by">Inspiré par</string>    
     <string name="libraries_used">Bibliothèques utilisées</string>
+    
+    <string name="about_copied">\"%s\" copié dans votre presse-papiers</string>    
 
 </resources>
