@@ -43,10 +43,6 @@
 
     <string name="live_wallpaper_unsupported">很抱歉，您的手機似乎並不支持動態桌布…</string>
 
-    <string name="update_available">新版本 %s 現已可用</string>
-    <string name="update_confirm">立即下載</string>
-    <string name="update_cancel">取消</string>
-
     <string name="about">關於</string>
     <string name="version" formatted="false">版本 %s (%s)</string>
     <string name="fork_me_on_github">訪問本專案位於 GitHub 的源代碼</string>

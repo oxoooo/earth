@@ -44,10 +44,6 @@
         La fontionnalité Fond d\'écran animé semble ne pas être supportée par votre appareil…
     </string>
 
-    <string name="update_available">Nouvelle version %s disponible</string>
-    <string name="update_confirm">Télécharger maintenant</string>
-    <string name="update_cancel">Annuler</string>
-
     <string name="about">À propos</string>
     <string name="version" formatted="false">Version %s (%s)</string>
     <string name="fork_me_on_github">Fork sur GitHub</string>

@@ -32,10 +32,6 @@
 
     <string name="live_wallpaper_unsupported">この携帯はライブ壁紙ができません…</string>
 
-    <string name="update_available">新しいバージョン %s があります</string>
-    <string name="update_confirm">ダウンロード</string>
-    <string name="update_cancel">キャンセル</string>
-
     <string name="about">情報</string>
     <string name="version" formatted="false">バージョン %s (%s)</string>
     <string name="images_from">衛星画像の出所</string>

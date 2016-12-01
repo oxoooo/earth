@@ -49,10 +49,6 @@
         Seems Live Wallpaper feature wasn\'t supported by your phone…
     </string>
 
-    <string name="update_available">New version %s is available</string>
-    <string name="update_confirm">Download Now</string>
-    <string name="update_cancel">Cancel</string>
-
     <string name="about">About</string>
     <string name="version" formatted="false">Version %s (%s)</string>
     <string name="fork_me_on_github">Fork me on GitHub</string>

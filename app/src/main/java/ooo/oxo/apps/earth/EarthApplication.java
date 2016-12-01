@@ -22,8 +22,6 @@ import android.app.Application;
 
 import com.umeng.analytics.MobclickAgent;
 
-import im.fir.sdk.FIR;
-
 public class EarthApplication extends Application {
 
     @Override
@@ -31,11 +29,6 @@ public class EarthApplication extends Application {
         super.onCreate();
 
         MobclickAgent.setDebugMode(BuildConfig.DEBUG);
-        MobclickAgent.setCatchUncaughtExceptions(false);
-
-        if (BuildConfig.FIR_ENABLED) {
-            FIR.init(this);
-        }
 
         EarthSharedState.init(this);
     }

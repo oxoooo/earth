@@ -97,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadEarth();
 
-        UpdateUtil.checkForUpdateAndPrompt(this);
-
         final ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (NetworkStateUtil.shouldConsiderSavingData(cm)) {
             Toast.makeText(this, R.string.data_saver_considered, Toast.LENGTH_SHORT).show();

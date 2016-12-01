@@ -46,13 +46,6 @@ android {
         buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
         println "Building ${gitTag} (rev. ${gitCommits} on ${gitSha})"
 
-        // FIR
-        buildConfigField "boolean", "FIR_ENABLED", "!DEBUG && ${project.hasProperty('FIR_API_TOKEN')}"
-        buildConfigField "String", "FIR_API_TOKEN",
-                project.hasProperty('FIR_API_TOKEN') ? "\"${FIR_API_TOKEN}\"" : "null"
-
-        buildConfigField "boolean", "FIR_OTA_ENABLED", "FIR_ENABLED"
-
         buildConfigField "String", "SERVER_OXO", project.hasProperty('SERVER_OXO') ? "\"${SERVER_OXO}\"" : "null"
         buildConfigField "String", "SERVER_NICT", "\"%s\""
 
@@ -117,13 +110,8 @@ android {
             manifestPlaceholders = [UMENG_CHANNEL: "GitHub"]
         }
 
-        fir {
-            manifestPlaceholders = [UMENG_CHANNEL: "FIR"]
-        }
-
         google {
             manifestPlaceholders = [UMENG_CHANNEL: "Google"]
-            buildConfigField "boolean", "FIR_OTA_ENABLED", "false"
         }
 
         wandoujia {
@@ -165,5 +153,4 @@ dependencies {
     compile 'ooo.oxo:data-binding-support:1.1.1'
 
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'im.fir:sdk:latest.integration@aar'
 }
