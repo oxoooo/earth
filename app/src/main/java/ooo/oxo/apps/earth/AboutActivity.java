@@ -29,6 +29,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+
 import ooo.oxo.apps.earth.databinding.AboutActivityBinding;
 
 public class AboutActivity extends AppCompatActivity {
@@ -44,7 +48,7 @@ public class AboutActivity extends AppCompatActivity {
 
         binding.toolbar.setNavigationOnClickListener(v -> supportFinishAfterTransition());
 
-        final String template = getString(R.string.about_page)
+        final String template = getTemplate()
                 .replace("{{fork_me_on_github}}", getString(R.string.fork_me_on_github))
                 .replace("{{sponsor}}", getString(R.string.sponsor))
                 .replace("{{sponsor_text}}", getString(R.string.sponsor_text))
@@ -55,9 +59,17 @@ public class AboutActivity extends AppCompatActivity {
                 .replace("{{libraries_used}}", getString(R.string.libraries_used));
 
         binding.chrome.setWebViewClient(new AboutClient());
-        binding.chrome.loadData(template, "text/html; charset=utf-8", null);
+        binding.chrome.loadDataWithBaseURL("file:///", template, "text/html; charset=utf-8", null, null);
 
         cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+    }
+
+    private String getTemplate() {
+        try {
+            return IOUtils.toString(getResources().openRawResource(R.raw.about), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
     }
 
     private void copy(String text) {

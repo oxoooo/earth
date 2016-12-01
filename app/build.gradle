@@ -160,6 +160,8 @@ dependencies {
 
     compile 'com.github.bumptech.glide:glide:3.6.1'
 
+    compile 'commons-io:commons-io:2.4'
+
     compile 'ooo.oxo:data-binding-support:1.1.1'
 
     compile 'com.umeng.analytics:analytics:latest.integration'

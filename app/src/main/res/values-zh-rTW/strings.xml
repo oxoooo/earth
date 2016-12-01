@@ -50,7 +50,7 @@
     <string name="fork_me_on_github">訪問本專案位於 GitHub 的源代碼</string>
     <string name="sponsor">贊助商</string>
     <string name="sponsor_text"><![CDATA[
-        感謝「<a href="http://dwfei.com">帶我飛</a>」的贊助，我們繼續免費了。
+        <p>影像處理及分發技術由<a href="https://www.upyun.com/">又拍云</a>贊助提供。</p>
     ]]></string>
     <string name="contact_us">聯系我們</string>
     <string name="contact_us_text"><![CDATA[
