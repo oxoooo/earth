@@ -30,6 +30,8 @@
     <string name="wifi_only">只在 Wi-Fi 連接時更新</string>
     <string name="save">按下按鈕完成設定</string>
 
+    <string name="data_saver_considered">流量節省程序已開啟，影像將會以最低解析度和最長間隔抓取。</string>
+
     <string name="auto_sync_disabled">自動同步未啟用</string>
     <string name="auto_sync_disabled_text">
         饅頭地球需要開啟您手機的自動同步設定，它才能在後台更新圖像，同時保持極低的電池消耗

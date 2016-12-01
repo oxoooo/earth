@@ -7,9 +7,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
@@ -32,6 +34,7 @@ public class EarthsSyncAdapter extends AbstractThreadedSyncAdapter {
     private final Context context;
 
     private final PowerManager pm;
+    private final ConnectivityManager cm;
     private final ContentResolver resolver;
 
     private final EarthFetcher fetcher;
@@ -46,6 +49,7 @@ public class EarthsSyncAdapter extends AbstractThreadedSyncAdapter {
         this.context = context;
 
         this.pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.resolver = context.getContentResolver();
 
         this.fetcher = new EarthFetcher(context);
@@ -63,25 +67,27 @@ public class EarthsSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         final boolean manual = extras.getBoolean(ContentResolver.SYNC_EXTRAS_MANUAL);
+        final boolean metered = ConnectivityManagerCompat.isActiveNetworkMetered(cm);
 
-        if (!manual && settings.wifiOnly && !NetworkStateUtil.isWifiConnected(context)) {
-            Log.d(TAG, "skipped sync until in Wi-Fi connection");
+        if (!manual && settings.wifiOnly && metered) {
+            Log.d(TAG, "skipped sync until in non-metered connection");
             return;
         }
 
+        if (manual) {
+            // Override interval limit for manual refresh
+            settings.interval = TimeUnit.MINUTES.toMillis(10);
+        }
+
+        if (NetworkStateUtil.shouldConsiderSavingData(cm)) {
+            // Override to lowest settings for data saver
+            settings.interval = TimeUnit.MINUTES.toMillis(120);
+            settings.resolution = 550;
+        }
+
         final Earth latest = loadLatestEarth();
-
         if (latest != null) {
-            final long interval;
-
-            if (manual) {
-                interval = TimeUnit.MINUTES.toMillis(10);
-            } else {
-                interval = settings.interval;
-            }
-
-            final long syncUntil = (latest.fetchedAt.getTime() + interval) - System.currentTimeMillis();
-
+            final long syncUntil = (latest.fetchedAt.getTime() + settings.interval) - System.currentTimeMillis();
             if (syncUntil > 0) {
                 result.delayUntil = TimeUnit.MILLISECONDS.toSeconds(syncUntil);
                 Log.d(TAG, "delayed sync until " + TimeUnit.MILLISECONDS.toMinutes(syncUntil) + " minutes later");

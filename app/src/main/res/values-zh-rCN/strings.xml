@@ -30,6 +30,8 @@
     <string name="wifi_only">只在 Wi-Fi 连接时更新</string>
     <string name="save">按下按钮完成设置</string>
 
+    <string name="data_saver_considered">流量节省程序已开启，图像将会已最低分辨率和最长间隔抓取。</string>
+
     <string name="auto_sync_disabled">自动同步未启用</string>
     <string name="auto_sync_disabled_text">
         馒头地球需要开启您手机的自动同步设置，它才能在后台更新图像的，同时保持极低的电量消耗

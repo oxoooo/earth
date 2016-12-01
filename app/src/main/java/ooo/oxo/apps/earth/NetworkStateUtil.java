@@ -18,20 +18,15 @@
 
 package ooo.oxo.apps.earth;
 
-import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Build;
 
 public class NetworkStateUtil {
 
-    public static boolean isWifiConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(
-                Context.CONNECTIVITY_SERVICE);
-
-        @SuppressWarnings("deprecation")
-        NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        return wifi != null && wifi.isConnected();
+    public static boolean shouldConsiderSavingData(ConnectivityManager cm) {
+        // Do not trust ConnectivityManagerCompat, since it will always return ENABLED in API < N
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                cm.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
     }
 
 }

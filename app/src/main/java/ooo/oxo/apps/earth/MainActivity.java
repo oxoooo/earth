@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -97,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
         loadEarth();
 
         UpdateUtil.checkForUpdateAndPrompt(this);
+
+        final ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (NetworkStateUtil.shouldConsiderSavingData(cm)) {
+            Toast.makeText(this, R.string.data_saver_considered, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loadSettings() {
