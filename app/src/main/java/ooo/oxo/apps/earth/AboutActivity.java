@@ -50,8 +50,6 @@ public class AboutActivity extends AppCompatActivity {
 
         final String template = getTemplate()
                 .replace("{{fork_me_on_github}}", getString(R.string.fork_me_on_github))
-                .replace("{{sponsor}}", getString(R.string.sponsor))
-                .replace("{{sponsor_text}}", getString(R.string.sponsor_text))
                 .replace("{{contact_us}}", getString(R.string.contact_us))
                 .replace("{{contact_us_text}}", getString(R.string.contact_us_text))
                 .replace("{{images_from}}", getString(R.string.images_from))

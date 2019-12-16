@@ -47,11 +47,6 @@
     <string name="about">À propos</string>
     <string name="version" formatted="false">Version %s (%s)</string>
     <string name="fork_me_on_github">Fork sur GitHub</string>
-    <string name="sponsor">Commanditaire</string>
-    <string name="sponsor_text"><![CDATA[
-        <p>Merci à &quot;<a href="http://dwfei.com">Daiwofei</a>&quot; de nous donner l\'opportunité
-        de conserver cette application gratuite.</p>
-    ]]></string>
     <string name="contact_us">Contact</string>
     <string name="contact_us_text"><![CDATA[
         <p>Restez en contact avec nous en suivant notre compte &quot;<a href="copy:馒头社">馒头社</a>&quot;

@@ -46,10 +46,6 @@
     <string name="about">關於</string>
     <string name="version" formatted="false">版本 %s (%s)</string>
     <string name="fork_me_on_github">訪問本專案位於 GitHub 的源代碼</string>
-    <string name="sponsor">贊助商</string>
-    <string name="sponsor_text"><![CDATA[
-        <p>影像處理及分發技術由<a href="https://www.upyun.com/">又拍云</a>贊助提供。</p>
-    ]]></string>
     <string name="contact_us">聯系我們</string>
     <string name="contact_us_text"><![CDATA[
         <p>要取得更多新鮮資訊，請關注我們的微信公眾號「<a href="copy:馒头社">馒头社</a>」。</p>
