@@ -106,16 +106,8 @@ android {
     }
 
     productFlavors {
-        github {
-            manifestPlaceholders = [UMENG_CHANNEL: "GitHub"]
-        }
-
         google {
             manifestPlaceholders = [UMENG_CHANNEL: "Google"]
-        }
-
-        wandoujia {
-            manifestPlaceholders = [UMENG_CHANNEL: "Wandoujia"]
         }
 
         coolapk {
