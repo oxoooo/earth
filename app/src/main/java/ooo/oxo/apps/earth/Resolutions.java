@@ -23,11 +23,11 @@ import android.util.DisplayMetrics;
 public class Resolutions {
 
     public static final int[] RESOLUTIONS = new int[]{
-            550, 720, 1080, 1440, 2200
+            480, 720, 1080, 1440, 2160
     };
 
     public static final int[] RESOLUTION_DAILY_TRAFFICS_KB = new int[]{
-            532, 857, 1727, 2823, 5818
+            621, 1298, 2640, 4368, 8568
     };
 
     public static int findBestResolutionIndex(int size) {

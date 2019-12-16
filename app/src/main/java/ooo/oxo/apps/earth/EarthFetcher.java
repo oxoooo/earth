@@ -41,7 +41,7 @@ public class EarthFetcher {
 
     private final RequestManager rm;
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd/HHmmss", Locale.US);
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd/HHmm", Locale.US);
 
     private final GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
 
