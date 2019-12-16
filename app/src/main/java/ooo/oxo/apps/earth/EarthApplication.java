@@ -20,7 +20,7 @@ package ooo.oxo.apps.earth;
 
 import android.app.Application;
 
-import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 public class EarthApplication extends Application {
 
@@ -28,7 +28,8 @@ public class EarthApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        MobclickAgent.setDebugMode(BuildConfig.DEBUG);
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
 
         EarthSharedState.init(this);
     }

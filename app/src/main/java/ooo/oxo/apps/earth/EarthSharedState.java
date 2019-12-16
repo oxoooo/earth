@@ -29,12 +29,6 @@ public class EarthSharedState {
     }
 
     public Account getAccount() {
-        final Account[] accounts = am.getAccountsByType(StubAuthenticator.ACCOUNT_TYPE);
-
-        if (accounts.length > 0) {
-            return accounts[0];
-        }
-
         final Account account = new Account(context.getString(R.string.free_account), StubAuthenticator.ACCOUNT_TYPE);
         am.addAccountExplicitly(account, null, Bundle.EMPTY);
 

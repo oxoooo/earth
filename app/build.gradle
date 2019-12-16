@@ -145,5 +145,6 @@ dependencies {
 
     implementation 'ooo.oxo:data-binding-support:1.1.1'
 
-    implementation 'com.umeng.analytics:analytics:6.1.4'
+    implementation 'com.umeng.umsdk:analytics:8.0.0'
+    implementation 'com.umeng.umsdk:common:2.0.0'
 }
