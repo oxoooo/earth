@@ -10,7 +10,7 @@ Accelerating with Qiniu CDN and using WebP to reduce network traffic.
 
 [![Get it on Google Play][play badge]][play link]
 
-![](screenshot.png)
+![](screenshot.jpg)
 
 ## Build
 
