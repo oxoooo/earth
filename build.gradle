@@ -31,7 +31,6 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'https://jitpack.io' }
-        maven { url "http://maven.bughd.com/public" }
         maven { url "${rootProject.projectDir}/google-play-services-7-8-87" }
     }
 }
