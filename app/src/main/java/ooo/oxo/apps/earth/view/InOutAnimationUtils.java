@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +18,11 @@
 
 package ooo.oxo.apps.earth.view;
 
-import android.support.annotation.AnimRes;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import androidx.annotation.AnimRes;
 
 public class InOutAnimationUtils {
 

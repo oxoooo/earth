@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,17 +24,18 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;

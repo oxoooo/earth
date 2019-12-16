@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,13 +26,14 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
+
+import androidx.annotation.Nullable;
 
 import java.io.FileNotFoundException;
 

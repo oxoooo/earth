@@ -47,10 +47,12 @@
     <application
         android:name=".EarthApplication"
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="${APP_NAME}"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
             android:name="UMENG_APPKEY"

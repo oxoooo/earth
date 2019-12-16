@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,10 +29,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;

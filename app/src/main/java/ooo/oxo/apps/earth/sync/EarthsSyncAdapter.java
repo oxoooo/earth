@@ -1,3 +1,21 @@
+/*
+ * Mantou Earth - Live your wallpaper with live earth
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package ooo.oxo.apps.earth.sync;
 
 import android.accounts.Account;
@@ -10,9 +28,10 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.annotation.Nullable;
-import android.support.v4.net.ConnectivityManagerCompat;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.core.net.ConnectivityManagerCompat;
 
 import com.umeng.analytics.MobclickAgent;
 

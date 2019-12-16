@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,11 +18,12 @@
 
 package ooo.oxo.apps.earth;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
-import android.databinding.adapters.SeekBarBindingAdapter;
 import android.os.Bundle;
 import android.widget.CompoundButton;
+
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.adapters.SeekBarBindingAdapter;
 
 import java.util.concurrent.TimeUnit;
 

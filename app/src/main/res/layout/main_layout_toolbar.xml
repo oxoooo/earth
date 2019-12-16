@@ -1,6 +1,6 @@
 <!--
   ~ Mantou Earth - Live your wallpaper with live earth
-  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~ Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/main_activity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,22 +17,21 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def gitTag = 'git tag'.execute([], project.rootDir).text.trim().split("\n").last()
 def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId "ooo.oxo.apps.earth"
 
         minSdkVersion 16
 
-        targetSdkVersion 25
+        targetSdkVersion 29
 
         versionCode 20000 + gitCommits
         versionName gitTag
@@ -106,24 +105,26 @@ android {
     }
 
     productFlavors {
+        flavorDimensions "channel"
+
         google {
+            dimension "channel"
             manifestPlaceholders = [UMENG_CHANNEL: "Google"]
         }
 
         coolapk {
+            dimension "channel"
             manifestPlaceholders = [UMENG_CHANNEL: "CookApk"]
         }
     }
 
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
-                output.outputFile = file("${output.outputFile.parent}/earth" +
-                        "-${variant.buildType.name.toLowerCase()}" +
-                        "-${variant.versionName}" +
-                        "-${variant.flavorName.toLowerCase()}" +
-                        ".apk")
-            }
+        variant.outputs.all { output ->
+            outputFileName = "earth" +
+                    "-${variant.buildType.name.toLowerCase()}" +
+                    "-${variant.versionName}" +
+                    "-${variant.flavorName.toLowerCase()}" +
+                    ".apk"
         }
     }
 }
@@ -132,17 +133,17 @@ dependencies {
     wearApp project(':wear')
 
     //noinspection GradleDependency
-    compile 'com.google.android.gms:play-services-wearable:7.8.87'
+    implementation 'com.google.android.gms:play-services-wearable:7.8.87'
 
-    compile 'com.android.support:design:25.0.1'
+    implementation 'com.google.android.material:material:1.0.0'
 
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
 
-    compile 'com.github.bumptech.glide:glide:3.6.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 
-    compile 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.4'
 
-    compile 'ooo.oxo:data-binding-support:1.1.1'
+    implementation 'ooo.oxo:data-binding-support:1.1.1'
 
-    compile 'com.umeng.analytics:analytics:latest.integration'
+    implementation 'com.umeng.analytics:analytics:6.1.4'
 }
