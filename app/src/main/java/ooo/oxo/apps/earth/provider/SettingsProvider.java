@@ -94,7 +94,7 @@ public class SettingsProvider extends ContentProvider {
         private static final String TAG = "SettingsDatabaseHelper";
 
         private static final String DATABASE_NAME = "settings.db";
-        private static final int DATABASE_VERSION = 1;
+        private static final int DATABASE_VERSION = 2;
 
         public SettingsDatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -106,6 +106,7 @@ public class SettingsProvider extends ContentProvider {
                     " (" + SettingsContract.Columns.INTERVAL + " INTEGER" +
                     ", " + SettingsContract.Columns.RESOLUTION + " INTEGER" +
                     ", " + SettingsContract.Columns.WIFI_ONLY + " INTEGER" +
+                    ", " + SettingsContract.Columns.DEBUG + " INTEGER" +
                     ")");
 
             db.insertOrThrow(SettingsContract.TABLE, null,
@@ -114,7 +115,11 @@ public class SettingsProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.e(TAG, "no need to upgrade currently");
+            Log.d(TAG, "Upgrading from " + oldVersion + " to " + newVersion);
+            if (oldVersion == 1) {
+                db.execSQL("ALTER TABLE " + SettingsContract.TABLE +
+                        " ADD COLUMN " + SettingsContract.Columns.DEBUG + " INTEGER");
+            }
         }
 
     }

@@ -1,6 +1,6 @@
 <!--
   ~ Mantou Earth - Live your wallpaper with live earth
-  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~ Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -42,6 +42,12 @@
     <string name="free_account">免费用户</string>
 
     <string name="live_wallpaper_unsupported">很抱歉，您的手机似乎并不支持动态壁纸…</string>
+
+    <string name="debug_mode_on">调试模式开启，长按按钮可关闭</string>
+    <string name="debug_mode_off">调试模式关闭</string>
+
+    <string name="overlay_fetched_at">最近抓取: %s</string>
+    <string name="overlay_image_size">图片大小: %.2f KB</string>
 
     <string name="about">关于</string>
     <string name="version" formatted="false">版本 %s (%s)</string>

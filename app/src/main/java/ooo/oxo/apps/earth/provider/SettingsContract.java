@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ public class SettingsContract {
         public static final String INTERVAL = "interval";
         public static final String RESOLUTION = "resolution";
         public static final String WIFI_ONLY = "wifi_only";
+        public static final String DEBUG = "debug";
     }
 
 }

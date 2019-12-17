@@ -36,6 +36,8 @@ public class Settings {
 
     public boolean wifiOnly;
 
+    public boolean debug;
+
     public static Settings fromLegacySharedState(Context context) {
         LegacyEarthSharedState sharedState = new LegacyEarthSharedState(context);
 
@@ -58,6 +60,7 @@ public class Settings {
         settings.interval = cursor.getLong(cursor.getColumnIndexOrThrow(SettingsContract.Columns.INTERVAL));
         settings.resolution = cursor.getInt(cursor.getColumnIndexOrThrow(SettingsContract.Columns.RESOLUTION));
         settings.wifiOnly = cursor.getInt(cursor.getColumnIndexOrThrow(SettingsContract.Columns.WIFI_ONLY)) != 0;
+        settings.debug = cursor.getInt(cursor.getColumnIndexOrThrow(SettingsContract.Columns.DEBUG)) != 0;
 
         return settings;
     }
@@ -67,6 +70,7 @@ public class Settings {
         values.put(SettingsContract.Columns.INTERVAL, interval);
         values.put(SettingsContract.Columns.RESOLUTION, resolution);
         values.put(SettingsContract.Columns.WIFI_ONLY, wifiOnly ? 1 : 0);
+        values.put(SettingsContract.Columns.DEBUG, debug ? 1 : 0);
         return values;
     }
 

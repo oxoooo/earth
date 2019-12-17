@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         binding.setAccelerated(BuildConfig.USE_OXO_SERVER);
 
         binding.action.done.setOnClickListener(v -> saveSettings());
+        binding.action.done.setOnLongClickListener(v -> toggleDebug());
 
         binding.earth.getRoot().setOnClickListener(v -> {
             if (!isSettingsShown()) {
@@ -163,6 +164,16 @@ public class MainActivity extends AppCompatActivity {
 
             animateOutSettings();
         }
+    }
+
+    private boolean toggleDebug() {
+        if (vm.toggleDebug()) {
+            Toast.makeText(this, R.string.debug_mode_on, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, R.string.debug_mode_off, Toast.LENGTH_SHORT).show();
+        }
+        saveSettings();
+        return true;
     }
 
     private void showSettings() {

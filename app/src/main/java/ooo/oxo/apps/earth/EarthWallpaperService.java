@@ -18,8 +18,11 @@
 
 package ooo.oxo.apps.earth;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -27,13 +30,21 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
+import ooo.oxo.apps.earth.dao.Earth;
+import ooo.oxo.apps.earth.dao.Settings;
 import ooo.oxo.apps.earth.provider.EarthsContract;
+import ooo.oxo.apps.earth.provider.SettingsContract;
 
 public class EarthWallpaperService extends WallpaperService {
 
@@ -47,7 +58,7 @@ public class EarthWallpaperService extends WallpaperService {
 
     @Override
     public Engine onCreateEngine() {
-        return new EarthWallpaperEngine();
+        return new EarthWallpaperEngine(this);
     }
 
     private class EarthWallpaperEngine extends Engine {
@@ -60,6 +71,10 @@ public class EarthWallpaperService extends WallpaperService {
 
         private int padding;
 
+        private ViewGroup overlay;
+        private TextView overlayFetchedAt;
+        private TextView overlayImageSize;
+
         private final ContentObserver observer = new ContentObserver(null) {
             @Override
             public void onChange(boolean selfChange) {
@@ -68,13 +83,20 @@ public class EarthWallpaperService extends WallpaperService {
             }
         };
 
-        public EarthWallpaperEngine() {
+        @SuppressLint("InflateParams")
+        public EarthWallpaperEngine(Context context) {
             region = new Rect();
 
             paint = new Paint();
             paint.setFilterBitmap(true);
 
             padding = getResources().getDimensionPixelOffset(R.dimen.default_padding);
+
+            overlay = (ViewGroup) LayoutInflater.from(context)
+                    .inflate(R.layout.overlay_debug, null);
+
+            overlayFetchedAt = overlay.findViewById(R.id.fetched_at);
+            overlayImageSize = overlay.findViewById(R.id.image_size);
         }
 
         @Override
@@ -133,6 +155,33 @@ public class EarthWallpaperService extends WallpaperService {
 
             canvas.drawBitmap(earth, null, region, paint);
 
+            Settings settings = loadSettings();
+            if (settings.debug) {
+                String fetchedAt = "never";
+                float imageSize = 0;
+
+                Earth metadata = loadLatestEarthMetadata();
+                if (metadata != null) {
+                    fetchedAt = metadata.fetchedAt.toString();
+
+                    final File file = new File(metadata.file);
+                    if (file.isFile()) {
+                        imageSize = (float) file.length() / 1024f;
+                    }
+                }
+
+                overlayFetchedAt.setText(getString(R.string.overlay_fetched_at, fetchedAt));
+                overlayImageSize.setText(getString(R.string.overlay_image_size, imageSize));
+
+                overlay.measure(View.MeasureSpec.makeMeasureSpec(region.width(), View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec(region.height(), View.MeasureSpec.EXACTLY));
+                overlay.layout(0, 0, region.width(), region.height());
+                canvas.save();
+                canvas.translate(region.left, region.top);
+                overlay.draw(canvas);
+                canvas.restore();
+            }
+
             getSurfaceHolder().unlockCanvasAndPost(canvas);
 
             earth.recycle();
@@ -146,6 +195,37 @@ public class EarthWallpaperService extends WallpaperService {
             } catch (FileNotFoundException e) {
                 return null;
             }
+        }
+
+        @Nullable
+        private Earth loadLatestEarthMetadata() {
+            final Cursor cursor = getContentResolver().query(EarthsContract.LATEST_CONTENT_URI,
+                    null, null, null, null);
+
+            if (cursor == null) {
+                return null;
+            }
+
+            final Earth earth = Earth.fromCursor(cursor);
+
+            cursor.close();
+
+            return earth;
+        }
+
+        private Settings loadSettings() {
+            Cursor cursor = getContentResolver().query(
+                    SettingsContract.CONTENT_URI, null, null, null, null);
+
+            if (cursor == null) {
+                throw new IllegalStateException();
+            }
+
+            Settings settings = Settings.fromCursor(cursor);
+
+            cursor.close();
+
+            return settings;
         }
 
         @Nullable

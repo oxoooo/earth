@@ -1,6 +1,6 @@
 <!--
   ~ Mantou Earth - Live your wallpaper with live earth
-  ~ Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+  ~ Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -48,6 +48,12 @@
     <string name="live_wallpaper_unsupported">
         Seems Live Wallpaper feature wasn\'t supported by your phone…
     </string>
+
+    <string name="debug_mode_on">Debug mode on. Long press button to turn off.</string>
+    <string name="debug_mode_off">Debug mode off.</string>
+
+    <string name="overlay_fetched_at">Last fetch: %s</string>
+    <string name="overlay_image_size">Image size: %.2f KB</string>
 
     <string name="about">About</string>
     <string name="version" formatted="false">Version %s (%s)</string>

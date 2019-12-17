@@ -40,6 +40,8 @@ public class MainViewModel extends BaseObservable {
 
     private boolean wifiOnly;
 
+    private boolean debug;
+
     public MainViewModel() {
     }
 
@@ -47,12 +49,14 @@ public class MainViewModel extends BaseObservable {
         setInterval(settings.interval);
         setResolution(settings.resolution);
         setWifiOnly(settings.wifiOnly);
+        debug = settings.debug;
     }
 
     public void saveTo(Settings settings) {
         settings.interval = getInterval();
         settings.resolution = getResolution();
         settings.wifiOnly = isWifiOnly();
+        settings.debug = debug;
     }
 
     public void saveState(Bundle state) {
@@ -154,6 +158,19 @@ public class MainViewModel extends BaseObservable {
     public void setWifiOnly(boolean wifiOnly) {
         this.wifiOnly = wifiOnly;
         notifyPropertyChanged(ooo.oxo.apps.earth.BR.wifiOnly);
+    }
+
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
+    public boolean toggleDebug() {
+        this.debug = !this.debug;
+        return this.debug;
     }
 
     @Bindable
