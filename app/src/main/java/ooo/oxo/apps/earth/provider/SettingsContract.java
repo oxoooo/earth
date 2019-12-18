@@ -23,6 +23,7 @@ import android.net.Uri;
 
 import ooo.oxo.apps.earth.BuildConfig;
 
+@SuppressWarnings("WeakerAccess")
 public class SettingsContract {
 
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".settings";

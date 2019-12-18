@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,6 @@ public class EarthFetcher {
 
         String path = dateFormat.format(new Date(calendar.getTimeInMillis()));
 
-        //noinspection ConstantConditions
         Log.d(TAG, "fetching " + path + (BuildConfig.USE_OXO_SERVER ? " accelerated" : ""));
 
         request = rm.load(getUrl(path, resolution))

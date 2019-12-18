@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -54,6 +55,7 @@ import ooo.oxo.apps.earth.widget.SystemUiVisibilityUtil;
 
 public class MainActivity extends AppCompatActivity {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "MainActivity";
 
     private MainActivityBinding binding;
@@ -183,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         binding.action.doneHint.setVisibility(View.VISIBLE);
     }
 
+    @SuppressWarnings("unused")
     private void hideSettings() {
         binding.settings.setVisibility(View.INVISIBLE);
         binding.action.done.setVisibility(View.INVISIBLE);
@@ -316,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
         vm.restoreState(savedInstanceState);
@@ -398,9 +401,8 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.auto_sync_disabled)
                 .setMessage(R.string.auto_sync_disabled_text)
-                .setPositiveButton(R.string.auto_sync_enable, (dialog, which) -> {
-                    ContentResolver.setMasterSyncAutomatically(true);
-                })
+                .setPositiveButton(R.string.auto_sync_enable, (dialog, which) ->
+                        ContentResolver.setMasterSyncAutomatically(true))
                 .setNegativeButton(R.string.auto_sync_ignore, null)
                 .show();
     }

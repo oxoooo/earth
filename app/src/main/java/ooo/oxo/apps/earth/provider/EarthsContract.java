@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ import android.provider.BaseColumns;
 
 import ooo.oxo.apps.earth.BuildConfig;
 
+@SuppressWarnings("WeakerAccess")
 public class EarthsContract {
 
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".earths";

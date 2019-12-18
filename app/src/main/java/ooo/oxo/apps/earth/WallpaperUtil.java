@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
-public class WallpaperUtil {
+class WallpaperUtil {
 
-    public static void changeLiveWallPaper(Context context) {
+    static void changeLiveWallPaper(Context context) {
         Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
 
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
@@ -41,14 +41,14 @@ public class WallpaperUtil {
         }
     }
 
-    public static boolean isCurrent(Context context) {
+    static boolean isCurrent(Context context) {
         WallpaperManager wm = WallpaperManager.getInstance(context);
         WallpaperInfo wi = wm.getWallpaperInfo();
         return wi != null && new ComponentName(context, EarthWallpaperService.class)
                 .equals(wi.getComponent());
     }
 
-    public static boolean isSupported(Context context) {
+    static boolean isSupported(Context context) {
         Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
         return intent.resolveActivity(context.getPackageManager()) != null;
     }

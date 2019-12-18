@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,17 +20,17 @@ package ooo.oxo.apps.earth;
 
 import android.util.DisplayMetrics;
 
-public class Resolutions {
+class Resolutions {
 
-    public static final int[] RESOLUTIONS = new int[]{
+    static final int[] RESOLUTIONS = new int[]{
             480, 720, 1080, 1440, 2160
     };
 
-    public static final int[] RESOLUTION_DAILY_TRAFFICS_KB = new int[]{
+    static final int[] RESOLUTION_DAILY_TRAFFICS_KB = new int[]{
             621, 1298, 2640, 4368, 8568
     };
 
-    public static int findBestResolutionIndex(int size) {
+    static int findBestResolutionIndex(int size) {
         int closest = 0;
 
         for (int i = 0; i < Resolutions.RESOLUTIONS.length; i++) {
@@ -43,11 +43,11 @@ public class Resolutions {
         return closest;
     }
 
-    public static int findBestResolution(int size) {
+    private static int findBestResolution(int size) {
         return RESOLUTIONS[findBestResolutionIndex(size)];
     }
 
-    public static int findBestResolution(DisplayMetrics metrics) {
+    static int findBestResolution(DisplayMetrics metrics) {
         return findBestResolution(Math.min(metrics.widthPixels, metrics.heightPixels));
     }
 

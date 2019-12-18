@@ -1,6 +1,6 @@
 /*
  * Mantou Earth - Live your wallpaper with live earth
- * Copyright (C) 2015  XiNGRZ <xxx@oxo.ooo>
+ * Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,15 +61,15 @@ public class ImmersiveUtil {
 
         private static final int FLAG_FULLSCREEN = WindowManager.LayoutParams.FLAG_FULLSCREEN;
 
-        public static void enter(Window window) {
+        static void enter(Window window) {
             window.addFlags(FLAG_FULLSCREEN);
         }
 
-        public static void exit(Window window) {
+        static void exit(Window window) {
             window.clearFlags(FLAG_FULLSCREEN);
         }
 
-        public static boolean isEntered(Window window) {
+        static boolean isEntered(Window window) {
             return (window.getAttributes().flags & FLAG_FULLSCREEN) == FLAG_FULLSCREEN;
         }
 
@@ -82,15 +82,15 @@ public class ImmersiveUtil {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
 
-        public static void enter(View decor) {
+        static void enter(View decor) {
             SystemUiVisibilityUtil.addFlags(decor, FLAG_IMMERSIVE);
         }
 
-        public static void exit(View decor) {
+        static void exit(View decor) {
             SystemUiVisibilityUtil.clearFlags(decor, FLAG_IMMERSIVE);
         }
 
-        public static boolean isEntered(View decor) {
+        static boolean isEntered(View decor) {
             return SystemUiVisibilityUtil.hasFlags(decor, FLAG_IMMERSIVE);
         }
 

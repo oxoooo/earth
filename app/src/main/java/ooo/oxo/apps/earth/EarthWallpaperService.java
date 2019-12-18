@@ -84,7 +84,7 @@ public class EarthWallpaperService extends WallpaperService {
         };
 
         @SuppressLint("InflateParams")
-        public EarthWallpaperEngine(Context context) {
+        EarthWallpaperEngine(Context context) {
             region = new Rect();
 
             paint = new Paint();

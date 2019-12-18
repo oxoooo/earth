@@ -59,11 +59,11 @@ public class EarthsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private final EarthFetcher fetcher;
 
-    public EarthsSyncAdapter(Context context, boolean autoInitialize) {
+    EarthsSyncAdapter(Context context, boolean autoInitialize) {
         this(context, autoInitialize, false);
     }
 
-    public EarthsSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
+    private EarthsSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
 
         this.context = context;
@@ -186,7 +186,6 @@ public class EarthsSyncAdapter extends AbstractThreadedSyncAdapter {
         event.put("resolution", String.valueOf(settings.resolution));
         event.put("wifi_only", String.valueOf(settings.wifiOnly));
 
-        //noinspection deprecation
         event.put("screen_on", String.valueOf(pm.isScreenOn()));
 
         event.put("success", String.valueOf(success));
@@ -201,7 +200,6 @@ public class EarthsSyncAdapter extends AbstractThreadedSyncAdapter {
         event.put("resolution", String.valueOf(settings.resolution));
         event.put("wifi_only", String.valueOf(settings.wifiOnly));
 
-        //noinspection deprecation
         event.put("screen_on", String.valueOf(pm.isScreenOn()));
 
         MobclickAgent.onEventValue(context, "traffic", event, (int) fetched.length());

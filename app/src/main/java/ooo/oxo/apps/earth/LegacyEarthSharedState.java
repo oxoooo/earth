@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LegacyEarthSharedState {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "LegacyEarthSharedState";
 
     private final Context context;
@@ -48,7 +49,6 @@ public class LegacyEarthSharedState {
     }
 
     public int getResolution() {
-        //noinspection PointlessBooleanExpression
         if (!BuildConfig.USE_OXO_SERVER) {
             return 550;
         }

@@ -24,12 +24,13 @@ import android.widget.CompoundButton;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.adapters.SeekBarBindingAdapter;
+import androidx.databinding.library.baseAdapters.BR;
 
 import java.util.concurrent.TimeUnit;
 
 import ooo.oxo.apps.earth.dao.Settings;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class MainViewModel extends BaseObservable {
 
     private static final int ASSUME_SIZE_KB = 35;
@@ -77,9 +78,9 @@ public class MainViewModel extends BaseObservable {
 
     public void setInterval(long interval) {
         this.interval = interval;
-        notifyPropertyChanged(ooo.oxo.apps.earth.BR.intervalMinutes);
-        notifyPropertyChanged(ooo.oxo.apps.earth.BR.intervalProgressValue);
-        notifyPropertyChanged(ooo.oxo.apps.earth.BR.traffic);
+        notifyPropertyChanged(BR.intervalMinutes);
+        notifyPropertyChanged(BR.intervalProgressValue);
+        notifyPropertyChanged(BR.traffic);
     }
 
     @Bindable
@@ -117,9 +118,9 @@ public class MainViewModel extends BaseObservable {
 
     public void setResolution(int resolution) {
         this.resolution = resolution;
-        notifyPropertyChanged(ooo.oxo.apps.earth.BR.resolution);
-        notifyPropertyChanged(ooo.oxo.apps.earth.BR.resolutionProgressValue);
-        notifyPropertyChanged(ooo.oxo.apps.earth.BR.traffic);
+        notifyPropertyChanged(BR.resolution);
+        notifyPropertyChanged(BR.resolutionProgressValue);
+        notifyPropertyChanged(BR.traffic);
     }
 
     @Bindable
@@ -157,7 +158,7 @@ public class MainViewModel extends BaseObservable {
 
     public void setWifiOnly(boolean wifiOnly) {
         this.wifiOnly = wifiOnly;
-        notifyPropertyChanged(ooo.oxo.apps.earth.BR.wifiOnly);
+        notifyPropertyChanged(BR.wifiOnly);
     }
 
     public boolean isDebug() {

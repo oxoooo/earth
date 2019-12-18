@@ -34,6 +34,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class WindowInsetsFrameLayout extends FrameLayout {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "WindowInsetsFrameLayout";
 
     public WindowInsetsFrameLayout(Context context) {
@@ -51,7 +52,6 @@ public class WindowInsetsFrameLayout extends FrameLayout {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     protected boolean fitSystemWindows(Rect insets) {
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             return applySystemWindowInsets19(insets);

@@ -96,7 +96,7 @@ public class SettingsProvider extends ContentProvider {
         private static final String DATABASE_NAME = "settings.db";
         private static final int DATABASE_VERSION = 2;
 
-        public SettingsDatabaseHelper(Context context) {
+        SettingsDatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 

@@ -28,7 +28,7 @@ public class EarthsSyncService extends Service {
 
     private static final Object lock = new Object();
 
-    private static EarthsSyncAdapter syncAdapter;
+    private EarthsSyncAdapter syncAdapter;
 
     @Override
     public void onCreate() {

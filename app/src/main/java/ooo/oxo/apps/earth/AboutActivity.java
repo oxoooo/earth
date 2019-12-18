@@ -41,7 +41,6 @@ public class AboutActivity extends AppCompatActivity {
     private ClipboardManager cm;
 
     @Override
-    @SuppressWarnings("SpellCheckingInspection")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

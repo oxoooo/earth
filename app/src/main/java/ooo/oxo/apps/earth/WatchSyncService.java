@@ -42,7 +42,6 @@ import ooo.oxo.apps.earth.provider.EarthsContract;
 /**
  * 用于观察地球变化并触发 {@link WatchTransferService} 同步到手表
  */
-@SuppressWarnings("deprecation")
 public class WatchSyncService extends Service implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,

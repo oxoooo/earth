@@ -260,7 +260,7 @@ public class EarthsProvider extends ContentProvider {
         private static final String DATABASE_NAME = "earths.db";
         private static final int DATABASE_VERSION = 1;
 
-        public EarthsDatabaseHelper(Context context) {
+        EarthsDatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
@@ -272,7 +272,8 @@ public class EarthsProvider extends ContentProvider {
                     ", " + EarthsContract.Columns.FETCHED_AT + " INTEGER" +
                     ")");
 
-            final LegacyEarthSharedState state = new LegacyEarthSharedState(getContext());
+            @SuppressWarnings("ConstantConditions") final LegacyEarthSharedState state
+                    = new LegacyEarthSharedState(getContext());
 
             if (!TextUtils.isEmpty(state.getLastEarth())) {
                 ContentValues values = new ContentValues();
