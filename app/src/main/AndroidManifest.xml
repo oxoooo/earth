@@ -68,7 +68,9 @@
             android:name=".MainActivity"
             android:label="${APP_NAME}"
             android:launchMode="singleInstance"
-            android:theme="@style/SettingsTheme">
+            android:resizeableActivity="true"
+            android:theme="@style/SettingsTheme"
+            tools:ignore="UnusedAttribute">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -107,7 +109,9 @@
 
         <activity
             android:name=".AboutActivity"
-            android:theme="@style/AboutTheme" />
+            android:resizeableActivity="true"
+            android:theme="@style/AboutTheme"
+            tools:ignore="UnusedAttribute" />
 
         <provider
             android:name=".provider.SettingsProvider"
