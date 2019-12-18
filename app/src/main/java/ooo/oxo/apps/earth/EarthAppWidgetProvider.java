@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
@@ -82,13 +83,16 @@ public class EarthAppWidgetProvider extends AppWidgetProvider {
         final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
         views.setOnClickPendingIntent(R.id.earth, pendingIntent);
 
+        final DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        final int size = Math.min(metrics.widthPixels, metrics.heightPixels);
+
         Glide.with(context)
                 .load(getLatestEarth())
                 .asBitmap()
                 .error(R.drawable.preview)
                 .transform(new MaskTransformation(context, R.drawable.mask))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(new AppWidgetTarget(context, views, R.id.earth, appWidgetIds));
+                .into(new AppWidgetTarget(context, views, R.id.earth, size, size, appWidgetIds));
     }
 
 }
