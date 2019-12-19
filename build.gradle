@@ -16,6 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+ext.gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+ext.gitTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
+ext.gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+
 buildscript {
     repositories {
         jcenter()
