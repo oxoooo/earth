@@ -145,7 +145,10 @@ public class EarthWallpaperService extends WallpaperService {
                 return;
             }
 
-            region.set(0, 0, canvas.getWidth(), canvas.getHeight());
+            final int canvasWidth = canvas.getWidth();
+            final int canvasHeight = canvas.getHeight();
+
+            region.set(0, 0, canvasWidth, canvasHeight);
 
             if (region.width() > region.height()) {
                 region.inset((region.width() - region.height()) / 2, 0);
@@ -187,13 +190,10 @@ public class EarthWallpaperService extends WallpaperService {
                 overlayFetchedAt.setText(getString(R.string.overlay_fetched_at, fetchedAt));
                 overlayImageSize.setText(getString(R.string.overlay_image_size, imageSize));
 
-                overlay.measure(View.MeasureSpec.makeMeasureSpec(region.width(), View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.makeMeasureSpec(region.height(), View.MeasureSpec.EXACTLY));
-                overlay.layout(0, 0, region.width(), region.height());
-                canvas.save();
-                canvas.translate(region.left, region.top);
+                overlay.measure(View.MeasureSpec.makeMeasureSpec(canvasWidth, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec(canvasHeight, View.MeasureSpec.EXACTLY));
+                overlay.layout(0, 0, canvasWidth, canvasHeight);
                 overlay.draw(canvas);
-                canvas.restore();
             }
 
             getSurfaceHolder().unlockCanvasAndPost(canvas);
