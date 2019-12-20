@@ -264,8 +264,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enterEditMode() {
-        binding.settings.setVisibility(View.GONE);
-        binding.action.action.setVisibility(View.GONE);
+        binding.settings.setVisibility(View.INVISIBLE);
+        binding.action.action.setVisibility(View.INVISIBLE);
         binding.scaling.apply.setVisibility(View.VISIBLE);
         binding.scaling.hint.setVisibility(View.VISIBLE);
         binding.earth.scalingLayout.enterEditMode();
@@ -274,8 +274,8 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     private void exitEditMode() {
         binding.earth.scalingLayout.exitEditMode();
-        binding.scaling.hint.setVisibility(View.GONE);
-        binding.scaling.apply.setVisibility(View.GONE);
+        binding.scaling.hint.setVisibility(View.INVISIBLE);
+        binding.scaling.apply.setVisibility(View.INVISIBLE);
         binding.action.action.setVisibility(View.VISIBLE);
         binding.settings.setVisibility(View.VISIBLE);
     }
@@ -329,10 +329,6 @@ public class MainActivity extends AppCompatActivity {
 
         getContentResolver().registerContentObserver(
                 EarthsContract.LATEST_CONTENT_URI, false, observer);
-
-        if (!isSettingsShown() && !ImmersiveUtil.isEntered(this)) {
-            setImmersiveMode(false);
-        }
     }
 
     @Override
