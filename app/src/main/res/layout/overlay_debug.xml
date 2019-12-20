@@ -24,8 +24,9 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingBottom="8dp"
-    tools:background="#000000">
+    android:paddingBottom="16dp"
+    tools:background="#000000"
+    tools:ignore="SmallSp">
 
     <TextView
         android:id="@+id/fetched_at"
@@ -34,7 +35,7 @@
         android:fontFamily="monospace"
         android:text="@string/overlay_fetched_at"
         android:textColor="@android:color/white"
-        android:textSize="12sp" />
+        android:textSize="8sp" />
 
     <TextView
         android:id="@+id/image_size"
@@ -43,6 +44,6 @@
         android:fontFamily="monospace"
         android:text="@string/overlay_image_size"
         android:textColor="@android:color/white"
-        android:textSize="12sp" />
+        android:textSize="8sp" />
 
 </LinearLayout>
