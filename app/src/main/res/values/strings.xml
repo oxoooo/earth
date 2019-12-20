@@ -34,6 +34,7 @@
 
     <string name="scaling_hint">Move or pinch the earth</string>
     <string name="scaling_set">Set scaling</string>
+    <string name="scaling_restore">Scaling default restored.</string>
 
     <string name="data_saver_considered">
         Images will be fetched in lowest resolution and longest period while Data Saver is enabled.

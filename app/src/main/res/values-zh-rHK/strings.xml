@@ -33,6 +33,7 @@
 
     <string name="scaling_hint">移動或雙指縮放地球</string>
     <string name="scaling_set">設定縮放</string>
+    <string name="scaling_restore">縮放已恢復為預設值</string>
 
     <string name="data_saver_considered">流量節省程序已開啟，影像將會以最低解析度和最長間隔抓取。</string>
 

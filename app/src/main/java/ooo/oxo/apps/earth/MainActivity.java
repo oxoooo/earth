@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.settingsPanel.editMode.setOnClickListener(v -> animateInEditMode());
         binding.scaling.apply.setOnClickListener(v -> animateOutEditMode());
+        binding.scaling.apply.setOnLongClickListener(v -> restoreScalingDefault());
 
         binding.action.done.setOnClickListener(v -> saveAndHideSettings());
         binding.action.done.setOnLongClickListener(v -> toggleDebug());
@@ -298,6 +299,12 @@ public class MainActivity extends AppCompatActivity {
         InOutAnimationUtils.animateOut(binding.scaling.apply, R.anim.main_scaling_out);
         InOutAnimationUtils.animateIn(binding.action.action, R.anim.main_settings_in);
         InOutAnimationUtils.animateIn(binding.settings, R.anim.main_settings_in);
+    }
+
+    private boolean restoreScalingDefault() {
+        vm.setScaling(0f, 0f, 1.0f);
+        Toast.makeText(this, R.string.scaling_restore, Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     @Override
