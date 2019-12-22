@@ -1,0 +1,39 @@
+<!--
+  ~ Mantou Earth - Live your wallpaper with live earth
+  ~ Copyright (C) 2015-2019 XiNGRZ <xxx@oxo.ooo>
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M12,3a9,9 0,1 1,-9 9,9 9,0 0,1 9,-9m0,-1A10,10 0,1 0,22 12,10 10,0 0,0 12,2Z" />
+    <group>
+        <clip-path android:pathData="M12,12m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0 M 0,0" />
+        <path
+            android:fillColor="#FF000000"
+            android:pathData="M8.56,1.73A9.61,9.61 0,0 1,15 3.6a1.45,1.45 0,0 1,0.55 0.63c0.16,0.36 -1.27,0.48 -1.81,0.21a1.79,1.79 0,0 0,-2.17 1.24c0,0.56 0.76,0.64 1.11,1.56a2.28,2.28 0,0 1,-0.3 2.27c-0.53,0.57 -1.1,0.19 -1.78,0.78a2.1,2.1 0,0 0,-0.63 2.2c0.28,0.62 0.89,0.48 1.15,1a2.19,2.19 0,0 1,-1.39 2.6c-0.56,0.08 -1,-0.4 -1.33,-0.15 -0.2,0.14 -0.24,0.42 -0.3,0.84 -0.11,0.83 0.12,1.2 -0.06,1.33s-1.14,-0.23 -1.41,-0.94 0.29,-1.33 0,-1.66A1.4,1.4 0,0 0,4.86 16c-0.4,0.75 0.76,1.53 0.51,2.74 -0.17,0.83 -1,1.67 -1.6,1.6 -1.12,-0.14 -1.63,-3.23 -2,-5.46C1.23,11.53 1,9.85 1.45,8.21A9.24,9.24 0,0 1,8.56 1.73Z" />
+        <path
+            android:fillColor="#FF000000"
+            android:pathData="M14.5,16.65c-0.41,0.39 -0.18,0.71 -0.6,1.33 -0.79,1.15 -2.26,1 -2.29,1.59s1,0.88 1.11,0.94a3.46,3.46 0,0 0,2.08 0.06,3.7 3.7,0 0,0 2.29,-1.33c0.15,-0.19 1,-1.37 0.55,-2.26S15.26,15.93 14.5,16.65Z" />
+        <path
+            android:fillColor="#FF000000"
+            android:pathData="M2.62,6.62a4.68,4.68 0,0 1,5.73 -0.21c0.7,0.63 1.17,1.73 0.85,2.15S8,8.45 7.38,9c-0.31,0.24 -0.39,0.57 -0.64,2 -0.35,2.11 -0.37,2.5 -0.63,2.6 -0.66,0.25 -1.79,-1.85 -2.24,-1.63s0.36,1.79 -0.06,3.93c-0.15,0.76 -0.56,2.13 -1,2.12 -0.64,0 -1.13,-2.86 -1.28,-4.78C1.3,10.11 1.15,8 2.62,6.62Z" />
+    </group>
+</vector>

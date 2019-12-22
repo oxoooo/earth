@@ -18,18 +18,28 @@
 
 package ooo.oxo.apps.earth;
 
-import android.app.Application;
+import android.os.Bundle;
 
-import com.umeng.commonsdk.UMConfigure;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
-public class EarthApplication extends Application {
+import ooo.oxo.apps.earth.databinding.SettingsActivityBinding;
+
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
-        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        final SettingsActivityBinding binding = DataBindingUtil.setContentView(
+                this, R.layout.settings_activity);
+
+        binding.toolbar.setNavigationOnClickListener(v -> supportFinishAfterTransition());
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new SettingsFragment())
+                .commit();
     }
 
 }

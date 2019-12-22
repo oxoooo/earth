@@ -46,10 +46,21 @@
 
     <string name="free_account">免费用户</string>
 
+    <string name="background_channel">后台更新</string>
+    <string name="background_title">馒头地球正在后台运行</string>
+    <string name="background_summary">上次更新: %s</string>
+
     <string name="live_wallpaper_unsupported">很抱歉，您的手机似乎并不支持动态壁纸…</string>
 
-    <string name="debug_mode_on">调试模式开启，长按按钮可关闭</string>
-    <string name="debug_mode_off">调试模式关闭</string>
+    <string name="advanced_settings">高级设置</string>
+
+    <string name="settings_update_title">更新</string>
+    <string name="settings_update_sync_title">自动同步 (电量消耗更少)</string>
+    <string name="settings_update_background_title">后台常驻服务 (某些系统的备选方式)</string>
+
+    <string name="settings_debug">调试</string>
+    <string name="settings_debug_title">调试模式</string>
+    <string name="settings_debug_summary">在壁纸上打印调试信息</string>
 
     <string name="overlay_fetched_at">最近抓取: %s</string>
     <string name="overlay_image_size">图片大小: %.2f KB</string>

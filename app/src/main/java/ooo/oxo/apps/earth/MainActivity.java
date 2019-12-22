@@ -23,6 +23,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -39,6 +40,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -60,9 +62,13 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     private static final String TAG = "MainActivity";
 
+    private static final int REQUEST_SETTINGS = 1;
+
     private MainActivityBinding binding;
 
     private MainViewModel vm = new MainViewModel();
+
+    private SharedPreferences pref;
 
     private ContentObserver observer = new ContentObserver(null) {
         @Override
@@ -95,13 +101,15 @@ public class MainActivity extends AppCompatActivity {
         binding.scaling.apply.setOnLongClickListener(v -> restoreScalingDefault());
 
         binding.action.done.setOnClickListener(v -> saveAndHideSettings());
-        binding.action.done.setOnLongClickListener(v -> toggleDebug());
+        binding.action.done.setOnLongClickListener(v -> openAdvancedSettings());
 
         binding.earth.scalingLayout.setOnClickListener(v -> {
             if (!isSettingsShown()) {
                 toggleImmersiveMode();
             }
         });
+
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         loadSettings();
 
@@ -135,11 +143,7 @@ public class MainActivity extends AppCompatActivity {
             showSettings();
         }
 
-        SyncUtil.ensure();
-
-        if (!ContentResolver.getMasterSyncAutomatically()) {
-            promptToEnableAutoSync();
-        }
+        setupUpdate();
     }
 
     private void saveSettings() {
@@ -178,14 +182,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean toggleDebug() {
-        if (vm.toggleDebug()) {
-            Toast.makeText(this, R.string.debug_mode_on, Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, R.string.debug_mode_off, Toast.LENGTH_SHORT).show();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_SETTINGS:
+                refreshSettingsFromPreference();
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
         }
-        saveAndHideSettings();
+    }
+
+    private boolean openAdvancedSettings() {
+        startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_SETTINGS);
         return true;
+    }
+
+    private void refreshSettingsFromPreference() {
+        vm.setDebug(pref.getBoolean("debug", false));
+        setupUpdate();
     }
 
     @SuppressLint("RestrictedApi")
@@ -458,6 +474,22 @@ public class MainActivity extends AppCompatActivity {
                         ContentResolver.setMasterSyncAutomatically(true))
                 .setNegativeButton(R.string.auto_sync_ignore, null)
                 .show();
+    }
+
+    private void setupUpdate() {
+        switch (pref.getString("update", "sync")) {
+            case "sync":
+                SyncUtil.disableBackground(this);
+                SyncUtil.enableSync(this);
+                if (!ContentResolver.getMasterSyncAutomatically()) {
+                    promptToEnableAutoSync();
+                }
+                break;
+            case "background":
+                SyncUtil.disableSync(this);
+                SyncUtil.enableBackground(this);
+                break;
+        }
     }
 
 }

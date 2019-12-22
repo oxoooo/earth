@@ -50,12 +50,33 @@
 
     <string name="free_account">Free account</string>
 
+    <string name="background_channel">Background update</string>
+    <string name="background_title">Mantou Earth is running</string>
+    <string name="background_summary">Last update: %s</string>
+
     <string name="live_wallpaper_unsupported">
         Seems Live Wallpaper feature wasn\'t supported by your phone…
     </string>
 
-    <string name="debug_mode_on">Debug mode on. Long press button to turn off.</string>
-    <string name="debug_mode_off">Debug mode off.</string>
+    <string name="advanced_settings">Advanced settings</string>
+
+    <string name="settings_update_title">Update</string>
+    <string name="settings_update_sync_title">Auto sync (Less battery consumption)</string>
+    <string name="settings_update_background_title">Background service (Alternative for some system)</string>
+
+    <string-array name="settings_update_titles" translatable="false">
+        <item>@string/settings_update_sync_title</item>
+        <item>@string/settings_update_background_title</item>
+    </string-array>
+
+    <string-array name="settings_update_values" translatable="false">
+        <item>sync</item>
+        <item>background</item>
+    </string-array>
+
+    <string name="settings_debug">Debug</string>
+    <string name="settings_debug_title">Debug mode</string>
+    <string name="settings_debug_summary">Print debug info on the wallpaper</string>
 
     <string name="overlay_fetched_at">Last fetch: %s</string>
     <string name="overlay_image_size">Image size: %.2f KB</string>

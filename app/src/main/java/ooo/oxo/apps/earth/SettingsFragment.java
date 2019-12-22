@@ -18,18 +18,15 @@
 
 package ooo.oxo.apps.earth;
 
-import android.app.Application;
+import android.os.Bundle;
 
-import com.umeng.commonsdk.UMConfigure;
+import androidx.preference.PreferenceFragmentCompat;
 
-public class EarthApplication extends Application {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
-        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.settings, rootKey);
     }
 
 }

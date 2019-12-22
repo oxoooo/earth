@@ -46,7 +46,21 @@
 
     <string name="free_account">免費用戶</string>
 
+    <string name="background_channel">後台更新</string>
+    <string name="background_title">饅頭地球正在後台運行</string>
+    <string name="background_summary">上次更新: %s</string>
+
     <string name="live_wallpaper_unsupported">很抱歉，您的手機似乎並不支持即時桌布…</string>
+
+    <string name="advanced_settings">高級設置</string>
+
+    <string name="settings_update_title">更新</string>
+    <string name="settings_update_sync_title">自動同步 (電量消耗更少)</string>
+    <string name="settings_update_background_title">後台常駐服務 (某些系統的備選方式)</string>
+
+    <string name="settings_debug">調試</string>
+    <string name="settings_debug_title">調試模式</string>
+    <string name="settings_debug_summary">在壁紙上打印調試信息</string>
 
     <string name="about">關於</string>
     <string name="version" formatted="false">版本 %s (%s)</string>

@@ -21,6 +21,8 @@
     package="ooo.oxo.apps.earth">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -105,6 +107,8 @@
 
         </receiver>
 
+        <activity android:name=".SettingsActivity" />
+
         <activity
             android:name=".AboutActivity"
             android:theme="@style/AboutTheme" />
@@ -149,6 +153,20 @@
                 android:resource="@xml/sync_adapter" />
 
         </service>
+
+        <service
+            android:name=".background.EarthBackgroundService"
+            android:enabled="false"
+            android:process=":sync" />
+
+        <receiver
+            android:name=".background.EarthBackgroundInitializer"
+            android:enabled="false"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".WatchStateService"

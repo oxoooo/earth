@@ -16,20 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ooo.oxo.apps.earth;
+package ooo.oxo.apps.earth.background;
 
-import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 
-import com.umeng.commonsdk.UMConfigure;
-
-public class EarthApplication extends Application {
+public class EarthBackgroundInitializer extends BroadcastReceiver {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
-        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+    public void onReceive(Context context, Intent intent) {
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            EarthBackgroundService.start(context);
+        }
     }
 
 }
