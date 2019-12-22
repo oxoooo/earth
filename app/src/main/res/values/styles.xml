@@ -18,13 +18,13 @@
 
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
     </style>
 
-    <style name="SettingsThemeBase" parent="Theme.AppCompat.NoActionBar">
+    <style name="SettingsThemeBase" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorAccent">@color/accent</item>
         <item name="toolbarStyle">@style/TransparentToolbar</item>
         <item name="android:windowBackground">@android:color/black</item>
@@ -32,7 +32,7 @@
 
     <style name="SettingsTheme" parent="SettingsThemeBase" />
 
-    <style name="AboutThemeBase" parent="Theme.AppCompat.Light.DialogWhenLarge">
+    <style name="AboutThemeBase" parent="Theme.MaterialComponents.Light.DialogWhenLarge">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
@@ -55,7 +55,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="DarkToolbarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="DarkToolbarThemeOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:fontFamily">sans-serif</item>
