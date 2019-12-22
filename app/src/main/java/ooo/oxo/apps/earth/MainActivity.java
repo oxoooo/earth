@@ -20,6 +20,7 @@ package ooo.oxo.apps.earth;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.ContentObserver;
@@ -34,6 +35,7 @@ import android.view.ViewAnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -186,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("RestrictedApi")
     private void showSettings() {
         binding.toolbar.getRoot().setVisibility(View.INVISIBLE);
         binding.settings.setVisibility(View.VISIBLE);
@@ -193,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         binding.action.doneHint.setVisibility(View.VISIBLE);
     }
 
+    @SuppressLint("RestrictedApi")
     @SuppressWarnings("unused")
     private void hideSettings() {
         binding.settings.setVisibility(View.INVISIBLE);
@@ -358,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         vm.saveState(outState);
@@ -383,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (savedInstanceState.getBoolean("in_immersive", false)) {
-            setImmersiveMode(true);
+            setImmersiveMode();
         }
     }
 
@@ -405,14 +409,9 @@ public class MainActivity extends AppCompatActivity {
         InOutAnimationUtils.animateIn(binding.toolbar.getRoot(), R.anim.main_toolbar_fade_in);
     }
 
-    private void setImmersiveMode(boolean entered) {
-        if (entered) {
-            ImmersiveUtil.enter(this);
-            binding.toolbar.getRoot().setVisibility(View.INVISIBLE);
-        } else {
-            ImmersiveUtil.exit(this);
-            binding.toolbar.getRoot().setVisibility(View.VISIBLE);
-        }
+    private void setImmersiveMode() {
+        ImmersiveUtil.enter(this);
+        binding.toolbar.getRoot().setVisibility(View.INVISIBLE);
     }
 
     @Override
