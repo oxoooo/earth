@@ -29,6 +29,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Build;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,8 +37,10 @@ import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.app.WallpaperColors;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -122,6 +125,15 @@ public class EarthWallpaperService extends WallpaperService {
             if (isVisible()) {
                 draw();
             }
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O_MR1)
+        @Override
+        public WallpaperColors onComputeColors() {
+            Bitmap image = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
+            image.eraseColor(Color.BLACK);
+            // WallpaperColors constructor is broken. Use fromBitmap to create all black colors  https://forum.xda-developers.com/showpost.php?p=74906107&postcount=7
+            return WallpaperColors.fromBitmap(image);
         }
 
         private void draw() {

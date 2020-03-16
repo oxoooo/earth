@@ -18,14 +18,17 @@
 
 package ooo.oxo.apps.earth;
 
+import android.app.WallpaperColors;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
@@ -34,6 +37,7 @@ import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.io.FileNotFoundException;
 
@@ -152,6 +156,15 @@ public class EarthWatchFaceService extends CanvasWatchFaceService {
             canvas.drawBitmap(earth, null, region, paint);
 
             earth.recycle();
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O_MR1)
+        @Override
+        public WallpaperColors onComputeColors(){
+            Bitmap image = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
+            image.eraseColor(Color.BLACK);
+            // WallpaperColors constructor is broken. Use fromBitmap to create all black colors  https://forum.xda-developers.com/showpost.php?p=74906107&postcount=7
+            return WallpaperColors.fromBitmap(image);
         }
 
         @Nullable
